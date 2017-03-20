@@ -1,0 +1,89 @@
+.SUFFIXES:
+.SUFFIXES: .o .c
+
+CC = gcc
+
+.c.o : 
+	$(CC) -c $<
+
+### SOURCES ###
+EXAMPLE_SOURCES = example.c
+
+GF4_SOURCES = GF4.c
+GF4_SOURCES += GF4_matrix.c
+GF4_SOURCES += GF4X.c
+GF4_SOURCES += GF4_scramble.c
+
+N_LDS_GF4_SOURCES = LDS_GF4.c
+N_LDS_GF4_SOURCES += GF4_niederriter.c
+N_LDS_GF4_SOURCES += GF4_gc_niederriter.c
+N_LDS_GF4_SOURCES += GF4_gc2_niederriter.c
+N_LDS_GF4_SOURCES += LDS_Gauss_GF4.c
+N_LDS_GF4_SOURCES += GF4_matrix_gen.c
+N_LDS_GF4_SOURCES += GaussDevBM.c
+
+GF4_TABLE_GENERATOR_SOURCES = GF4_table_generator.c
+GF4_GEN_IRRED_POLY_SOURCES = GF4_gen_irred_poly.c
+
+### OBJCTS ###
+EXAMPLE_OBJS = ${EXAMPLE_SOURCES:.c=.o}
+GF4_OBJS = ${GF4_SOURCES:.c=.o}
+N_LDS_GF4_OBJS = ${N_LDS_GF4_SOURCES:.c=.o}
+GF4_TABLE_GENERATOR_OBJS = ${GF4_TABLE_GENERATOR_SOURCES:.c=.o}
+GF4_GEN_IRRED_POLY_OBJS = ${GF4_GEN_IRRED_POLY_SOURCES:.c=.o}
+	
+### LIST ###
+EXAMPLE_LIST = ${EXAMPLE_SOURCES:.c=.u}
+GF4_LIST = ${GF4_SOURCES:.c=.u}
+N_LDS_GF4_LIST = ${N_LDS_GF4_SOURCES:.c=.u}
+GF4_TABLE_GENERATOR_LIST = ${GF4_TABLE_GENERATOR_SOURCES:.c=.u}
+GF4_GEN_IRRED_POLY_LIST = ${GF4_GEN_IRRED_POLY_SOURCES:.c=.u}
+
+### STRINGS ###
+GF4 = GF4
+N_LDS_GF4 = n_lds_GF4
+
+### DIRECTORYS ###
+LIBDIR = -I/usr/local/include
+LIBDIR += -I/usr/include
+#LIBDIR += -I./
+LIBDIR += -L/usr/local/lib
+LIBDIR += -L/usr/lib
+#LIBDIR += -L./
+
+### LIBRARYS ###
+LIBFLAGS = $(LIBDIR)
+#LIBFLAGS += -l$(N_LDS_GF4) -l$(GF4)
+LIBFLAGS += -lgsl -lgslcblas -lm
+
+### EXECUTABLE FILE NAMES ###
+EXAMPLE = example
+GF4_TABLE_GENERATOR = GF4_table_generator
+GF4_GEN_IRRED_POLY = GF4_gen_irred_poly
+
+### TARGET LIBRARYS ###
+TARGET_GF4 = lib$(GF4).a
+TARGET_N_LDS_GF4 = lib$(N_LDS_GF4).a
+
+TARGETS = $(TARGET_GF4)
+TARGETS += $(TARGET_N_LDS_GF4)
+
+### MAKE ###
+all : $(EXAMPLE) $(TARGETS) $(GF4_TABLE_GENERATOR) $(GF4_GEN_IRRED_POLY)
+
+$(EXAMPLE) : $(EXAMPLE_OBJS) $(TARGET_N_LDS_GF4) $(TARGET_GF4)
+	$(CC) -o $@ $^ $(LIBFLAGS)
+
+$(TARGET_GF4) : $(GF4_OBJS)
+	rm -f $(TARGET_GF4)
+	ar cvr $(TARGET_GF4) $(GF4_OBJS)
+
+$(TARGET_N_LDS_GF4) : $(N_LDS_GF4_OBJS)
+	rm -f $(TARGET_N_LDS_GF4)
+	ar cvr $(TARGET_N_LDS_GF4) $(N_LDS_GF4_OBJS)
+
+$(GF4_TABLE_GENERATOR) : $(GF4_TABLE_GENERATOR_OBJS)
+	$(CC) -o $@ $^ $(LIBFLAGS)
+
+$(GF4_GEN_IRRED_POLY) : $(GF4_GEN_IRRED_POLY_OBJS) $(TARGET_GF4)
+	$(CC) -o $@ $^ $(LIBFLAGS)
