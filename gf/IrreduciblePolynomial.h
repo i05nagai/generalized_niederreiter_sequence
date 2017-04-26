@@ -3,16 +3,38 @@
 #include <vector>
 
 namespace gf {
+  /**
+   * @brief 
+   *
+   * @tparam N
+   */
   template <int N>
   class IrreduciblePolynomialGenerator {
   public:
-    IrreduciblePolynomialGenerator(const size_t base, const size_t baseDigits);
+    /**
+     * @brief 
+     *
+     * @param base
+     * @param baseDigits
+     */
+    IrreduciblePolynomialGenerator();
+    /**
+     * @brief 
+     *
+     * @param num
+     *
+     * @return 
+     */
     std::vector<Polynomial<N>> operator()(const size_t num) const;
   private:
-    size_t calcDegree(size_t num) const;
+    /**
+     * @brief 
+     *
+     * @param num
+     *
+     * @return 
+     */
     Polynomial<N> convertToPolynomial(size_t num) const;
   private:
-    size_t base_;
-    size_t baseDigits_;
   };
 } // namespace gf

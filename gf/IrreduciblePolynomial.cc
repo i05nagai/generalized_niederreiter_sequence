@@ -3,10 +3,7 @@
 
 namespace gf {
   template <int N>
-  IrreduciblePolynomialGenerator<N>::IrreduciblePolynomialGenerator(
-      const size_t base, const size_t baseDigits)
-  : base_(base),
-    baseDigits_(baseDigits)
+  IrreduciblePolynomialGenerator<N>::IrreduciblePolynomialGenerator()
   {
   }
 
@@ -51,17 +48,6 @@ namespace gf {
   }
 
   template <int N>
-  size_t IrreduciblePolynomialGenerator<N>::calcDegree(size_t num) const
-  {
-    size_t degree = 0;
-    while (num > 0) {
-      num >>= baseDigits_;
-      degree++;
-    }
-    return degree;
-  }
-
-  template <int N>
   Polynomial<N>
   IrreduciblePolynomialGenerator<N>::convertToPolynomial(const size_t num) const
   {
@@ -74,11 +60,8 @@ namespace gf {
 
 namespace gf {
   template
-  IrreduciblePolynomialGenerator<2>::IrreduciblePolynomialGenerator(
-      const size_t base, const size_t baseDigits);
+  IrreduciblePolynomialGenerator<2>::IrreduciblePolynomialGenerator();
   template
   std::vector<Polynomial<2>>
   IrreduciblePolynomialGenerator<2>::operator()(const size_t num) const;
-  template
-  size_t IrreduciblePolynomialGenerator<2>::calcDegree(size_t num) const;
 } // namespace gf

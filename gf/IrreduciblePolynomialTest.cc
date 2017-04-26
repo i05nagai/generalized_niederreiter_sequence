@@ -9,7 +9,7 @@ namespace gf {
 #include "irreducible_polynomial.txt"
     };
     const size_t num = expects.size();
-    IrreduciblePolynomialGenerator<2> generator(16, 2);
+    IrreduciblePolynomialGenerator<2> generator;
     std::vector<Polynomial<2>> actual = generator(num);
     for (size_t i = 0; i < num; ++i) {
       GF_EXPECT_POLYNOMIAL_EQ(expects[i], actual[i]);
