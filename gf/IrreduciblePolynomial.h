@@ -26,6 +26,12 @@ namespace gf {
      * @return 
      */
     std::vector<Polynomial<N>> operator()(const size_t num) const;
+    /**
+     * @brief 
+     *
+     * @return 
+     */
+    Polynomial<N> getNext();
   private:
     /**
      * @brief 
@@ -35,6 +41,13 @@ namespace gf {
      * @return 
      */
     Polynomial<N> convertToPolynomial(size_t num) const;
+    /**
+     * @brief 
+     *
+     * @return 
+     */
+    Polynomial<N> findIrreduciblePolynomial(size_t& seed) const;
   private:
+    size_t seed_;
   };
 } // namespace gf

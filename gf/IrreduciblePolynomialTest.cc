@@ -15,5 +15,18 @@ namespace gf {
       GF_EXPECT_POLYNOMIAL_EQ(expects[i], actual[i]);
     }
   }
+
+  TEST(IrreduciblePolynomialTest, getNextTest)
+  {
+    std::vector<Polynomial<2>> expects = {
+#include "irreducible_polynomial.txt"
+    };
+    const size_t num = expects.size();
+    IrreduciblePolynomialGenerator<2> generator;
+    for (size_t i = 0; i < num; ++i) {
+      const Polynomial<2>& actual = generator.getNext();
+      GF_EXPECT_POLYNOMIAL_EQ(expects[i], actual);
+    }
+  }
 } // namespace gf
 
