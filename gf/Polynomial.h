@@ -59,6 +59,9 @@ namespace gf {
      * @param other
      */
     Polynomial(const Polynomial<N>& other);
+    /**
+     * @brief 
+     */
     ~Polynomial();
     /**
      * @brief 

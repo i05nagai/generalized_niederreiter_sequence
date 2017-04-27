@@ -16,7 +16,7 @@ namespace gf {
     size_t count = N;
 
     // find num irredusible polymonials
-    for (int numIrreducible = 0; numIrreducible < num; ++numIrreducible) {
+    for (size_t numIrreducible = 0; numIrreducible < num; ++numIrreducible) {
       polynomials.push_back(this->findIrreduciblePolynomial(count));
     }
 
@@ -45,7 +45,7 @@ namespace gf {
   IrreduciblePolynomialGenerator<N>::findIrreduciblePolynomial(
       size_t& seed) const
   {
-    const size_t maxLoop = 50;
+    const size_t maxLoop = 5000;
     // check irreducibility from seed to seed + maxLoop
     for (size_t i = seed; i < seed + maxLoop; ++i) {
       bool isReducible = false;

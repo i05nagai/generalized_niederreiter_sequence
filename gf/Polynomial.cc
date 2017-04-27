@@ -91,7 +91,7 @@ namespace gf {
   {
     const size_t otherDegree = other.getDegree();
     
-    int degree = 0;
+    size_t degree = 0;
     if (degree_ <= otherDegree) {
       const size_t minDegree = degree_;
       degree = otherDegree;
@@ -135,7 +135,7 @@ namespace gf {
   {
     const size_t otherDegree = other.getDegree();
     
-    int degree = 0;
+    size_t degree = 0;
     if (degree_ <= otherDegree) {
       const size_t minDegree = degree_;
       degree = otherDegree;
@@ -178,7 +178,7 @@ namespace gf {
   Polynomial<N>& Polynomial<N>::operator*=(const unsigned char multiplier)
   {
     if (multiplier != 0) {
-      for(int i = 0; i < degree_ + 1; ++i) {
+      for (size_t i = 0; i < degree_ + 1; ++i) {
         coeffs_[i] = mult<N>(multiplier, coeffs_[i]);
       }
     } else {
@@ -212,7 +212,7 @@ namespace gf {
   bool Polynomial<N>::isZero() const
   {
     bool isZero = true;
-    for(int i = 0; i < degree_ + 1; ++i) {
+    for (size_t i = 0; i < degree_ + 1; ++i) {
       if(coeffs_[i] != 0) {
         isZero = false;
       }
@@ -262,7 +262,7 @@ namespace gf {
                              });
     } else {
       std::string data = std::to_string(coeffs_[0]);
-      for (int i = 1; i < degree_ + 1; ++i) {
+      for (size_t i = 1; i < degree_ + 1; ++i) {
         data = std::to_string(coeffs_[i]) 
           + "X^{" 
           + std::to_string(i) 
@@ -309,33 +309,6 @@ namespace gf {
       }
     }
     return std::make_pair(quotient, tempDividend);
-
-    /*
-    const size_t divisorDegree = divisor.getDegree();
-    const unsigned char divisorCoeff = divisor[divisorDegree];
-
-    quotient = Polynomial<N>(dividend.getDegree() - divisorDegree);
-    remainder = dividend;
-
-    // for each iteration, calculating
-    // d := deg(dividend) 
-    while (remainder.getDegree() >= divisorDegree) {
-      const size_t remainderDegree = remainder.getDegree();
-      const unsigned char coeff = div<N>(remainder[remainderDegree], divisorCoeff);
-      
-      Polynomial<N> q(remainderDegree - divisorDegree);
-      q[remainderDegree - divisorDegree] = coeff;
-      
-      Polynomial<N> tempDivisor(divisor);
-      tempDivisor *= q;
-      remainder -= tempDivisor;
-
-      quotient += q;
-      if(remainder.isZero()) {
-        break;
-      }
-    }
-      */
   }
 } // namespace gf
 
