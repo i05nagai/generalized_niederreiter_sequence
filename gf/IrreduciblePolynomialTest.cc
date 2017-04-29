@@ -6,7 +6,7 @@ namespace gf {
   TEST(IrreduciblePolynomialTest, operatorParenthesisTest)
   {
     std::vector<Polynomial<2>> expects = {
-#include "irreducible_polynomial.txt"
+#include "irreducible_polynomial_test.txt"
     };
     const size_t num = expects.size();
     IrreduciblePolynomialGenerator<2> generator;
@@ -19,7 +19,7 @@ namespace gf {
   TEST(IrreduciblePolynomialTest, getNextTest)
   {
     std::vector<Polynomial<2>> expects = {
-#include "irreducible_polynomial.txt"
+#include "irreducible_polynomial_test.txt"
     };
     const size_t num = expects.size();
     IrreduciblePolynomialGenerator<2> generator;
