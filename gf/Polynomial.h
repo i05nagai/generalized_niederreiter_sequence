@@ -270,4 +270,7 @@ namespace gf {
   euclidean_division(
       const Polynomial<N>& dividend,
       const Polynomial<N>& divisor);
+  template <int N>
+  Polynomial<N>
+  toPolynomial(const char* strData);
 } // namespace gf

@@ -310,6 +310,17 @@ namespace gf {
     }
     return std::make_pair(quotient, tempDividend);
   }
+
+  template <int N>
+  Polynomial<N>
+  toPolynomial(const char* strData)
+  {
+    size_t data = atoi(strData);
+    std::pair<size_t, std::unique_ptr<unsigned char[]>> degreeAndCoeffs
+      = calcBaseAdic<N>(data);
+    const size_t& degree = degreeAndCoeffs.first;
+    return Polynomial<N>(degree, std::move(degreeAndCoeffs.second));
+  }
 } // namespace gf
 
 namespace gf {
@@ -373,4 +384,7 @@ namespace gf {
   euclidean_division(
       const Polynomial<2>& dividend,
       const Polynomial<2>& divisor);
+  template
+  Polynomial<2>
+  toPolynomial(const char* strData);
 } // namespace gf

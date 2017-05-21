@@ -1,33 +1,72 @@
 #include "gf/IrreduciblePolynomial.h"
 #include "gf/util.h"
+#include <iostream>
+#include <ios>
+#include <sstream>
+#include <string>
 
 namespace gf {
   template <int N>
   IrreduciblePolynomialGenerator<N>::IrreduciblePolynomialGenerator()
-  : seed_(N)
+  : seed_(N), irreducibles_(0)
   {
   }
 
   template <int N>
-  std::vector<Polynomial<N>>
-  IrreduciblePolynomialGenerator<N>::operator()(const size_t num) const
+  IrreduciblePolynomialGenerator<N>::IrreduciblePolynomialGenerator(
+      std::istream& inputStream)
+  : seed_(N), irreducibles_(0)
   {
-    std::vector<Polynomial<N>> polynomials(0);
-    size_t count = N;
+    if (inputStream.fail()) {
+       throw std::runtime_error("Read file error!");
+    }
+    std::unique_ptr<char[]> line(new char[256]);
+    // read from input stream
+    while (inputStream.getline(line.get(), 256)) {
+      irreducibles_.emplace_back(toPolynomial<N>(line.get()));
+    }
+    // set last polynomial as seed
+    seed_ = std::stoul(
+        irreducibles_.back().toString(EnumPolynomialExpression::INTEGER));
+  }
 
-    // find num irredusible polymonials
-    for (size_t numIrreducible = 0; numIrreducible < num; ++numIrreducible) {
-      polynomials.push_back(this->findIrreduciblePolynomial(count));
+  template <int N>
+  const std::vector<Polynomial<N>>&
+  IrreduciblePolynomialGenerator<N>::operator()(const size_t num)
+  {
+    const size_t numIter = num - irreducibles_.size();
+
+    // if num irreducible polynomials has already founded
+    if (numIter <= 0) {
+      return irreducibles_;
     }
 
-    return polynomials;
+    // find num irredusible polymonials
+    size_t count = seed_;
+    for (size_t i = 0; i < numIter; ++i) {
+      irreducibles_.push_back(this->findIrreduciblePolynomial(count));
+    }
+
+    return irreducibles_;
   }
 
   template <int N>
   Polynomial<N>
   IrreduciblePolynomialGenerator<N>::getNext()
   {
-    return findIrreduciblePolynomial(seed_);
+    irreducibles_.emplace_back(findIrreduciblePolynomial(seed_));
+    return irreducibles_.back();
+  }
+
+  template <int N>
+  void
+  IrreduciblePolynomialGenerator<N>::save(std::ostream& output) const
+  {
+    for (size_t i = 0; i < irreducibles_.size(); ++i) {
+      output 
+        << irreducibles_[i].toString(EnumPolynomialExpression::INTEGER)
+        << std::endl;;
+    }
   }
 
   template <int N>
@@ -79,11 +118,17 @@ namespace gf {
   template
   IrreduciblePolynomialGenerator<2>::IrreduciblePolynomialGenerator();
   template
-  std::vector<Polynomial<2>>
-  IrreduciblePolynomialGenerator<2>::operator()(const size_t num) const;
+  IrreduciblePolynomialGenerator<2>::IrreduciblePolynomialGenerator(
+      std::istream& inputStream);
+  template
+  const std::vector<Polynomial<2>>&
+  IrreduciblePolynomialGenerator<2>::operator()(const size_t num);
   template
   Polynomial<2>
   IrreduciblePolynomialGenerator<2>::getNext();
+  template
+  void
+  IrreduciblePolynomialGenerator<2>::save(std::ostream& output) const;
   template
   Polynomial<2>
   IrreduciblePolynomialGenerator<2>::findIrreduciblePolynomial(

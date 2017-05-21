@@ -1,8 +1,21 @@
 #include "gf/IrreduciblePolynomial.h"
 #include "gf/gtest_helper_macro.h"
 #include <gtest/gtest.h>
+#include <sstream>
 
 namespace gf {
+  TEST(IrreduciblePolynomialTest, constructorTest)
+  {
+    std::string expect("2\n4\n");
+    std::istringstream inputStream(expect);
+    IrreduciblePolynomialGenerator<2> generator(inputStream);
+
+    std::stringstream stringStream;
+    generator.save(stringStream);
+    
+    ASSERT_EQ(expect, stringStream.str());
+  }
+
   TEST(IrreduciblePolynomialTest, operatorParenthesisTest)
   {
     std::vector<Polynomial<2>> expects = {

@@ -14,24 +14,37 @@ namespace gf {
     /**
      * @brief 
      *
-     * @param base
-     * @param baseDigits
      */
     IrreduciblePolynomialGenerator();
     /**
-     * @brief 
+     * @brief Read irreducible polynomials from a file or input stream.
+     *  The file contains lines of integers converting from polynomial to integer.
+     *  The sequence of integers should be in inceasing order.
+     *  The last of the integer is set to seed_.
      *
-     * @param num
+     * @param inputStream
+     */
+    IrreduciblePolynomialGenerator(std::istream& inputStream);
+    /**
+     * @brief Find num irreducible polyonmials from degree 1.
+     *
+     * @param num number of irreducible polynomials generating.
      *
      * @return 
      */
-    std::vector<Polynomial<N>> operator()(const size_t num) const;
+    const std::vector<Polynomial<N>>& operator()(const size_t num);
     /**
      * @brief 
      *
      * @return 
      */
     Polynomial<N> getNext();
+    /**
+     * @brief Save irreducible polynomials to filepath.
+     *
+     * @param filepath
+     */
+    void save(std::ostream& output) const;
   private:
     /**
      * @brief 
@@ -49,5 +62,6 @@ namespace gf {
     Polynomial<N> findIrreduciblePolynomial(size_t& seed) const;
   private:
     size_t seed_;
+    std::vector<Polynomial<N>> irreducibles_;
   };
 } // namespace gf

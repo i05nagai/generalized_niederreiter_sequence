@@ -247,17 +247,18 @@ namespace gf {
     // constant
     {
       Polynomial<2> p({1});
-      EXPECT_EQ(false, p.isZero());
+      EXPECT_FALSE(p.isZero());
+      
     }
     // poly
     {
       Polynomial<2> p({1, 1});
-      EXPECT_EQ(false, p.isZero());
+      EXPECT_FALSE(p.isZero());
     }
     // 0
     {
       Polynomial<2> p({0});
-      EXPECT_EQ(true, p.isZero());
+      EXPECT_TRUE(p.isZero());
     }
   }
 
@@ -356,6 +357,24 @@ namespace gf {
       Polynomial<2> expectResidual({1});
       GF_EXPECT_POLYNOMIAL_EQ(expectQuotient, quotient);
       GF_EXPECT_POLYNOMIAL_EQ(expectResidual, residual);
+    }
+  }
+  TEST(PolynomialTest, toPolynomialTest)
+  {
+    std::vector<std::string> data = {
+      {"1"},
+      {"2"},
+      {"4"},
+    };
+    std::vector<Polynomial<2>> expects = {
+      {1},
+      {0, 1},
+      {0, 0, 1},
+    };
+    const size_t num = expects.size();
+    for (size_t i = 0; i < num; ++i) {
+      const Polynomial<2> actual = toPolynomial<2>(data[i].c_str());
+      GF_EXPECT_POLYNOMIAL_EQ(expects[i], actual);
     }
   }
 } // namespace gf

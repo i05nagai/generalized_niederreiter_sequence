@@ -58,3 +58,8 @@ add_test(gf_test gf_test)
 IF(GF_BUILD_BENCHMARKS)
 	ADD_SUBDIRECTORY(benchmarks)
 ENDIF()
+
+# benchmarks
+IF(GF_BUILD_EXAMPLES)
+	ADD_SUBDIRECTORY(examples)
+ENDIF()
