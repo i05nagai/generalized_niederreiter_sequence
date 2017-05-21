@@ -36,4 +36,4 @@ install:
   - ${CXX} --version
   - ${CXX} -v
 script:
-	- ci/build_cmake.sh
+  - ci/build_cmake.sh
