@@ -223,10 +223,18 @@ namespace gf {
   template <int N>
   void Polynomial<N>::resize(const size_t degree)
   {
-    std::unique_ptr<unsigned char[]> temp(new unsigned char[degree + 1]);
-    const size_t minDegree = std::min(degree, degree_);
-    std::copy(coeffs_.get(), coeffs_.get() + minDegree + 1, temp.get());
-    coeffs_.swap(temp);
+    // shrink to degree
+    if (degree < degree_) {
+      std::unique_ptr<unsigned char[]> temp(new unsigned char[degree + 1]);
+      std::copy(coeffs_.get(), coeffs_.get() + degree + 1, temp.get());
+      coeffs_.swap(temp);
+    // enlarge to degree
+    } else {
+      std::unique_ptr<unsigned char[]> temp(new unsigned char[degree + 1]);
+      std::copy(coeffs_.get(), coeffs_.get() + degree_ + 1, temp.get());
+      std::fill(coeffs_.get() + degree_ + 1, coeffs_.get() + degree + 1, 0);
+      coeffs_.swap(temp);
+    }
     degree_ = degree;
   }
 
