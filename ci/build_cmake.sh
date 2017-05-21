@@ -17,7 +17,7 @@ then
 fi
 
 #cmake
-cmake ..
+cmake .. $GF_BUILD_TEST $GF_BUILD_TEST_MEMORYCHECK $GF_BUILD_EXAMPLES $GF_BUILD_BENCHMARKS 
 ret=$?
 if [ $ret -ne 0 ]
 then
@@ -40,18 +40,20 @@ then
     exit $ret
 fi
 
-ctest -T memcheck --verbose | tee memcheck.log
+if [ -n "$GF_BUILD_TEST_MEMORYCHECK" ]
+	ctest -T memcheck --verbose | tee memcheck.log
 
-ret=${PIPESTATUS[0]}
-if [ $ret -ne 0 ]
-then
-    exit $ret
-fi
-cat memcheck.log | grep "Memory Leak" > /dev/null
-ret=$?
-if [ $ret -eq 0 ]
-then
-    exit 1
+	ret=${PIPESTATUS[0]}
+	if [ $ret -ne 0 ]
+	then
+		exit $ret
+	fi
+	cat memcheck.log | grep "Memory Leak" > /dev/null
+	ret=$?
+	if [ $ret -eq 0 ]
+	then
+		exit 1
+	fi
 fi
 
 exit 0

@@ -24,8 +24,13 @@ before_install:
   - echo $LC_ALL
   - cmake --version
   - ls -la
+  - export GF_BUILD_BENCHMARKS="-DGF_BUILD_BENCHMARKS=ON"
+  - export GF_BUILD_EXAMPLES="-DGF_BUILD_EXAMPLES=ON"
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install gcc48; fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install valgrind; fi
+  # valgrind does not work in osx
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export GF_BUILD_TEST="-DGF_BUILD_TEST=ON"; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export GF_BUILD_TEST_MEMORYCHECK="-DGF_BUILD_TEST_MEMORYCHECK=ON"; fi
 install:
   # /usr/bin/gcc is 4.6 always, but gcc-X.Y is available.
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi

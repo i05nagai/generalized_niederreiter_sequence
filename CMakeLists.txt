@@ -24,35 +24,43 @@ ELSEIF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
         MESSAGE ( FATAL_ERROR "MSVC doesn't support C++11.")
     ENDIF ()
 ENDIF ()
- 
-
-#GTEST and GMOCK build
-SET(BUILD_GTEST ON CACHE BOOL "Use some expat option")
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/submodule/googletest)
 
 # include directory
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/submodule
-    ${CMAKE_CURRENT_SOURCE_DIR}/submodule/googletest/googlemock/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/submodule/googletest/googletest/include
+INCLUDE_DIRECTORIES(
+	${CMAKE_CURRENT_SOURCE_DIR}
+	${CMAKE_CURRENT_SOURCE_DIR}/submodule
+	${CMAKE_CURRENT_SOURCE_DIR}/submodule/googletest/googlemock/include
+	${CMAKE_CURRENT_SOURCE_DIR}/submodule/googletest/googletest/include
 )
-
+ 
 #inclue sources
-include(cmake/gf.cmake)
-include(cmake/gf_test.cmake)
+INCLUDE(cmake/gf.cmake)
 
 #add library
-add_library(gf ${gf_SOURCES})
+ADD_LIBRARY(gf ${gf_SOURCES})
 
 # test
-enable_testing()
+IF(GF_BUILD_TEST OR GF_BUILD_TEST_MEMORYCHECK)
+	#GTEST and GMOCK build
+	SET(BUILD_GTEST ON CACHE BOOL "Use some expat option")
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/submodule/googletest)
 
-add_executable(gf_test ${gf_test_SOURCES})
-target_link_libraries(gf_test gf)
-target_link_libraries(gf_test gmock)
-target_link_libraries(gf_test gtest)
-add_test(gf_test gf_test)
+	INCLUDE(cmake/gf_test.cmake)
+	ENABLE_TESTING()
+
+	ADD_EXECUTABLE(gf_test ${gf_test_SOURCES})
+	TARGET_LINK_LIBRARIES(gf_test gf)
+	TARGET_LINK_LIBRARIES(gf_test gmock)
+	TARGET_LINK_LIBRARIES(gf_test gtest)
+	ADD_TEST(gf_test gf_test)
+
+	# memcheck
+	IF(GF_BUILD_TEST_MEMORYCHECK)
+		INCLUDE(Dart)
+		FIND_PROGRAM(CTEST_MEMORYCHECK_COMMAND NAMES valgrind)
+		SET(MEMORYCHECK_COMMAND_OPTIONS "--leak-check=full --show-leak-kinds=definite,possible --error-exitcode=1")
+	ENDIF()
+ENDIF()
 
 # benchmarks
 IF(GF_BUILD_BENCHMARKS)
