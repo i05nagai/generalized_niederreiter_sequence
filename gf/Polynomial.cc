@@ -232,7 +232,7 @@ namespace gf {
     } else {
       std::unique_ptr<unsigned char[]> temp(new unsigned char[degree + 1]);
       std::copy(coeffs_.get(), coeffs_.get() + degree_ + 1, temp.get());
-      std::fill(coeffs_.get() + degree_ + 1, coeffs_.get() + degree + 1, 0);
+      std::fill(temp.get() + degree_ + 1, temp.get() + degree + 1, 0);
       coeffs_.swap(temp);
     }
     degree_ = degree;
