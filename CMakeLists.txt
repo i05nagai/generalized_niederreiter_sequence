@@ -58,7 +58,7 @@ IF(GF_BUILD_TEST OR GF_BUILD_TEST_MEMORYCHECK)
 	IF(GF_BUILD_TEST_MEMORYCHECK)
 		INCLUDE(Dart)
 		FIND_PROGRAM(CTEST_MEMORYCHECK_COMMAND NAMES valgrind)
-		SET(MEMORYCHECK_COMMAND_OPTIONS "--leak-check=full --show-leak-kinds=definite,possible --error-exitcode=1")
+		SET(CTEST_MEMORYCHECK_COMMAND_OPTIONS "--leak-check=full --show-leak-kinds=definite,possible --error-exitcode=1")
 	ENDIF()
 ENDIF()
 
