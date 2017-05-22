@@ -41,6 +41,7 @@ then
 fi
 
 if [ -n "$GF_BUILD_TEST_MEMORYCHECK" ]
+then
 	ctest -T memcheck --verbose | tee memcheck.log
 
 	ret=${PIPESTATUS[0]}
