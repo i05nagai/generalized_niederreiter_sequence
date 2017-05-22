@@ -7,7 +7,7 @@ void calc_iterative_irreducible_polynomial()
   std::ofstream writingFile;
   writingFile.open("irreducible_polynomia_gf2.txt", std::ios::out);
 
-  const size_t num = 1000;
+  const size_t num = 200;
   gf::IrreduciblePolynomialGenerator<2> generator;
   for (size_t i = 0; i < num; ++i) {
     const gf::Polynomial<2>& actual = generator.getNext();
