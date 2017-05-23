@@ -31,6 +31,7 @@ before_install:
   # valgrind does not work in osx
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export GF_BUILD_TEST="-DGF_BUILD_TEST=ON"; fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export GF_BUILD_TEST_MEMORYCHECK="-DGF_BUILD_TEST_MEMORYCHECK=ON"; fi
+  - valgrind --version
 install:
   # /usr/bin/gcc is 4.6 always, but gcc-X.Y is available.
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
