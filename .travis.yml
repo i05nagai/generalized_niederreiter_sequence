@@ -9,7 +9,6 @@ addons:
     packages:
       - gcc-4.8
       - g++-4.8
-      - valgrind
 language: cpp
 compiler:
   - clang++
@@ -31,6 +30,7 @@ before_install:
   # valgrind does not work in osx
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export GF_BUILD_TEST="-DGF_BUILD_TEST=ON"; fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export GF_BUILD_TEST_MEMORYCHECK="-DGF_BUILD_TEST_MEMORYCHECK=ON"; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then wget http://valgrind.org/downloads/valgrind-3.12.0.tar.bz2 && tar xjf valgrind-3.12.0.tar.bz2 && cd valgrind-3.12.0 && ./configure --prefix=${BASE}/usr > /dev/null && make -j3 > /dev/null && make install > /dev/null && cd ..; fi
   - valgrind --version
 install:
   # /usr/bin/gcc is 4.6 always, but gcc-X.Y is available.
