@@ -56,9 +56,11 @@ IF(GF_BUILD_TEST OR GF_BUILD_TEST_MEMORYCHECK)
 
 	# memcheck
 	IF(GF_BUILD_TEST_MEMORYCHECK)
-		FIND_PROGRAM(MEMORYCHECK_COMMAND NAMES valgrind)
 		SET(MEMORYCHECK_COMMAND_OPTIONS "--leak-check=full --show-leak-kinds=definite,possible --error-exitcode=1")
 		SET(MEMORYCHECK_SUPPRESSIONS_FILE "${PROJECT_SOURCE_DIR}/ci/valgrind_suppression.supp" )
+		FIND_PROGRAM(CTEST_MEMORYCHECK_COMMAND NAMES valgrind)
+		# Dart must be at the end of configuration
+		INCLUDE(Dart)
 	ENDIF()
 ENDIF()
 
