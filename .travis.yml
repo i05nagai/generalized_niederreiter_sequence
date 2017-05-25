@@ -9,6 +9,8 @@ addons:
     packages:
       - gcc-4.8
       - g++-4.8
+      - libc6-i386
+      - libc6-dbg
 language: cpp
 compiler:
   - clang++
