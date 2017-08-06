@@ -1,0 +1,11 @@
+# c/cpp
+*.o
+*.a
+
+# gnu globals
+/GPATH
+/GRTAGS
+/GTAGS
+
+#
+/build
