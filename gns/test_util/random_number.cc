@@ -5,6 +5,7 @@ namespace test_util {
   RandomNumber::RandomNumber(const size_t seed)
   : engine_(), distribution_()
   {
+    engine_.seed(seed);
   }
 
   double RandomNumber::operator()()
