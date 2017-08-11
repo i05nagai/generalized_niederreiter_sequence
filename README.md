@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/i05nagai/generalized_niederreiter_sequence.svg?branch=master)](https://travis-ci.org/i05nagai/generalized_niederreiter_sequence)
+
 ## Overviews
 
 ## Build
