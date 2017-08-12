@@ -120,10 +120,9 @@ public:
 
     size_t degree = 0;
     if (degree_ <= other_degree) {
-      std::unique_ptr<GaloisField<Base> []> temp(
-          new GaloisField<Base>[degree + 1]);
       const size_t min_degree = degree_;
       degree = other_degree;
+      std::unique_ptr<value_type []> temp(new value_type[degree + 1]);
 
       // 0 to minDegree
       for (size_t i = 0; i < min_degree + 1; ++i) {
@@ -133,12 +132,11 @@ public:
       for (size_t i = min_degree + 1; i < degree + 1; ++i) {
         temp[i] = other[i];
       }
-      this->replace_coeffs(temp, degree);
+      this->replace_coeffs(std::move(temp), degree);
     } else {
-      std::unique_ptr<GaloisField<Base> []> temp(
-          new GaloisField<Base>[degree + 1]);
       const size_t min_degree = other_degree;
       degree = degree_;
+      std::unique_ptr<value_type []> temp(new value_type[degree + 1]);
 
       // 0 to min_degree
       for (size_t i = 0; i < min_degree + 1; ++i) {
@@ -148,7 +146,7 @@ public:
       for (size_t i = min_degree + 1; i < degree + 1; ++i) {
         temp[i] = coeffs_[i];
       }
-      this->replace_coeffs(temp, degree);
+      this->replace_coeffs(std::move(temp), degree);
     }
 
     return *this;

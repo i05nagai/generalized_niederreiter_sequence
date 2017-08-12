@@ -1,7 +1,17 @@
 #!/bin/bash -x
 
-#make dir
-mkdir build
+build_dir=$1
+if [[ -z ${build_dir+x} ]]
+then
+  build_dir="build"
+fi
+
+#make dir if not exists
+if [[ ! -d ${build_dir} ]]
+then
+  mkdir ${build_dir}
+fi
+
 ret=$?
 if [ $ret -ne 0 ]
 then
@@ -9,7 +19,7 @@ then
 fi
 
 #cd build
-cd build
+cd ${build_dir}
 ret=$?
 if [ $ret -ne 0 ]
 then
@@ -17,7 +27,7 @@ then
 fi
 
 #cmake
-cmake .. $GNS_BUILD_TEST $GNS_BUILD_TEST_MEMORYCHECK $GNS_BUILD_EXAMPLES $GNS_BUILD_BENCHMARKS 
+cmake .. $GNS_BUILD_TEST $GNS_BUILD_TEST_MEMORYCHECK $GNS_BUILD_EXAMPLES $GNS_BUILD_BENCHMARKS
 ret=$?
 if [ $ret -ne 0 ]
 then

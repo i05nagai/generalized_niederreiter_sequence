@@ -27,70 +27,78 @@ TEST(Polynomial, OperatorAssignTest)
   EXPECT_EQ(p, p1);
 }
 
-TEST(Polynomial, OperatorPlusTest)
+TEST(Polynomial, OperatorPlusTest01)
 {
-    // 0
-    {
-      GaloisFieldPolynomial<2> p1({1});
-      GaloisFieldPolynomial<2> p2({0});
-      p1 += p2;
+  // 1
+  // 0
+  GaloisFieldPolynomial<2> p1({1});
+  GaloisFieldPolynomial<2> p2({0});
+  p1 += p2;
 
-      GaloisFieldPolynomial<2> expect({1});
-      EXPECT_EQ(expect, p1);
-    }
-    // 1
-    {
-      GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
-      GaloisFieldPolynomial<2> p2({1});
-      p1 += p2;
+  GaloisFieldPolynomial<2> expect({1});
+  EXPECT_EQ(expect, p1);
+}
 
-      GaloisFieldPolynomial<2> expect({0, 1, 0, 1});
-      EXPECT_EQ(expect, p1);
-    }
-    // 1
-    {
-      GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
-      GaloisFieldPolynomial<2> p2({1});
-      p2 += p1;
+TEST(Polynomial, OperatorPlusTest02)
+{
+  // X^{3} + x^{1} + 1
+  // 1
+  GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
+  GaloisFieldPolynomial<2> p2({1});
+  p1 += p2;
 
-      GaloisFieldPolynomial<2> expect({0, 1, 0, 1});
-      EXPECT_EQ(expect, p2);
-    }
-    // delete coefficient of highest degree
-    {
-      GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
-      GaloisFieldPolynomial<2> p2({0, 0, 0, 1});
-      p1 += p2;
+  GaloisFieldPolynomial<2> expect({0, 1, 0, 1});
+  EXPECT_EQ(expect, p1);
+}
 
-      GaloisFieldPolynomial<2> expect({1, 1});
-      EXPECT_EQ(expect, p1);
-    }
-    // poly
-    {
-      // X^{3} + X^{1} + 1
-      GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
-      // X^{2} + 1
-      GaloisFieldPolynomial<2> p2({1, 0, 1});
-      p1 += p2;
+TEST(Polynomial, OperatorPlusTest03)
+{
+  // 1
+  GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
+  GaloisFieldPolynomial<2> p2({1});
+  p2 += p1;
 
-      // X^{3} + X^{1} + 1
-      // X^{2} + 1
-      GaloisFieldPolynomial<2> expect({0, 1, 1, 1});
-      EXPECT_EQ(expect, p1);
-    }
-    // poly
-    {
-      // X^{3} + X^{1} + 1
-      GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
-      // X^{2} + 1
-      GaloisFieldPolynomial<2> p2({1, 0, 1});
-      p2 += p1;
+  GaloisFieldPolynomial<2> expect({0, 1, 0, 1});
+  EXPECT_EQ(expect, p2);
+}
 
-      // X^{3} + X^{1} + 1
-      // X^{2} + 1
-      GaloisFieldPolynomial<2> expect({0, 1, 1, 1});
-      EXPECT_EQ(expect, p2);
-    }
+TEST(Polynomial, OperatorPlusTest04)
+{
+  // delete coefficient of highest degree
+    GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
+    GaloisFieldPolynomial<2> p2({0, 0, 0, 1});
+    p1 += p2;
+
+    GaloisFieldPolynomial<2> expect({1, 1});
+    EXPECT_EQ(expect, p1);
+}
+
+TEST(Polynomial, OperatorPlusTest05)
+{
+  // X^{3} + X^{1} + 1
+  GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
+  // X^{2} + 1
+  GaloisFieldPolynomial<2> p2({1, 0, 1});
+  p1 += p2;
+
+  // X^{3} + X^{1} + 1
+  // X^{2} + 1
+  GaloisFieldPolynomial<2> expect({0, 1, 1, 1});
+  EXPECT_EQ(expect, p1);
+}
+
+TEST(Polynomial, OperatorPlusTest06)
+{
+  // X^{3} + X^{1} + 1
+  GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
+  // X^{2} + 1
+  GaloisFieldPolynomial<2> p2({1, 0, 1});
+  p2 += p1;
+
+  // X^{3} + X^{1} + 1
+  // X^{2} + 1
+  GaloisFieldPolynomial<2> expect({0, 1, 1, 1});
+  EXPECT_EQ(expect, p2);
 }
 
 TEST(PolynomialTest, OperatorSubTest)

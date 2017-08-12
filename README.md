@@ -46,3 +46,9 @@ cd build
 cmake .. -DGNS_BUILD_EXAMPLES=ON
 make
 ```
+
+## Contributions
+This repository contains `Dockerfile` to run valgrind locally based on ubutu:14.04.
+The `Dockerfile` is useful to debug error in Travis CI.
+See README.md in docker/docker_valgrind.
+
