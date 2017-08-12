@@ -12,6 +12,11 @@ template <int Base>
 class IrreduciblePolynomialGenerator {
 public:
   /**
+   * @brief 
+   *
+   */
+  IrreduciblePolynomialGenerator();
+  /**
    * @brief Read irreducible polynomials from a file or input stream.
    *  The file contains lines of integers converting from polynomial to integer.
    *  The sequence of integers should be in inceasing order.

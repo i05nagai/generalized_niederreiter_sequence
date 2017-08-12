@@ -8,8 +8,9 @@
       EXPECT_EQ(expect[i], actual[i]);            \
     }
 
-#define GSN_EXPECT_POLYNOMIAL_EQ(expect, actual)                            \
-    EXPECT_EQ((expect).toString(), (actual).toString());
+#define GSN_EXPECT_POLYNOMIAL_EQ(expect, actual) \
+    EXPECT_EQ(expect.degree(), actual.degree()); \
+    EXPECT_EQ((expect), (actual));
 
 #define GNS_EXPECT_VECTOR_EQ(expect, actual, type)                    \
   do {                                                                \
