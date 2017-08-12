@@ -1,5 +1,4 @@
 #include "gns/irreducible_polynomial.h"
-//#include "gns/util.h"
 #include <ios>
 #include <iostream>
 #include <sstream>
@@ -8,17 +7,14 @@
 namespace gns {
 template <int Base>
 IrreduciblePolynomialGenerator<Base>::IrreduciblePolynomialGenerator()
-: seed_(Base), irreducibles_(0)
-{
-}
+    : seed_(Base), irreducibles_(0) {}
 
 template <int Base>
 IrreduciblePolynomialGenerator<Base>::IrreduciblePolynomialGenerator(
     std::istream& input_stream)
-: seed_(Base), irreducibles_(0)
-{
+    : seed_(Base), irreducibles_(0) {
   if (input_stream.fail()) {
-     throw std::runtime_error("Read file error!");
+    throw std::runtime_error("Read file error!");
   }
   std::unique_ptr<char[]> line(new char[256]);
   // read from input stream
@@ -32,8 +28,7 @@ IrreduciblePolynomialGenerator<Base>::IrreduciblePolynomialGenerator(
 
 template <int Base>
 const std::vector<GaloisFieldPolynomial<Base>>&
-IrreduciblePolynomialGenerator<Base>::operator()(const size_t num)
-{
+IrreduciblePolynomialGenerator<Base>::operator()(const size_t num) {
   const size_t num_iter = num - irreducibles_.size();
 
   // if num irreducible polynomials has already founded
@@ -50,31 +45,25 @@ IrreduciblePolynomialGenerator<Base>::operator()(const size_t num)
 }
 
 template <int Base>
-GaloisFieldPolynomial<Base>
-IrreduciblePolynomialGenerator<Base>::GetNext()
-{
+GaloisFieldPolynomial<Base> IrreduciblePolynomialGenerator<Base>::GetNext() {
   irreducibles_.emplace_back(this->FindIrreduciblePolynomial(seed_));
   return irreducibles_.back();
 }
 
 template <int Base>
-void
-IrreduciblePolynomialGenerator<Base>::Save(std::ostream& output) const
-{
+void IrreduciblePolynomialGenerator<Base>::Save(std::ostream& output) const {
   for (size_t i = 0; i < irreducibles_.size(); ++i) {
-    output
-      << irreducibles_[i].ToString(EnumPolynomialExpression::INTEGER)
-      << std::endl;
+    output << irreducibles_[i].ToString(EnumPolynomialExpression::INTEGER)
+           << std::endl;
   }
 }
 
 template <int Base>
 GaloisFieldPolynomial<Base>
 IrreduciblePolynomialGenerator<Base>::ConvertToPolynomial(
-    const size_t num) const
-{
-  std::pair<size_t, std::unique_ptr<GaloisField<Base>[]>> result
-    = CalculateBaseAdic<Base>(num);
+    const size_t num) const {
+  std::pair<size_t, std::unique_ptr<GaloisField<Base>[]>> result =
+      CalculateBaseAdic<Base>(num);
   const size_t degree = (result.first - 1);
   return GaloisFieldPolynomial<Base>(degree, std::move(result.second));
 }
@@ -82,8 +71,7 @@ IrreduciblePolynomialGenerator<Base>::ConvertToPolynomial(
 template <int Base>
 GaloisFieldPolynomial<Base>
 IrreduciblePolynomialGenerator<Base>::FindIrreduciblePolynomial(
-    size_t& seed) const
-{
+    size_t& seed) const {
   const size_t maxLoop = 5000;
   // check irreducibility from seed to seed + maxLoop
   for (size_t i = seed; i < seed + maxLoop; ++i) {
@@ -92,11 +80,10 @@ IrreduciblePolynomialGenerator<Base>::FindIrreduciblePolynomial(
 
     // check dividable or not
     for (size_t divisorCount = Base; divisorCount < i; ++divisorCount) {
-      GaloisFieldPolynomial<Base> divisor
-        = this->ConvertToPolynomial(divisorCount);
-      std::pair<
-        GaloisFieldPolynomial<Base>, GaloisFieldPolynomial<Base>
-        > result = EuclideanDivision(polynomial, divisor);
+      GaloisFieldPolynomial<Base> divisor =
+          this->ConvertToPolynomial(divisorCount);
+      std::pair<GaloisFieldPolynomial<Base>, GaloisFieldPolynomial<Base>>
+          result = EuclideanDivision(polynomial, divisor);
       const GaloisFieldPolynomial<Base>& residual = result.second;
       // dividable
       if (residual.IsZero()) {
@@ -118,39 +105,32 @@ IrreduciblePolynomialGenerator<Base>::FindIrreduciblePolynomial(
  * free functions
  *------------------------------------------------------------------------*/
 template <int Base>
-GaloisFieldPolynomial<Base>
-MakeGaloisFieldPolynomial(const char* str_data)
-{
+GaloisFieldPolynomial<Base> MakeGaloisFieldPolynomial(const char* str_data) {
   size_t data = atoi(str_data);
-  std::pair<size_t, std::unique_ptr<GaloisField<Base>[]>> degree_and_coeffs 
-    = CalculateBaseAdic<Base>(data);
+  std::pair<size_t, std::unique_ptr<GaloisField<Base>[]>> degree_and_coeffs =
+      CalculateBaseAdic<Base>(data);
   const size_t& degree = (degree_and_coeffs.first - 1);
-  return GaloisFieldPolynomial<Base>(
-      degree, std::move(degree_and_coeffs.second));
+  return GaloisFieldPolynomial<Base>(degree,
+                                     std::move(degree_and_coeffs.second));
 }
 
-} // namespace gns
+}  // namespace gns
 
 namespace gns {
-#define TEMPLATE_INSTANTIATION(Base)                                      \
-  template                                                                \
-  IrreduciblePolynomialGenerator<Base>::IrreduciblePolynomialGenerator(); \
-  template                                                                \
-  IrreduciblePolynomialGenerator<Base>::IrreduciblePolynomialGenerator(   \
-      std::istream& inputStream);                                         \
-  template                                                                \
-  const std::vector<GaloisFieldPolynomial<Base>>&                         \
-  IrreduciblePolynomialGenerator<Base>::operator()(const size_t num);     \
-  template                                                                \
-  GaloisFieldPolynomial<2>                                                \
-  IrreduciblePolynomialGenerator<Base>::GetNext();                        \
-  template                                                                \
-  void                                                                    \
-  IrreduciblePolynomialGenerator<Base>::Save(std::ostream& output) const; \
-  template                                                                \
-  GaloisFieldPolynomial<Base>                                             \
-  IrreduciblePolynomialGenerator<Base>::FindIrreduciblePolynomial(        \
+#define TEMPLATE_INSTANTIATION(Base)                                    \
+  template IrreduciblePolynomialGenerator<                              \
+      Base>::IrreduciblePolynomialGenerator();                          \
+  template IrreduciblePolynomialGenerator<                              \
+      Base>::IrreduciblePolynomialGenerator(std::istream& inputStream); \
+  template const std::vector<GaloisFieldPolynomial<Base>>&              \
+  IrreduciblePolynomialGenerator<Base>::operator()(const size_t num);   \
+  template GaloisFieldPolynomial<2>                                     \
+  IrreduciblePolynomialGenerator<Base>::GetNext();                      \
+  template void IrreduciblePolynomialGenerator<Base>::Save(             \
+      std::ostream& output) const;                                      \
+  template GaloisFieldPolynomial<Base>                                  \
+  IrreduciblePolynomialGenerator<Base>::FindIrreduciblePolynomial(      \
       size_t& seed) const;
 
 TEMPLATE_INSTANTIATION(2);
-} // namespace gns
+}  // namespace gns

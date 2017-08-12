@@ -1,40 +1,35 @@
 #include "gns/galois_field_operator.h"
-#include "gns/test_util/gtest_assertion.h"
+#include <gtest/gtest.h>
 #include <algorithm>
 #include <functional>
-#include <gtest/gtest.h>
+#include "gns/test_util/gtest_assertion.h"
 
 namespace gns {
 template <int Base>
-void check_operator_add(
-    const std::vector<unsigned int>& test_case_data,
-    std::vector<GaloisField<Base>>& test_case)
-{
-  std::function<
-    GaloisField<Base> (const GaloisField<Base>&, const GaloisField<Base>&)
-  > op = [](const GaloisField<Base>& e1, const GaloisField<Base>& e2) {
-    return e1 + e2;
-  };
-  std::transform(
-      test_case_data.begin(),
-      test_case_data.end(),
-      test_case.begin(),
-      [](const unsigned int x){
-        return GaloisField<Base>(x);
-      });
+void check_operator_add(const std::vector<unsigned int>& test_case_data,
+                        std::vector<GaloisField<Base>>& test_case) {
+  std::function<GaloisField<Base>(const GaloisField<Base>&,
+                                  const GaloisField<Base>&)>
+      op = [](const GaloisField<Base>& e1, const GaloisField<Base>& e2) {
+        return e1 + e2;
+      };
+  std::transform(test_case_data.begin(), test_case_data.end(),
+                 test_case.begin(),
+                 [](const unsigned int x) { return GaloisField<Base>(x); });
   GNS_EXPECT_GALOIS_FIELD_OP(test_case, op);
 }
 
-TEST(GaloisFieldOperatorTest, OperatorAdd)
-{
+TEST(GaloisFieldOperatorTest, OperatorAdd) {
   // base 2
   {
     const std::vector<unsigned int> test_case_data = {
+        // clang-format off
       // lhs, rhs, expect
       0, 0, 0,
       0, 1, 1,
       1, 0, 1,
       1, 1, 0,
+        // clang-format on
     };
     std::vector<GaloisField<2>> test_case(test_case_data.size());
     check_operator_add(test_case_data, test_case);
@@ -42,6 +37,7 @@ TEST(GaloisFieldOperatorTest, OperatorAdd)
   // base 4
   {
     const std::vector<unsigned int> test_case_data = {
+        // clang-format off
       // lhs, rhs, expect
       0, 0, 0,
       0, 1, 1,
@@ -59,6 +55,7 @@ TEST(GaloisFieldOperatorTest, OperatorAdd)
       3, 1, 2,
       3, 2, 1,
       3, 3, 0,
+        // clang-format on
     };
     std::vector<GaloisField<4>> test_case(test_case_data.size());
     check_operator_add(test_case_data, test_case);
@@ -66,6 +63,7 @@ TEST(GaloisFieldOperatorTest, OperatorAdd)
   // base 16
   {
     const std::vector<unsigned int> test_case_data = {
+        // clang-format off
       // lhs, rhs, expect
       0, 0,   0,
       0, 1,   1,
@@ -323,6 +321,7 @@ TEST(GaloisFieldOperatorTest, OperatorAdd)
       15, 13, 2,
       15, 14, 1,
       15, 15, 0,
+        // clang-format on
     };
     std::vector<GaloisField<16>> test_case(test_case_data.size());
     check_operator_add(test_case_data, test_case);
@@ -330,35 +329,30 @@ TEST(GaloisFieldOperatorTest, OperatorAdd)
 }
 
 template <int Base>
-void check_operator_sub(
-    const std::vector<unsigned int>& test_case_data,
-    std::vector<GaloisField<Base>>& test_case)
-{
-  std::function<
-    GaloisField<Base> (const GaloisField<Base>&, const GaloisField<Base>&)
-  > op = [](const GaloisField<Base>& e1, const GaloisField<Base>& e2) {
-    return e1 - e2;
-  };
-  std::transform(
-      test_case_data.begin(),
-      test_case_data.end(),
-      test_case.begin(),
-      [](const unsigned int x){
-        return GaloisField<Base>(x);
-      });
+void check_operator_sub(const std::vector<unsigned int>& test_case_data,
+                        std::vector<GaloisField<Base>>& test_case) {
+  std::function<GaloisField<Base>(const GaloisField<Base>&,
+                                  const GaloisField<Base>&)>
+      op = [](const GaloisField<Base>& e1, const GaloisField<Base>& e2) {
+        return e1 - e2;
+      };
+  std::transform(test_case_data.begin(), test_case_data.end(),
+                 test_case.begin(),
+                 [](const unsigned int x) { return GaloisField<Base>(x); });
   GNS_EXPECT_GALOIS_FIELD_OP(test_case, op);
 }
 
-TEST(GaloisFieldOperatorTest, OperatorSub)
-{
+TEST(GaloisFieldOperatorTest, OperatorSub) {
   // base 2
   {
     const std::vector<unsigned int> test_case_data = {
-      // lhs, rhs, expect
+        // lhs, rhs, expect
+        // clang-format off
       0, 0, 0,
       0, 1, 1,
       1, 0, 1,
       1, 1, 0,
+        // clang-format on
     };
     std::vector<GaloisField<2>> test_case(test_case_data.size());
     check_operator_sub(test_case_data, test_case);
@@ -366,7 +360,8 @@ TEST(GaloisFieldOperatorTest, OperatorSub)
   // base 4
   {
     const std::vector<unsigned int> test_case_data = {
-      // lhs, rhs, expect
+        // lhs, rhs, expect
+        // clang-format off
       0, 0, 0,
       0, 1, 1,
       0, 2, 2,
@@ -383,6 +378,7 @@ TEST(GaloisFieldOperatorTest, OperatorSub)
       3, 1, 2,
       3, 2, 1,
       3, 3, 0,
+        // clang-format on
     };
     std::vector<GaloisField<4>> test_case(test_case_data.size());
     check_operator_sub(test_case_data, test_case);
@@ -390,7 +386,8 @@ TEST(GaloisFieldOperatorTest, OperatorSub)
   // base 16
   {
     const std::vector<unsigned int> test_case_data = {
-      // lhs, rhs, expect
+        // lhs, rhs, expect
+        // clang-format off
       0, 0,   0,
       0, 1,   1,
       0, 2,   2,
@@ -647,6 +644,7 @@ TEST(GaloisFieldOperatorTest, OperatorSub)
       15, 13, 2,
       15, 14, 1,
       15, 15, 0,
+        // clang-format on
     };
     std::vector<GaloisField<16>> test_case(test_case_data.size());
     check_operator_sub(test_case_data, test_case);
@@ -654,35 +652,30 @@ TEST(GaloisFieldOperatorTest, OperatorSub)
 }
 
 template <int Base>
-void check_operator_mult(
-    const std::vector<unsigned int>& test_case_data,
-    std::vector<GaloisField<Base>>& test_case)
-{
-  std::function<
-    GaloisField<Base> (const GaloisField<Base>&, const GaloisField<Base>&)
-  > op = [](const GaloisField<Base>& e1, const GaloisField<Base>& e2) {
-    return e1 * e2;
-  };
-  std::transform(
-      test_case_data.begin(),
-      test_case_data.end(),
-      test_case.begin(),
-      [](const unsigned int x){
-        return GaloisField<Base>(x);
-      });
+void check_operator_mult(const std::vector<unsigned int>& test_case_data,
+                         std::vector<GaloisField<Base>>& test_case) {
+  std::function<GaloisField<Base>(const GaloisField<Base>&,
+                                  const GaloisField<Base>&)>
+      op = [](const GaloisField<Base>& e1, const GaloisField<Base>& e2) {
+        return e1 * e2;
+      };
+  std::transform(test_case_data.begin(), test_case_data.end(),
+                 test_case.begin(),
+                 [](const unsigned int x) { return GaloisField<Base>(x); });
   GNS_EXPECT_GALOIS_FIELD_OP(test_case, op);
 }
 
-TEST(GaloisFieldOperatorTest, OperatorMult)
-{
+TEST(GaloisFieldOperatorTest, OperatorMult) {
   // base 2
   {
     const std::vector<unsigned int> test_case_data = {
+        // clang-format off
       // lhs, rhs, expect
       0, 0, 0,
       0, 1, 0,
       1, 0, 0,
       1, 1, 1,
+        // clang-format on
     };
     std::vector<GaloisField<2>> test_case(test_case_data.size());
     check_operator_mult(test_case_data, test_case);
@@ -690,6 +683,7 @@ TEST(GaloisFieldOperatorTest, OperatorMult)
   // base 4
   {
     const std::vector<unsigned int> test_case_data = {
+        // clang-format off
       // lhs, rhs, expect
       0, 0, 0,
       0, 1, 0,
@@ -707,6 +701,7 @@ TEST(GaloisFieldOperatorTest, OperatorMult)
       3, 1, 3,
       3, 2, 1,
       3, 3, 2,
+        // clang-format on
     };
     std::vector<GaloisField<4>> test_case(test_case_data.size());
     check_operator_mult(test_case_data, test_case);
@@ -714,6 +709,7 @@ TEST(GaloisFieldOperatorTest, OperatorMult)
   // base 16
   {
     const std::vector<unsigned int> test_case_data = {
+        // clang-format off
       // lhs, rhs, expect
       0, 0,   0,
       0, 1,   0,
@@ -971,6 +967,7 @@ TEST(GaloisFieldOperatorTest, OperatorMult)
       15, 13, 9,
       15, 14, 7,
       15, 15, 8,
+        // clang-format on
     };
     std::vector<GaloisField<16>> test_case(test_case_data.size());
     check_operator_mult(test_case_data, test_case);
@@ -978,35 +975,30 @@ TEST(GaloisFieldOperatorTest, OperatorMult)
 }
 
 template <int Base>
-void check_operator_div(
-    const std::vector<unsigned int>& test_case_data,
-    std::vector<GaloisField<Base>>& test_case)
-{
-  std::function<
-    GaloisField<Base> (const GaloisField<Base>&, const GaloisField<Base>&)
-  > op = [](const GaloisField<Base>& e1, const GaloisField<Base>& e2) {
-    return e1 / e2;
-  };
-  std::transform(
-      test_case_data.begin(),
-      test_case_data.end(),
-      test_case.begin(),
-      [](const unsigned int x){
-        return GaloisField<Base>(x);
-      });
+void check_operator_div(const std::vector<unsigned int>& test_case_data,
+                        std::vector<GaloisField<Base>>& test_case) {
+  std::function<GaloisField<Base>(const GaloisField<Base>&,
+                                  const GaloisField<Base>&)>
+      op = [](const GaloisField<Base>& e1, const GaloisField<Base>& e2) {
+        return e1 / e2;
+      };
+  std::transform(test_case_data.begin(), test_case_data.end(),
+                 test_case.begin(),
+                 [](const unsigned int x) { return GaloisField<Base>(x); });
   GNS_EXPECT_GALOIS_FIELD_OP(test_case, op);
 }
 
-TEST(GaloisFieldOperatorTest, OperatorDiv)
-{
+TEST(GaloisFieldOperatorTest, OperatorDiv) {
   // base 2
   {
     const std::vector<unsigned int> test_case_data = {
+        // clang-format off
       // lhs, rhs, expect
       0, 0, 0,
       0, 1, 0,
       1, 0, 0,
       1, 1, 1,
+        // clang-format on
     };
     std::vector<GaloisField<2>> test_case(test_case_data.size());
     check_operator_div(test_case_data, test_case);
@@ -1014,6 +1006,7 @@ TEST(GaloisFieldOperatorTest, OperatorDiv)
   // base 4
   {
     const std::vector<unsigned int> test_case_data = {
+        // clang-format off
       // lhs, rhs, expect
       0, 0, 0,
       0, 1, 0,
@@ -1031,6 +1024,7 @@ TEST(GaloisFieldOperatorTest, OperatorDiv)
       3, 1, 3,
       3, 2, 2,
       3, 3, 1,
+        // clang-format on
     };
     std::vector<GaloisField<4>> test_case(test_case_data.size());
     check_operator_div(test_case_data, test_case);
@@ -1038,6 +1032,7 @@ TEST(GaloisFieldOperatorTest, OperatorDiv)
   // base 16
   {
     const std::vector<unsigned int> test_case_data = {
+        // clang-format off
       // lhs, rhs, expect
       0, 0,   0,
       0, 1,   0,
@@ -1310,10 +1305,11 @@ TEST(GaloisFieldOperatorTest, OperatorDiv)
       15, 13, 6,
       15, 14, 10,
       15, 15, 1,
+        // clang-format on
     };
 
     std::vector<GaloisField<16>> test_case(test_case_data.size());
     check_operator_div(test_case_data, test_case);
   }
 }
-} // namespace gns
+}  // namespace gns

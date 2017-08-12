@@ -1,18 +1,18 @@
 #pragma once
-#include "gns/polynomial.h"
 #include <vector>
+#include "gns/polynomial.h"
 
 namespace gns {
 /**
- * @brief 
+ * @brief
  *
  * @tparam Base
  */
 template <int Base>
 class IrreduciblePolynomialGenerator {
-public:
+ public:
   /**
-   * @brief 
+   * @brief
    *
    */
   IrreduciblePolynomialGenerator();
@@ -30,13 +30,13 @@ public:
    *
    * @param num number of irreducible polynomials generating.
    *
-   * @return 
+   * @return
    */
   const std::vector<GaloisFieldPolynomial<Base>>& operator()(const size_t num);
   /**
-   * @brief 
+   * @brief
    *
-   * @return 
+   * @return
    */
   GaloisFieldPolynomial<Base> GetNext();
   /**
@@ -45,27 +45,28 @@ public:
    * @param filepath
    */
   void Save(std::ostream& output) const;
-private:
+
+ private:
   /**
-   * @brief 
+   * @brief
    *
    * @param num
    *
-   * @return 
+   * @return
    */
   GaloisFieldPolynomial<Base> ConvertToPolynomial(size_t num) const;
   /**
-   * @brief 
+   * @brief
    *
-   * @return 
+   * @return
    */
   GaloisFieldPolynomial<Base> FindIrreduciblePolynomial(size_t& seed) const;
-private:
+
+ private:
   size_t seed_;
   std::vector<GaloisFieldPolynomial<Base>> irreducibles_;
 };
 
 template <int Base>
-GaloisFieldPolynomial<Base>
-MakeGaloisFieldPolynomial(const char* str_data);
-} // namespace gns
+GaloisFieldPolynomial<Base> MakeGaloisFieldPolynomial(const char* str_data);
+}  // namespace gns

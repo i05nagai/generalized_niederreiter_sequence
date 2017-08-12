@@ -1,17 +1,17 @@
 #pragma once
-#include "gns/galois_field.h"
-#include "gns/galois_field_operator.h"
-#include "gns/util.h"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <iterator>
 #include <memory>
 #include <numeric>
+#include "gns/galois_field.h"
+#include "gns/galois_field_operator.h"
+#include "gns/util.h"
 
 namespace gns {
 /**
- * @brief 
+ * @brief
  */
 enum EnumPolynomialExpression {
   /**
@@ -26,92 +26,88 @@ enum EnumPolynomialExpression {
 
 template <int Base>
 class GaloisFieldPolynomial {
-//private typedef
-private:
-//public typedef
-public:
+  // private typedef
+ private:
+  // public typedef
+ public:
   typedef GaloisField<Base> value_type;
   typedef GaloisField<Base>* iterator;
   typedef const GaloisField<Base>* const_iterator;
-//public function
-public:
+  // public function
+ public:
   /**
-   * @brief 
+   * @brief
    */
-  inline
-  explicit GaloisFieldPolynomial()
-  : coeffs_(new GaloisField<Base>[1])
-  {
-  }
+  inline explicit GaloisFieldPolynomial() : coeffs_(new GaloisField<Base>[1]) {}
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    */
-  inline
-  GaloisFieldPolynomial(const GaloisFieldPolynomial<Base>& other)
-  : coeffs_(new GaloisField<Base>[other.degree_ + 1]),
-    degree_(other.degree_)
-  {
+  inline GaloisFieldPolynomial(const GaloisFieldPolynomial<Base>& other)
+      : coeffs_(new GaloisField<Base>[other.degree_ + 1]),
+        degree_(other.degree_) {
     std::copy(other.cbegin(), other.cend(), this->begin());
   }
   /**
-   * @brief 
+   * @brief
    *
    * @param degree
    */
-  inline
-  GaloisFieldPolynomial(size_t degree)
-  : coeffs_(new GaloisField<Base>[degree + 1]),
-    degree_(degree)
-  {
-  }
+  inline GaloisFieldPolynomial(size_t degree)
+      : coeffs_(new GaloisField<Base>[degree + 1]), degree_(degree) {}
   /**
-   * @brief 
+   * @brief
    *
    * @param coeffs
    */
-  inline
-  GaloisFieldPolynomial(std::initializer_list<unsigned char> coeffs)
-  : GaloisFieldPolynomial(coeffs.size() - 1)
-  {
+  inline GaloisFieldPolynomial(std::initializer_list<unsigned char> coeffs)
+      : GaloisFieldPolynomial(coeffs.size() - 1) {
     std::copy(coeffs.begin(), coeffs.end(), coeffs_.get());
   }
   /**
-   * @brief 
+   * @brief
    *
    * @param coeffs
    */
-  inline
-  GaloisFieldPolynomial(
-      const size_t degree, std::unique_ptr<value_type[]> data)
-  : coeffs_(std::move(data)),
-    degree_(degree)
-  {
+  inline GaloisFieldPolynomial(const size_t degree,
+                               std::unique_ptr<value_type[]> data)
+      : coeffs_(std::move(data)), degree_(degree) {}
+  /**
+   * @brief
+   */
+  inline ~GaloisFieldPolynomial() {}
+  /**
+   * @brief
+   *
+   * @param other
+   *
+   * @return
+   */
+  inline bool operator==(const GaloisFieldPolynomial<Base>& other) {
+    return degree_ == other.degree_ &&
+           std::equal(other.cbegin(), other.cend(), this->cbegin());
   }
-
-  inline
-  ~GaloisFieldPolynomial()
-  {
-  }
-
-  inline
-  bool operator==(const GaloisFieldPolynomial<Base>& other)
-  {
-    return degree_ == other.degree_
-      && std::equal(other.cbegin(), other.cend(), this->cbegin());
-  }
-
-  inline
-  bool operator==(const GaloisFieldPolynomial<Base>& other) const
-  {
+  /**
+   * @brief
+   *
+   * @param other
+   *
+   * @return
+   */
+  inline bool operator==(const GaloisFieldPolynomial<Base>& other) const {
     return const_cast<GaloisFieldPolynomial&>(*this) == other;
   }
-
-  inline
-  GaloisFieldPolynomial& operator =(const GaloisFieldPolynomial<Base>& other)
-  {
-    //self assignment
+  /**
+   * @brief
+   *
+   * @param other
+   *
+   * @return
+   */
+  inline GaloisFieldPolynomial& operator=(
+      const GaloisFieldPolynomial<Base>& other) {
+    // self assignment
     if (&other == this) {
       return *this;
     }
@@ -119,27 +115,36 @@ public:
     std::copy(other.cbegin(), other.cend(), this->begin());
     return *this;
   }
-
-  inline
-  GaloisFieldPolynomial& operator =(GaloisFieldPolynomial<Base>&& other)
-  {
-    //self assignment never happens?
+  /**
+   * @brief
+   *
+   * @param other
+   *
+   * @return
+   */
+  inline GaloisFieldPolynomial& operator=(GaloisFieldPolynomial<Base>&& other) {
+    // self assignment never happens?
     degree_ = other.degree_;
     coeffs_ = std::move(other.coeffs_);
     other.coeffs_ = nullptr;
     return *this;
   }
-
-  inline
-  GaloisFieldPolynomial& operator+=(const GaloisFieldPolynomial<Base>& other)
-  {
+  /**
+   * @brief
+   *
+   * @param other
+   *
+   * @return
+   */
+  inline GaloisFieldPolynomial& operator+=(
+      const GaloisFieldPolynomial<Base>& other) {
     const size_t other_degree = other.degree();
 
     size_t degree = 0;
     if (degree_ <= other_degree) {
       const size_t min_degree = degree_;
       degree = other_degree;
-      std::unique_ptr<value_type []> temp(new value_type[degree + 1]);
+      std::unique_ptr<value_type[]> temp(new value_type[degree + 1]);
 
       // 0 to minDegree
       for (size_t i = 0; i < min_degree + 1; ++i) {
@@ -153,7 +158,7 @@ public:
     } else {
       const size_t min_degree = other_degree;
       degree = degree_;
-      std::unique_ptr<value_type []> temp(new value_type[degree + 1]);
+      std::unique_ptr<value_type[]> temp(new value_type[degree + 1]);
 
       // 0 to min_degree
       for (size_t i = 0; i < min_degree + 1; ++i) {
@@ -168,16 +173,21 @@ public:
 
     return *this;
   }
-
-  GaloisFieldPolynomial& operator-=(const GaloisFieldPolynomial<Base>& other)
-  {
+  /**
+   * @brief
+   *
+   * @param other
+   *
+   * @return
+   */
+  GaloisFieldPolynomial& operator-=(const GaloisFieldPolynomial<Base>& other) {
     const size_t other_degree = other.degree();
 
     size_t degree = 0;
     if (degree_ <= other_degree) {
       const size_t min_degree = degree_;
       degree = other_degree;
-      std::unique_ptr<GaloisField<Base> []> temp(
+      std::unique_ptr<GaloisField<Base>[]> temp(
           new GaloisField<Base>[degree + 1]);
 
       // 0 to min_degree
@@ -206,25 +216,35 @@ public:
 
     return *this;
   }
-
-  GaloisFieldPolynomial& operator*=(const unsigned int multiplier)
-  {
+  /**
+   * @brief
+   *
+   * @param multiplier
+   *
+   * @return
+   */
+  GaloisFieldPolynomial& operator*=(const unsigned int multiplier) {
     if (multiplier != 0) {
       const GaloisField<Base> mult(multiplier);
       for (size_t i = 0; i < degree_ + 1; ++i) {
         coeffs_[i] = mult * coeffs_[i];
       }
     } else {
-      std::unique_ptr<GaloisField<Base> []> temp(new GaloisField<Base> [1]);
+      std::unique_ptr<GaloisField<Base>[]> temp(new GaloisField<Base>[1]);
       this->replace_coeffs(temp, 0);
     }
     return *this;
   }
-
-  GaloisFieldPolynomial& operator*=(const GaloisFieldPolynomial<Base>& other)
-  {
+  /**
+   * @brief
+   *
+   * @param other
+   *
+   * @return
+   */
+  GaloisFieldPolynomial& operator*=(const GaloisFieldPolynomial<Base>& other) {
     if (other.IsZero() == true) {
-      std::unique_ptr<GaloisField<Base> []> temp(new GaloisField<Base>[1]);
+      std::unique_ptr<GaloisField<Base>[]> temp(new GaloisField<Base>[1]);
       this->replace_coeffs(temp, 0);
     } else {
       const size_t other_degree = other.degree();
@@ -241,96 +261,105 @@ public:
     }
     return *this;
   }
-
-  inline bool IsZero() const
-  {
-    const bool is_zero = std::all_of(
-        this->cbegin(),
-        this->cend(),
-        [](const GaloisField<Base>& x){ return x == 0; });
+  /**
+   * @brief
+   *
+   * @return
+   */
+  inline bool IsZero() const {
+    const bool is_zero =
+        std::all_of(this->cbegin(), this->cend(),
+                    [](const GaloisField<Base>& x) { return x == 0; });
     return is_zero;
   }
-
-  inline
-  GaloisField<Base>&
-  operator[](const size_t index)
-  {
+  /**
+   * @brief
+   *
+   * @param index
+   *
+   * @return
+   */
+  inline GaloisField<Base>& operator[](const size_t index) {
     return coeffs_[index];
-  }
-
-  inline
-  const GaloisField<Base>&
-  operator[](const size_t index) const
-  {
-    return coeffs_[index];
-  }
-
-  inline
-  size_t degree()
-  {
-    return degree_;
-  }
-
-  inline
-  size_t degree() const
-  {
-    return degree_;
-  }
-
-  inline iterator begin()
-  {
-    return coeffs_.get();
-  }
-
-  inline const_iterator begin() const
-  {
-    return coeffs_.get();
-  }
-
-  inline const_iterator cbegin() const
-  {
-    return coeffs_.get();
-  }
-
-  inline iterator end()
-  {
-    return coeffs_.get() + degree_ + 1;
-  }
-
-  inline const_iterator end() const
-  {
-    return coeffs_.get() + degree_ + 1;
-  }
-
-  inline const_iterator cend() const
-  {
-    return coeffs_.get() + degree_ + 1;
   }
   /**
-   * @brief 
+   * @brief
+   *
+   * @param index
+   *
+   * @return
+   */
+  inline const GaloisField<Base>& operator[](const size_t index) const {
+    return coeffs_[index];
+  }
+  /**
+   * @brief
+   *
+   * @return
+   */
+  inline size_t degree() { return degree_; }
+  /**
+   * @brief
+   *
+   * @return
+   */
+  inline size_t degree() const { return degree_; }
+  /**
+   * @brief
+   *
+   * @return
+   */
+  inline iterator begin() { return coeffs_.get(); }
+  /**
+   * @brief
+   *
+   * @return
+   */
+  inline const_iterator begin() const { return coeffs_.get(); }
+  /**
+   * @brief
+   *
+   * @return
+   */
+  inline const_iterator cbegin() const { return coeffs_.get(); }
+  /**
+   * @brief
+   *
+   * @return
+   */
+  inline iterator end() { return coeffs_.get() + degree_ + 1; }
+  /**
+   * @brief
+   *
+   * @return
+   */
+  inline const_iterator end() const { return coeffs_.get() + degree_ + 1; }
+  /**
+   * @brief
+   *
+   * @return
+   */
+  inline const_iterator cend() const { return coeffs_.get() + degree_ + 1; }
+  /**
+   * @brief
    *
    * @param expressionType
    *
-   * @return 
+   * @return
    */
-  std::string
-  ToString(const EnumPolynomialExpression expression_type) const
-  {
+  std::string ToString(const EnumPolynomialExpression expression_type) const {
     if (expression_type == EnumPolynomialExpression::INTEGER) {
       // how many bit need to explain base
       const int base_bits = std::log2(Base);
       // coeffs into int
       long long int data = std::accumulate(
-          gns::rbegin(coeffs_.get() + degree_ + 1),
-          gns::rend(coeffs_.get()),
-          0LL,
-          [&base_bits](long long int a, const GaloisField<Base>& b) {
+          gns::rbegin(coeffs_.get() + degree_ + 1), gns::rend(coeffs_.get()),
+          0LL, [&base_bits](long long int a, const GaloisField<Base>& b) {
             return (a << base_bits) + b.value();
           });
       return std::to_string(data);
     } else if (expression_type == EnumPolynomialExpression::COEFFICIENTS) {
-      return std::accumulate(coeffs_.get() + 1,
-                             coeffs_.get() + degree_ + 1,
+      return std::accumulate(coeffs_.get() + 1, coeffs_.get() + degree_ + 1,
                              std::to_string(coeffs_[0].value()),
                              [](std::string a, const GaloisField<Base>& b) {
                                return std::to_string(b.value()) + "  " + a;
@@ -338,23 +367,23 @@ public:
     } else {
       std::string data = std::to_string(coeffs_[0].value());
       for (size_t i = 1; i < degree_ + 1; ++i) {
-        data = std::to_string(coeffs_[i].value()) 
-          + "X^{" 
-          + std::to_string(i) 
-          + "} + " 
-          + data;
+        data = std::to_string(coeffs_[i].value()) + "X^{" + std::to_string(i) +
+               "} + " + data;
       }
       return data;
     }
   }
 
-//private function
-private:
-  inline
-  void replace_coeffs(
-      const std::unique_ptr<value_type[]>& coeffs,
-      size_t degree)
-  {
+  // private function
+ private:
+  /**
+   * @brief
+   *
+   * @param coeffs
+   * @param degree
+   */
+  inline void replace_coeffs(const std::unique_ptr<value_type[]>& coeffs,
+                             size_t degree) {
     // resize requires degree_ has current size of coeffs_
     // shrink degree
     while (coeffs[degree] == 0 && degree > 0) {
@@ -367,32 +396,28 @@ private:
     coeffs_.swap(temp);
   }
 
-//private members
-private:
+  // private members
+ private:
   std::unique_ptr<value_type[]> coeffs_;
   size_t degree_;
 };
 
 /**
- * @brief 
+ * @brief
  *
  * @tparam Base
  * @param os
  * @param x
  *
- * @return 
+ * @return
  */
-template<int Base>
-std::ostream&
-operator<<(std::ostream& os, const GaloisFieldPolynomial<Base>& x)
-{
+template <int Base>
+std::ostream& operator<<(std::ostream& os,
+                         const GaloisFieldPolynomial<Base>& x) {
   std::string data = std::to_string(x[0].value());
   for (size_t i = 1; i < x.degree() + 1; ++i) {
-    data = std::to_string(x[i].value())
-      + "X^{" 
-      + std::to_string(i)
-      + "} + " 
-      + data;
+    data = std::to_string(x[i].value()) + "X^{" + std::to_string(i) + "} + " +
+           data;
   }
   os << data;
   return os;
@@ -402,39 +427,36 @@ operator<<(std::ostream& os, const GaloisFieldPolynomial<Base>& x)
  * free functions
  *------------------------------------------------------------------------*/
 /**
- * @brief 
+ * @brief
  *
  * @tparam Base
  * @param degree
  * @param coeff
  *
- * @return 
+ * @return
  */
 template <int Base>
-GaloisFieldPolynomial<Base> MakeBasePolynomial(
-    const size_t degree, const GaloisField<Base>& coeff)
-{
+GaloisFieldPolynomial<Base> MakeBasePolynomial(const size_t degree,
+                                               const GaloisField<Base>& coeff) {
   GaloisFieldPolynomial<Base> polynomial(degree);
   polynomial[degree] = coeff;
   return std::move(polynomial);
 }
 
 /**
- * @brief 
+ * @brief
  *
  * @tparam Base
  * @param dividend
  * @param divisor
  * dividend = quotient * divisor + residual
  *
- * @return 
+ * @return
  */
 template <int Base>
 std::pair<GaloisFieldPolynomial<Base>, GaloisFieldPolynomial<Base>>
-EuclideanDivision(
-    const GaloisFieldPolynomial<Base>& dividend,
-    const GaloisFieldPolynomial<Base>& divisor)
-{
+EuclideanDivision(const GaloisFieldPolynomial<Base>& dividend,
+                  const GaloisFieldPolynomial<Base>& divisor) {
   GaloisFieldPolynomial<Base> residual(dividend);
   const size_t divisor_degree = divisor.degree();
   GaloisFieldPolynomial<Base> quotient(residual.degree() - divisor_degree);
@@ -450,21 +472,27 @@ EuclideanDivision(
     temp *= divisor;
     // residual -= mult * divisor
     residual -= temp;
-    if(residual.IsZero()) {
+    if (residual.IsZero()) {
       break;
     }
   }
   // quaotient, residual
   return std::make_pair(quotient, residual);
 }
-
+/**
+ * @brief
+ *
+ * @tparam Base
+ * @param a
+ * @param b
+ * @param max_degree
+ *
+ * @return
+ */
 template <int Base>
-std::unique_ptr<GaloisField<Base>[]>
-SolveLaurentSeriesDivision(
-    const GaloisFieldPolynomial<Base>& a,
-    const GaloisFieldPolynomial<Base>& b,
-    const size_t max_degree)
-{
+std::unique_ptr<GaloisField<Base>[]> SolveLaurentSeriesDivision(
+    const GaloisFieldPolynomial<Base>& a, const GaloisFieldPolynomial<Base>& b,
+    const size_t max_degree) {
   const size_t n = a.degree();
   const size_t m = b.degree();
   assert(n < m);
@@ -495,4 +523,4 @@ SolveLaurentSeriesDivision(
   }
   return c;
 }
-} // namespace gns
+}  // namespace gns
