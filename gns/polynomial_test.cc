@@ -430,4 +430,65 @@ TEST(PolynomialTest, SolveLaurentSeriesDivision)
     }
   }
 }
+
+TEST(polynomial, ToStringTest)
+{
+  // INTEGER
+  {
+    GaloisFieldPolynomial<2> p({0});
+    const std::string actual = p.ToString(
+        EnumPolynomialExpression::INTEGER);
+    EXPECT_EQ("0", actual);
+  }
+  {
+    GaloisFieldPolynomial<2> p({1, 1});
+    const std::string actual = p.ToString(
+        EnumPolynomialExpression::INTEGER);
+    EXPECT_EQ("3", actual);
+  }
+  {
+    GaloisFieldPolynomial<2> p({1, 0, 0, 1});
+    const std::string actual = p.ToString(
+        EnumPolynomialExpression::INTEGER);
+    EXPECT_EQ("9", actual);
+  }
+  // COEFFICIENTS
+  {
+    GaloisFieldPolynomial<2> p(0);
+    const std::string actual = p.ToString(
+        EnumPolynomialExpression::COEFFICIENTS);
+    EXPECT_EQ("0", actual);
+  }
+  {
+    GaloisFieldPolynomial<2> p({1, 1});
+    const std::string actual = p.ToString(
+        EnumPolynomialExpression::COEFFICIENTS);
+    EXPECT_EQ("1  1", actual);
+  }
+  {
+    GaloisFieldPolynomial<2> p({1, 0, 0, 1});
+    const std::string actual = p.ToString(
+        EnumPolynomialExpression::COEFFICIENTS);
+    EXPECT_EQ("1  0  0  1", actual);
+  }
+  // POLYNOMIAL
+  {
+    GaloisFieldPolynomial<2> p(0);
+    const std::string actual = p.ToString(
+        EnumPolynomialExpression::POLYNOMIAL);
+    EXPECT_EQ("0", actual);
+  }
+  {
+    GaloisFieldPolynomial<2> p({1, 1});
+    const std::string actual = p.ToString(
+        EnumPolynomialExpression::POLYNOMIAL);
+    EXPECT_EQ("1X^{1} + 1", actual);
+  }
+  {
+    GaloisFieldPolynomial<2> p({1, 0, 0, 1});
+    const std::string actual = p.ToString(
+        EnumPolynomialExpression::POLYNOMIAL);
+    EXPECT_EQ("1X^{3} + 0X^{2} + 0X^{1} + 1", actual);
+  }
+}
 } // namespace gns

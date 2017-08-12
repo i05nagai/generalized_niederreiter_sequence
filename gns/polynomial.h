@@ -1,12 +1,29 @@
 #pragma once
 #include "gns/galois_field.h"
 #include "gns/galois_field_operator.h"
+#include "gns/util.h"
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <iterator>
 #include <memory>
+#include <numeric>
 
 namespace gns {
+/**
+ * @brief 
+ */
+enum EnumPolynomialExpression {
+  /**
+   * @brief if base is 2, binary expression.
+   *  If base is 16, this is same as hexadecimal expression.
+   *  For example, base=16, coeffs = {0, 1, 0}.
+   */
+  INTEGER = 0,
+  COEFFICIENTS,
+  POLYNOMIAL,
+};
+
 template <int Base>
 class GaloisFieldPolynomial {
 //private typedef
@@ -288,6 +305,47 @@ public:
   inline const_iterator cend() const
   {
     return coeffs_.get() + degree_ + 1;
+  }
+  /**
+   * @brief 
+   *
+   * @param expressionType
+   *
+   * @return 
+   */
+  std::string
+  ToString(const EnumPolynomialExpression expression_type) const
+  {
+    if (expression_type == EnumPolynomialExpression::INTEGER) {
+      // how many bit need to explain base
+      const int base_bits = std::log2(Base);
+      // coeffs into int
+      long long int data = std::accumulate(
+          gns::rbegin(coeffs_.get() + degree_ + 1),
+          gns::rend(coeffs_.get()),
+          0LL,
+          [&base_bits](long long int a, const GaloisField<Base>& b) {
+            return (a << base_bits) + b.value();
+          });
+      return std::to_string(data);
+    } else if (expression_type == EnumPolynomialExpression::COEFFICIENTS) {
+      return std::accumulate(coeffs_.get() + 1,
+                             coeffs_.get() + degree_ + 1,
+                             std::to_string(coeffs_[0].value()),
+                             [](std::string a, const GaloisField<Base>& b) {
+                               return std::to_string(b.value()) + "  " + a;
+                             });
+    } else {
+      std::string data = std::to_string(coeffs_[0].value());
+      for (size_t i = 1; i < degree_ + 1; ++i) {
+        data = std::to_string(coeffs_[i].value()) 
+          + "X^{" 
+          + std::to_string(i) 
+          + "} + " 
+          + data;
+      }
+      return data;
+    }
   }
 
 //private function

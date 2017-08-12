@@ -37,7 +37,7 @@ INCLUDE_DIRECTORIES(
 INCLUDE(cmake/gns.cmake)
 
 #add library
-# ADD_LIBRARY(gns ${gns_SOURCES})
+ADD_LIBRARY(gns ${gns_SOURCES})
 
 # test
 IF(GNS_BUILD_TEST OR GNS_BUILD_TEST_MEMORYCHECK)
@@ -49,7 +49,7 @@ IF(GNS_BUILD_TEST OR GNS_BUILD_TEST_MEMORYCHECK)
     ENABLE_TESTING()
 
     ADD_EXECUTABLE(gns_test ${gns_test_SOURCES})
-    # TARGET_LINK_LIBRARIES(gns_test gns)
+    TARGET_LINK_LIBRARIES(gns_test gns)
     TARGET_LINK_LIBRARIES(gns_test gmock)
     TARGET_LINK_LIBRARIES(gns_test gtest)
     ADD_TEST(gns_test gns_test)
