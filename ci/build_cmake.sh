@@ -1,7 +1,7 @@
 #!/bin/bash -x
 
 build_dir=$1
-if [[ -z ${build_dir+x} ]]
+if [[ -z ${build_dir} ]]
 then
   build_dir="build"
 fi
