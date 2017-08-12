@@ -66,7 +66,8 @@ ENDIF()
 
 # benchmarks
 IF(GNS_BUILD_BENCHMARKS)
-    set(BENCHMARK_ENABLE_TESTING OFF)
+    # turn off test of google/benchmark
+    option(BENCHMARK_ENABLE_TESTING "tests in google/benchmark off" OFF)
     ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/submodule/benchmark)
     ADD_SUBDIRECTORY(benchmarks)
 ENDIF()
