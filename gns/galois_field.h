@@ -6,12 +6,12 @@ namespace gns {
 template <int Base>
 class GaloisField {
  public:
-   /**
-    * @brief 
-    */
+  /**
+   * @brief
+   */
   explicit GaloisField() : value_(0) {}
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    */
@@ -19,7 +19,7 @@ class GaloisField {
     assert(other < Base);
   }
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    */
@@ -27,11 +27,11 @@ class GaloisField {
     assert(value_ < Base);
   }
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    *
-   * @return 
+   * @return
    */
   GaloisField<Base>& operator=(const GaloisField<Base>& other) {
     value_ = other.value_;
@@ -39,47 +39,47 @@ class GaloisField {
     return *this;
   }
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    *
-   * @return 
+   * @return
    */
   bool operator==(const GaloisField<Base>& other) {
     return value_ == other.value();
   }
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    *
-   * @return 
+   * @return
    */
   bool operator==(const GaloisField<Base>& other) const {
     return value_ == other.value();
   }
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    *
-   * @return 
+   * @return
    */
   bool operator!=(const GaloisField<Base>& other) { return !(*this == other); }
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    *
-   * @return 
+   * @return
    */
   bool operator!=(const GaloisField<Base>& other) const {
     return !(*this == other);
   }
   /**
-   * @brief 
+   * @brief
    *
-   * @return 
+   * @return
    */
   unsigned int value() const {
     // assert(value_ < Base);
@@ -88,7 +88,7 @@ class GaloisField {
 
  private:
   /**
-   * @brief 
+   * @brief
    */
   unsigned int value_;
 };

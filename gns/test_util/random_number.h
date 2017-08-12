@@ -10,11 +10,11 @@ class RandomNumber {
  public:
   // public function
  public:
-   /**
-    * @brief 
-    *
-    * @param seed
-    */
+  /**
+   * @brief
+   *
+   * @param seed
+   */
   RandomNumber(const std::size_t seed = 3252352);
   /**
    * @brief random value in [0, 1).
