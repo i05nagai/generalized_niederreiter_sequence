@@ -6,4 +6,5 @@ LIST (APPEND gns_HEADERS
     gns/galois_field_operator.h
     gns/irreducible_polynomial.h
     gns/polynomial.h
+    gns/vector.h
 )

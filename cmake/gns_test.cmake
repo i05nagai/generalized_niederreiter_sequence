@@ -6,4 +6,5 @@ LIST (APPEND gns_test_SOURCES
     gns/test_util/random_number.cc
     gns/test_util/test_data.cc
     gns/util_test.cc
+    gns/vector_test.cc
 )
