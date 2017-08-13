@@ -1,34 +1,30 @@
 #include "gns/polynomial.h"
-#include "gns/test_util/gtest_helper_macro.h"
-#include "gns/test_util/gtest_assertion.h"
-#include "gns/test_util/test_data.h"
 #include <gtest/gtest.h>
-#include <string>
 #include <iostream>
+#include <string>
+#include "gns/test_util/gtest_assertion.h"
+#include "gns/test_util/gtest_helper_macro.h"
+#include "gns/test_util/test_data.h"
 
 namespace gns {
-TEST(Polynomial, ConstructorTest)
-{
+TEST(Polynomial, ConstructorTest) {
   GaloisFieldPolynomial<2> p(0);
   EXPECT_EQ(GaloisField<2>(0), p[0]);
 }
 
-TEST(Polynomial, CopyConstructorTest)
-{
+TEST(Polynomial, CopyConstructorTest) {
   GaloisFieldPolynomial<2> p1({0, 0, 1});
   GaloisFieldPolynomial<2> p(p1);
   EXPECT_EQ(p, p1);
 }
 
-TEST(Polynomial, OperatorAssignTest)
-{
+TEST(Polynomial, OperatorAssignTest) {
   GaloisFieldPolynomial<2> p1({0, 0, 1});
   GaloisFieldPolynomial<2> p = p1;
   EXPECT_EQ(p, p1);
 }
 
-TEST(Polynomial, OperatorPlusTest01)
-{
+TEST(Polynomial, OperatorPlusTest01) {
   // 1
   // 0
   GaloisFieldPolynomial<2> p1({1});
@@ -39,8 +35,7 @@ TEST(Polynomial, OperatorPlusTest01)
   EXPECT_EQ(expect, p1);
 }
 
-TEST(Polynomial, OperatorPlusTest02)
-{
+TEST(Polynomial, OperatorPlusTest02) {
   // X^{3} + x^{1} + 1
   // 1
   GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
@@ -51,8 +46,7 @@ TEST(Polynomial, OperatorPlusTest02)
   EXPECT_EQ(expect, p1);
 }
 
-TEST(Polynomial, OperatorPlusTest03)
-{
+TEST(Polynomial, OperatorPlusTest03) {
   // 1
   GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
   GaloisFieldPolynomial<2> p2({1});
@@ -62,19 +56,17 @@ TEST(Polynomial, OperatorPlusTest03)
   EXPECT_EQ(expect, p2);
 }
 
-TEST(Polynomial, OperatorPlusTest04)
-{
+TEST(Polynomial, OperatorPlusTest04) {
   // delete coefficient of highest degree
-    GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
-    GaloisFieldPolynomial<2> p2({0, 0, 0, 1});
-    p1 += p2;
+  GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
+  GaloisFieldPolynomial<2> p2({0, 0, 0, 1});
+  p1 += p2;
 
-    GaloisFieldPolynomial<2> expect({1, 1});
-    EXPECT_EQ(expect, p1);
+  GaloisFieldPolynomial<2> expect({1, 1});
+  EXPECT_EQ(expect, p1);
 }
 
-TEST(Polynomial, OperatorPlusTest05)
-{
+TEST(Polynomial, OperatorPlusTest05) {
   // X^{3} + X^{1} + 1
   GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
   // X^{2} + 1
@@ -87,8 +79,7 @@ TEST(Polynomial, OperatorPlusTest05)
   EXPECT_EQ(expect, p1);
 }
 
-TEST(Polynomial, OperatorPlusTest06)
-{
+TEST(Polynomial, OperatorPlusTest06) {
   // X^{3} + X^{1} + 1
   GaloisFieldPolynomial<2> p1({1, 1, 0, 1});
   // X^{2} + 1
@@ -101,8 +92,7 @@ TEST(Polynomial, OperatorPlusTest06)
   EXPECT_EQ(expect, p2);
 }
 
-TEST(PolynomialTest, OperatorSubTest)
-{
+TEST(PolynomialTest, OperatorSubTest) {
   // 0
   {
     GaloisFieldPolynomial<2> p1({1});
@@ -167,8 +157,7 @@ TEST(PolynomialTest, OperatorSubTest)
   }
 }
 
-TEST(PolynomialTest, operatorMultiplyTest)
-{
+TEST(PolynomialTest, operatorMultiplyTest) {
   // 0
   {
     GaloisFieldPolynomial<2> p1({1});
@@ -199,13 +188,11 @@ TEST(PolynomialTest, operatorMultiplyTest)
   }
 }
 
-TEST(PolynomialTest, IsZeroTest)
-{
+TEST(PolynomialTest, IsZeroTest) {
   // constant
   {
     GaloisFieldPolynomial<2> p({1});
     EXPECT_FALSE(p.IsZero());
-
   }
   // poly
   {
@@ -223,8 +210,7 @@ TEST(PolynomialTest, IsZeroTest)
  * free function
  *------------------------------------------------------------------------*/
 
-TEST(PolynomialTest, MakeBasePolynomial)
-{
+TEST(PolynomialTest, MakeBasePolynomial) {
   // constant
   {
     GaloisField<2> gf(1);
@@ -241,14 +227,13 @@ TEST(PolynomialTest, MakeBasePolynomial)
   }
 }
 
-TEST(PolynomialTest, EuclidianDivisionTest)
-{
+TEST(PolynomialTest, EuclidianDivisionTest) {
   // divide by 0
   {
     GaloisFieldPolynomial<2> dividend({0});
     GaloisFieldPolynomial<2> divisor({1});
-    std::pair<GaloisFieldPolynomial<2>, GaloisFieldPolynomial<2>> result 
-      = EuclideanDivision<2>(dividend, divisor);
+    std::pair<GaloisFieldPolynomial<2>, GaloisFieldPolynomial<2>> result =
+        EuclideanDivision<2>(dividend, divisor);
     const GaloisFieldPolynomial<2> quotient = result.first;
     const GaloisFieldPolynomial<2> residual = result.second;
     // 1 / 1
@@ -261,8 +246,8 @@ TEST(PolynomialTest, EuclidianDivisionTest)
   {
     GaloisFieldPolynomial<2> dividend({1});
     GaloisFieldPolynomial<2> divisor({1});
-    std::pair<GaloisFieldPolynomial<2>, GaloisFieldPolynomial<2>> result 
-      = EuclideanDivision<2>(dividend, divisor);
+    std::pair<GaloisFieldPolynomial<2>, GaloisFieldPolynomial<2>> result =
+        EuclideanDivision<2>(dividend, divisor);
     const GaloisFieldPolynomial<2> quotient = result.first;
     const GaloisFieldPolynomial<2> residual = result.second;
     // 1 / 1
@@ -277,8 +262,8 @@ TEST(PolynomialTest, EuclidianDivisionTest)
     GaloisFieldPolynomial<2> dividend({1, 1, 1, 1});
     // X^{3} + X^{2} + X^{1} + 1
     GaloisFieldPolynomial<2> divisor({1, 1, 1, 1});
-    std::pair<GaloisFieldPolynomial<2>, GaloisFieldPolynomial<2>> result 
-      = EuclideanDivision<2>(dividend, divisor);
+    std::pair<GaloisFieldPolynomial<2>, GaloisFieldPolynomial<2>> result =
+        EuclideanDivision<2>(dividend, divisor);
     const GaloisFieldPolynomial<2> quotient = result.first;
     const GaloisFieldPolynomial<2> residual = result.second;
     // dividend / divisor = 1
@@ -292,8 +277,8 @@ TEST(PolynomialTest, EuclidianDivisionTest)
     GaloisFieldPolynomial<2> dividend({1, 1, 1, 1});
     // X^{2} + X^{1} + 1
     GaloisFieldPolynomial<2> divisor({1, 1, 1});
-    std::pair<GaloisFieldPolynomial<2>, GaloisFieldPolynomial<2>> result 
-      = EuclideanDivision<2>(dividend, divisor);
+    std::pair<GaloisFieldPolynomial<2>, GaloisFieldPolynomial<2>> result =
+        EuclideanDivision<2>(dividend, divisor);
     const GaloisFieldPolynomial<2> quotient = result.first;
     const GaloisFieldPolynomial<2> residual = result.second;
 
@@ -309,8 +294,8 @@ TEST(PolynomialTest, EuclidianDivisionTest)
     GaloisFieldPolynomial<2> dividend({1, 1, 1});
     // X^{1}
     GaloisFieldPolynomial<2> divisor({0, 1});
-    std::pair<GaloisFieldPolynomial<2>, GaloisFieldPolynomial<2>> result 
-      = EuclideanDivision<2>(dividend, divisor);
+    std::pair<GaloisFieldPolynomial<2>, GaloisFieldPolynomial<2>> result =
+        EuclideanDivision<2>(dividend, divisor);
     const GaloisFieldPolynomial<2> quotient = result.first;
     const GaloisFieldPolynomial<2> residual = result.second;
 
@@ -322,10 +307,7 @@ TEST(PolynomialTest, EuclidianDivisionTest)
   }
 }
 
-
-
-TEST(PolynomialTest, SolveLaurentSeriesDivision)
-{
+TEST(PolynomialTest, SolveLaurentSeriesDivision) {
   // deg(a) = 0, deg(b) = 1
   {
     // 1
@@ -335,12 +317,12 @@ TEST(PolynomialTest, SolveLaurentSeriesDivision)
     const size_t max_degree = 32;
 
     // 1 / x
-    std::unique_ptr<GaloisField<2>[]> actual
-      = SolveLaurentSeriesDivision<2>(a, b, max_degree);
+    std::unique_ptr<GaloisField<2>[]> actual =
+        SolveLaurentSeriesDivision<2>(a, b, max_degree);
 
-    std::unique_ptr<GaloisField<2>[]> expect 
-      = test_util::MakeGaloisFieldArray<2>(
-        {
+    std::unique_ptr<GaloisField<2>[]> expect =
+        test_util::MakeGaloisFieldArray<2>({
+            // clang-format off
         0, 1, 0, 0, 0,
         0, 0, 0, 0, 0,
         0, 0, 0, 0, 0,
@@ -348,6 +330,7 @@ TEST(PolynomialTest, SolveLaurentSeriesDivision)
         0, 0, 0, 0, 0,
         0, 0, 0, 0, 0,
         0, 0, 0
+            // clang-format on
         });
     for (size_t i = 0; i < max_degree + 1; ++i) {
       GNS_EXPECT_EQ_WITH_INDEX(expect[i], actual[i], i);
@@ -362,12 +345,12 @@ TEST(PolynomialTest, SolveLaurentSeriesDivision)
     const size_t max_degree = 32;
 
     // x / (x + 1)
-    std::unique_ptr<GaloisField<2>[]> actual
-      = SolveLaurentSeriesDivision<2>(a, b, max_degree);
+    std::unique_ptr<GaloisField<2>[]> actual =
+        SolveLaurentSeriesDivision<2>(a, b, max_degree);
 
-    std::unique_ptr<GaloisField<2>[]> expect 
-      = test_util::MakeGaloisFieldArray<2>(
-        {
+    std::unique_ptr<GaloisField<2>[]> expect =
+        test_util::MakeGaloisFieldArray<2>({
+            // clang-format off
         0, 1, 1, 1, 1,
         1, 1, 1, 1, 1,
         1, 1, 1, 1, 1,
@@ -375,6 +358,7 @@ TEST(PolynomialTest, SolveLaurentSeriesDivision)
         1, 1, 1, 1, 1,
         1, 1, 1, 1, 1,
         1, 1, 1
+            // clang-format on
         });
     for (size_t i = 0; i < max_degree + 1; ++i) {
       GNS_EXPECT_EQ_WITH_INDEX(expect[i], actual[i], i);
@@ -387,19 +371,20 @@ TEST(PolynomialTest, SolveLaurentSeriesDivision)
     GaloisFieldPolynomial<2> numerator({0, 1});
     // x^{2} + x + 1
     GaloisFieldPolynomial<2> denominator({1, 1, 1});
-    std::unique_ptr<GaloisField<2>[]> actual
-      = SolveLaurentSeriesDivision<2>(numerator, denominator, max_degree);
+    std::unique_ptr<GaloisField<2>[]> actual =
+        SolveLaurentSeriesDivision<2>(numerator, denominator, max_degree);
 
     // x / (x^{2} + x + 1) = \sum_{j=0}^{\infty}(x^{-3j + 1} + x^{-3j+2})
-    std::unique_ptr<GaloisField<2>[]> expect 
-      = test_util::MakeGaloisFieldArray<2>(
-        {
+    std::unique_ptr<GaloisField<2>[]> expect =
+        test_util::MakeGaloisFieldArray<2>({
+            // clang-format off
         0, 1, 1, 0, 1, 1,
         0, 1, 1, 0, 1, 1,
         0, 1, 1, 0, 1, 1,
         0, 1, 1, 0, 1, 1,
         0, 1, 1, 0, 1, 1,
         0, 1, 1,
+            // clang-format on
         });
     for (size_t i = 0; i < max_degree + 1; ++i) {
       GNS_EXPECT_EQ_WITH_INDEX(expect[i], actual[i], i);
@@ -408,15 +393,15 @@ TEST(PolynomialTest, SolveLaurentSeriesDivision)
   // deg(a) = 4, deg(b) = 10
   {
     const size_t dividend_degree = 4;
-    GaloisFieldPolynomial<2> a
-      = test_util::TestData::GetRandomPolynomial<2>(dividend_degree);
+    GaloisFieldPolynomial<2> a =
+        test_util::TestData::GetRandomPolynomial<2>(dividend_degree);
     const size_t divisor_degree = 10;
-    GaloisFieldPolynomial<2> b
-      = test_util::TestData::GetRandomPolynomial<2>(divisor_degree);
+    GaloisFieldPolynomial<2> b =
+        test_util::TestData::GetRandomPolynomial<2>(divisor_degree);
     const size_t max_degree = 32;
 
-    std::unique_ptr<GaloisField<2>[]> c
-      = SolveLaurentSeriesDivision<2>(a, b, max_degree);
+    std::unique_ptr<GaloisField<2>[]> c =
+        SolveLaurentSeriesDivision<2>(a, b, max_degree);
 
     // check a = b * c
     const int n = dividend_degree;
@@ -431,64 +416,57 @@ TEST(PolynomialTest, SolveLaurentSeriesDivision)
   }
 }
 
-TEST(polynomial, ToStringTest)
-{
+TEST(polynomial, ToStringTest) {
   // INTEGER
   {
     GaloisFieldPolynomial<2> p({0});
-    const std::string actual = p.ToString(
-        EnumPolynomialExpression::INTEGER);
+    const std::string actual = p.ToString(EnumPolynomialExpression::INTEGER);
     EXPECT_EQ("0", actual);
   }
   {
     GaloisFieldPolynomial<2> p({1, 1});
-    const std::string actual = p.ToString(
-        EnumPolynomialExpression::INTEGER);
+    const std::string actual = p.ToString(EnumPolynomialExpression::INTEGER);
     EXPECT_EQ("3", actual);
   }
   {
     GaloisFieldPolynomial<2> p({1, 0, 0, 1});
-    const std::string actual = p.ToString(
-        EnumPolynomialExpression::INTEGER);
+    const std::string actual = p.ToString(EnumPolynomialExpression::INTEGER);
     EXPECT_EQ("9", actual);
   }
   // COEFFICIENTS
   {
     GaloisFieldPolynomial<2> p(0);
-    const std::string actual = p.ToString(
-        EnumPolynomialExpression::COEFFICIENTS);
+    const std::string actual =
+        p.ToString(EnumPolynomialExpression::COEFFICIENTS);
     EXPECT_EQ("0", actual);
   }
   {
     GaloisFieldPolynomial<2> p({1, 1});
-    const std::string actual = p.ToString(
-        EnumPolynomialExpression::COEFFICIENTS);
+    const std::string actual =
+        p.ToString(EnumPolynomialExpression::COEFFICIENTS);
     EXPECT_EQ("1  1", actual);
   }
   {
     GaloisFieldPolynomial<2> p({1, 0, 0, 1});
-    const std::string actual = p.ToString(
-        EnumPolynomialExpression::COEFFICIENTS);
+    const std::string actual =
+        p.ToString(EnumPolynomialExpression::COEFFICIENTS);
     EXPECT_EQ("1  0  0  1", actual);
   }
   // POLYNOMIAL
   {
     GaloisFieldPolynomial<2> p(0);
-    const std::string actual = p.ToString(
-        EnumPolynomialExpression::POLYNOMIAL);
+    const std::string actual = p.ToString(EnumPolynomialExpression::POLYNOMIAL);
     EXPECT_EQ("0", actual);
   }
   {
     GaloisFieldPolynomial<2> p({1, 1});
-    const std::string actual = p.ToString(
-        EnumPolynomialExpression::POLYNOMIAL);
+    const std::string actual = p.ToString(EnumPolynomialExpression::POLYNOMIAL);
     EXPECT_EQ("1X^{1} + 1", actual);
   }
   {
     GaloisFieldPolynomial<2> p({1, 0, 0, 1});
-    const std::string actual = p.ToString(
-        EnumPolynomialExpression::POLYNOMIAL);
+    const std::string actual = p.ToString(EnumPolynomialExpression::POLYNOMIAL);
     EXPECT_EQ("1X^{3} + 0X^{2} + 0X^{1} + 1", actual);
   }
 }
-} // namespace gns
+}  // namespace gns

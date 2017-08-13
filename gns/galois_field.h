@@ -5,59 +5,91 @@
 namespace gns {
 template <int Base>
 class GaloisField {
-public:
-  explicit GaloisField()
-  : value_(0)
-  {
-  }
-
-  GaloisField(const unsigned int other)
-  : value_(other)
-  {
+ public:
+  /**
+   * @brief
+   */
+  explicit GaloisField() : value_(0) {}
+  /**
+   * @brief
+   *
+   * @param other
+   */
+  GaloisField(const unsigned int other) : value_(other) {
     assert(other < Base);
   }
-
-  GaloisField(const GaloisField<Base>& other)
-  : value_(other.value_)
-  {
+  /**
+   * @brief
+   *
+   * @param other
+   */
+  GaloisField(const GaloisField<Base>& other) : value_(other.value_) {
     assert(value_ < Base);
   }
-
-  GaloisField<Base>&
-  operator =(const GaloisField<Base>& other)
-  {
+  /**
+   * @brief
+   *
+   * @param other
+   *
+   * @return
+   */
+  GaloisField<Base>& operator=(const GaloisField<Base>& other) {
     value_ = other.value_;
     assert(value_ < Base);
     return *this;
   }
-
-  bool operator==(const GaloisField<Base>& other)
-  {
+  /**
+   * @brief
+   *
+   * @param other
+   *
+   * @return
+   */
+  bool operator==(const GaloisField<Base>& other) {
     return value_ == other.value();
   }
-
-  bool operator==(const GaloisField<Base>& other) const
-  {
+  /**
+   * @brief
+   *
+   * @param other
+   *
+   * @return
+   */
+  bool operator==(const GaloisField<Base>& other) const {
     return value_ == other.value();
   }
-
-  bool operator!=(const GaloisField<Base>& other)
-  {
+  /**
+   * @brief
+   *
+   * @param other
+   *
+   * @return
+   */
+  bool operator!=(const GaloisField<Base>& other) { return !(*this == other); }
+  /**
+   * @brief
+   *
+   * @param other
+   *
+   * @return
+   */
+  bool operator!=(const GaloisField<Base>& other) const {
     return !(*this == other);
   }
-
-  bool operator!=(const GaloisField<Base>& other) const
-  {
-    return !(*this == other);
-  }
-
-  unsigned int value() const
-  {
-    //assert(value_ < Base);
+  /**
+   * @brief
+   *
+   * @return
+   */
+  unsigned int value() const {
+    // assert(value_ < Base);
     return value_;
   }
-private:
+
+ private:
+  /**
+   * @brief
+   */
   unsigned int value_;
 };
-} // namespace gns
-
+}  // namespace gns

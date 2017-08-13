@@ -1,11 +1,10 @@
 #include "gns/irreducible_polynomial.h"
-#include "gns/test_util/gtest_helper_macro.h"
 #include <gtest/gtest.h>
 #include <sstream>
+#include "gns/test_util/gtest_helper_macro.h"
 
 namespace gns {
-TEST(IrreduciblePolynomial, GetNextTest01)
-{
+TEST(IrreduciblePolynomial, GetNextTest01) {
   IrreduciblePolynomialGenerator<2> generator;
   GaloisFieldPolynomial<2> actual = generator.GetNext();
 
@@ -13,9 +12,9 @@ TEST(IrreduciblePolynomial, GetNextTest01)
   GSN_EXPECT_POLYNOMIAL_EQ(expect, actual);
 }
 
-TEST(IrreduciblePolynomial, GetNextTest02)
-{
+TEST(IrreduciblePolynomial, GetNextTest02) {
   std::vector<GaloisFieldPolynomial<2>> expects = {
+      // clang-format off
     {0, 1},
     {1, 1},
     {1, 1, 1},
@@ -25,6 +24,7 @@ TEST(IrreduciblePolynomial, GetNextTest02)
     {1, 0, 0, 1, 1},
     {1, 1, 1, 1, 1},
     {1, 0, 1, 0, 0, 1},
+      // clang-format on
   };
   const size_t num = expects.size();
   IrreduciblePolynomialGenerator<2> generator;
@@ -34,8 +34,7 @@ TEST(IrreduciblePolynomial, GetNextTest02)
   }
 }
 
-TEST(IrreduciblePolynomial, ConstructorTest)
-{
+TEST(IrreduciblePolynomial, ConstructorTest) {
   std::string expect("2\n4\n");
   std::istringstream input_stream(expect);
   IrreduciblePolynomialGenerator<2> generator(input_stream);
@@ -46,9 +45,9 @@ TEST(IrreduciblePolynomial, ConstructorTest)
   EXPECT_EQ(expect, string_stream.str());
 }
 
-TEST(IrreduciblePolynomial, OperatorParenthesisTest)
-{
+TEST(IrreduciblePolynomial, OperatorParenthesisTest) {
   std::vector<GaloisFieldPolynomial<2>> expects = {
+      // clang-format off
     {0, 1},
     {1, 1},
     {1, 1, 1},
@@ -58,6 +57,7 @@ TEST(IrreduciblePolynomial, OperatorParenthesisTest)
     {1, 0, 0, 1, 1},
     {1, 1, 1, 1, 1},
     {1, 0, 1, 0, 0, 1},
+      // clang-format on
   };
   const size_t num = expects.size();
   IrreduciblePolynomialGenerator<2> generator;
@@ -66,5 +66,4 @@ TEST(IrreduciblePolynomial, OperatorParenthesisTest)
     EXPECT_EQ(expects[i], actual[i]);
   }
 }
-} // namespace gf
-
+}  // namespace gf
