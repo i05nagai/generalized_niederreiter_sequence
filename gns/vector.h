@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "gns/galois_field.h"
 
 namespace gns {
@@ -11,7 +12,10 @@ class Vector {
   typedef GaloisField<Base> value_type;
   // public function
  public:
+  Vector() : size_(0), data_(nullptr) {}
   Vector(const size_t size) : size_(size), data_(new value_type[size]) {}
+  Vector(const size_t size, std::unique_ptr<value_type[]> data)
+      : size_(size), data_(std::move(data)) {}
 
   ~Vector() {}
 
