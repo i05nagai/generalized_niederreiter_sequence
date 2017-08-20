@@ -19,6 +19,10 @@ matrix:
       env:
         - BUILD_TYPE=Coverage
           GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
+      addons:
+        apt:
+          packages:
+            - lcov
     - os: linux
       compiler: gcc
       env:
