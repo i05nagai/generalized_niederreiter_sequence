@@ -10,17 +10,7 @@ matrix:
           GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
       addons:
         apt:
-          sources:
-            # List of whitelisted in travis packages for ubuntu-precise can be found here:
-            #   https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
-            # List of whitelisted in travis apt-sources:
-            #   https://github.com/travis-ci/apt-source-whitelist/blob/master/ubuntu.json
-            - ubuntu-toolchain-r-test
           packages:
-            - g++-4.8
-            - libc6-i386
-            - libc6-dbg
-            - gcov
             - lcov
     - os: linux
       compiler: gcc
@@ -28,32 +18,8 @@ matrix:
         - BUILD_TYPE=Debug
           GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
           GNS_BUILD_TEST_MEMORYCHECK="-DGNS_BUILD_TEST_MEMORYCHECK=ON"
-      addons:
-        apt:
-          sources:
-            # List of whitelisted in travis packages for ubuntu-precise can be found here:
-            #   https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
-            # List of whitelisted in travis apt-sources:
-            #   https://github.com/travis-ci/apt-source-whitelist/blob/master/ubuntu.json
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-4.8
-            - libc6-i386
-            - libc6-dbg
     - os: linux
       compiler: clang++
-      addons:
-        apt:
-          sources:
-            # List of whitelisted in travis packages for ubuntu-precise can be found here:
-            #   https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
-            # List of whitelisted in travis apt-sources:
-            #   https://github.com/travis-ci/apt-source-whitelist/blob/master/ubuntu.json
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-4.8
-            - libc6-i386
-            - libc6-dbg
       env:
         - BUILD_TYPE=Debug
           GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
