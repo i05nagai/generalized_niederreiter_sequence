@@ -50,6 +50,8 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-4.8
+            - libc6-i386
+            - libc6-dbg
       env:
         - BUILD_TYPE=Debug
           GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
@@ -109,5 +111,5 @@ script:
   - ci/build_cmake.sh
 after_success:
   - if [ "${BUILD_TYPE}" == "Coverage" -a "${TRAVIS_OS_NAME}" == "linux" ]; then
-      coveralls --include gns --gcov-options '\-lp' --root .. --build-root .;
+      coveralls --include gns --gcov-options '\-lp' --root .. --build-root build;
     fi
