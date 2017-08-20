@@ -29,14 +29,11 @@ matrix:
           GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
           GNS_BUILD_TEST_MEMORYCHECK="-DGNS_BUILD_TEST_MEMORYCHECK=ON"
     - os: osx
-      osx_image: xcode8.3
       compiler: gcc
-      # addons:
       env:
         - BUILD_TYPE=Debug
           GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
     - os: osx
-      osx_image: xcode8.3
       compiler: clang++
       # addons:
       env:
@@ -46,14 +43,15 @@ before_install:
   - echo $LANG
   - echo $LC_ALL
   - ls -la
-  - export BASEPATH=`pwd`
-  - mkdir ${BASEPATH}/usr
   - export GNS_BUILD_BENCHMARKS="-DGNS_BUILD_BENCHMARKS=ON"
   - export GNS_BUILD_EXAMPLES="-DGNS_BUILD_EXAMPLES=OFF"
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install gcc48; fi
-  # valgrind does not work in osx so we only test with valgrind in linux
+  # - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install gcc48; fi
+  # valgrind does not work in osx so we only test with valgrind on linux
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      export PATH="${BASEPATH}/usr/bin:$PATH";
+      # install valgrind
+      export BASEPATH=`pwd`;
+      mkdir ${BASEPATH}/usr ;
+      export PATH="${BASEPATH}/usr/bin:$PATH" ;
       export LD_LIBRARY_PATH="${BASEPATH}/usr/lib:$LD_LIBRARY_PATH";
       wget http://valgrind.org/downloads/valgrind-3.12.0.tar.bz2 ;
       tar xjf valgrind-3.12.0.tar.bz2 ;
