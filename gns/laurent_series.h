@@ -91,7 +91,7 @@ void LaurentSeriesDivisionLastEquations(
     const size_t array_size)
 {
   const size_t m = b.degree();
-  const size_t array_room_left = array_size - m + 1;
+  const size_t array_room_left = array_size - m;
   // third part equations
   for (size_t i = 1; i < array_room_left; ++i) {
     // sum

@@ -7,11 +7,12 @@ namespace gns {
 TEST(sequence_sobol, MakeSobolGeneratorMatrixTest1)
 {
   // dim = 1
+  const size_t dim = 1;
+  const size_t max_bit = 32;
   IrreduciblePolynomialGenerator<2> irreducible_generator;
   std::vector<GaloisFieldPolynomial<2>> irreducibles 
-    = irreducible_generator(1);
-  const size_t max_bit = 32;
-  Matrix<2> matrix = MakeSobolGeneratorMatrix(1, irreducibles, max_bit);
+    = irreducible_generator(dim);
+  Matrix<2> matrix = MakeSobolGeneratorMatrix(dim, irreducibles, max_bit);
 
   // indentity matrix
   EXPECT_TRUE(IsIdentity(matrix));
