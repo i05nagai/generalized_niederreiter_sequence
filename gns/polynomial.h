@@ -68,6 +68,7 @@ class GaloisFieldPolynomial {
   /**
    * @brief
    *
+   * @param degree
    * @param coeffs
    */
   inline GaloisFieldPolynomial(const size_t degree,
@@ -244,20 +245,19 @@ class GaloisFieldPolynomial {
    */
   GaloisFieldPolynomial& operator*=(const GaloisFieldPolynomial<Base>& other) {
     if (other.IsZero() == true) {
-      std::unique_ptr<GaloisField<Base>[]> temp(new GaloisField<Base>[1]);
+      std::unique_ptr<value_type[]> temp(new value_type[1]);
       this->replace_coeffs(temp, 0);
     } else {
       const size_t other_degree = other.degree();
-      std::unique_ptr<value_type[]> temp(
-          new value_type[degree_ + other_degree + 1]);
-      std::fill(temp.get(), temp.get() + degree_ + other_degree + 1, 0);
+      const size_t degree = degree_ + other_degree;
+      std::unique_ptr<value_type[]> temp(new value_type[degree + 1]);
+      std::fill(temp.get(), temp.get() + degree + 1, 0);
       for (size_t i = 0; i < degree_ + 1; ++i) {
         for (size_t j = 0; j < other_degree + 1; ++j) {
           temp[i + j] = temp[i + j] + coeffs_[i] * other[j];
         }
       }
-      coeffs_.swap(temp);
-      degree_ += other_degree;
+      this->replace_coeffs(temp, degree);
     }
     return *this;
   }
@@ -478,49 +478,5 @@ EuclideanDivision(const GaloisFieldPolynomial<Base>& dividend,
   }
   // quaotient, residual
   return std::make_pair(quotient, residual);
-}
-/**
- * @brief
- *
- * @tparam Base
- * @param a
- * @param b
- * @param max_degree
- *
- * @return
- */
-template <int Base>
-std::unique_ptr<GaloisField<Base>[]> SolveLaurentSeriesDivision(
-    const GaloisFieldPolynomial<Base>& a, const GaloisFieldPolynomial<Base>& b,
-    const size_t max_degree) {
-  const size_t n = a.degree();
-  const size_t m = b.degree();
-  assert(n < m);
-  std::unique_ptr<GaloisField<Base>[]> c(new GaloisField<Base>[max_degree + 1]);
-  // calculate c = a / b
-  // assuming m := deg(a) < deg(b) =: n
-
-  // first part equations
-  for (size_t i = 0; i < -(-m + n + 1); ++i) {
-    c[i] = 0;
-  }
-  // second part equations
-  for (int k = n; k >= 0; --k) {
-    GaloisField<Base> sum(0);
-    for (size_t j = 1; j <= n - k; ++j) {
-      sum = sum + b[m - j] * c[-(-m + k + j)];
-    }
-    c[-(-m + k)] = (a[k] - sum) / b[m];
-  }
-  // third part equations
-  for (size_t i = 1; i < max_degree - m + 1; ++i) {
-    // sum
-    GaloisField<Base> sum(0);
-    for (size_t j = 0; j < m; ++j) {
-      sum = sum + b[j] * c[i + j];
-    }
-    c[i + m] = -sum / b[m];
-  }
-  return c;
 }
 }  // namespace gns

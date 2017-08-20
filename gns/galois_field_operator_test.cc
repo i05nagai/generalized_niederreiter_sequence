@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <functional>
 #include "gns/test_util/gtest_assertion.h"
+#include "gns/test_util/test_data.h"
 
 namespace gns {
 template <int Base>
@@ -1310,6 +1311,37 @@ TEST(GaloisFieldOperatorTest, OperatorDiv) {
 
     std::vector<GaloisField<16>> test_case(test_case_data.size());
     check_operator_div(test_case_data, test_case);
+  }
+}
+
+template <int Base>
+void CheckOperatorAddMultiply(const std::vector<unsigned int>& test_case_data) {
+  std::vector<GaloisField<Base>> test_data(test_case_data.size());
+  std::transform(test_case_data.begin(), test_case_data.end(),
+                 test_data.begin(),
+                 [](const unsigned int x) { return GaloisField<Base>(x); });
+
+  for (size_t i = 0; i < test_data.size() / 4; ++i) {
+    const size_t j = i * 4;
+    const auto actual = test_data[j + 0] + test_data[j + 1] * test_data[j + 2];
+    GNS_EXPECT_EQ_WITH_INDEX(test_data[j + 3], actual, i);
+  }
+}
+
+TEST(galois_field_operator, OperatorAddMultiplyTest)
+{
+  {
+    const std::vector<unsigned int> test_case_data = {
+        // clang-format off
+      // a, b, c, expect = a + b * c
+      0, 0, 0, 0,
+      0, 0, 1, 0,
+      0, 1, 0, 0,
+      1, 0, 0, 1,
+      1, 1, 1, 0,
+        // clang-format on
+    };
+    CheckOperatorAddMultiply<2>(test_case_data);
   }
 }
 }  // namespace gns

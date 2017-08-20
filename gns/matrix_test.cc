@@ -2,6 +2,21 @@
 #include <gtest/gtest.h>
 
 namespace gns {
+TEST(Matrix, ConstructorTest) {
+  const size_t size = 2;
+  std::unique_ptr<GaloisField<2>[]> data(new GaloisField<2>[size * size]);
+  data[0 + 0] = 1;
+  data[0 + 1] = 1;
+  data[2 + 0] = 1;
+  data[2 + 1] = 1;
+  Matrix<2> m(size, size, std::move(data));
+
+  EXPECT_EQ(GaloisField<2>(1), m(0, 0));
+  EXPECT_EQ(GaloisField<2>(1), m(0, 1));
+  EXPECT_EQ(GaloisField<2>(1), m(1, 0));
+  EXPECT_EQ(GaloisField<2>(1), m(1, 1));
+}
+
 TEST(Matrix, RowSizeTest) {
   {
     const size_t expect = 0;

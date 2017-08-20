@@ -5,7 +5,7 @@ project(gns CXX)
 #compiler option with accordance to compiler
 IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     SET (CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
-    SET (CMAKE_CXX_FLAGS "-Wall -Wextra -Werror ${CMAKE_CXX_FLAGS}")
+    SET (CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -Wno-unused-parameter ${CMAKE_CXX_FLAGS}")
     # for debug
     SET (CMAKE_CXX_FLAGS_DEBUG, "-g ${CMAKE_CXX_FLAGS_DEBUG}")
     # for release
