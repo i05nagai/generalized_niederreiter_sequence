@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 2.8.6)
 
 project(gns CXX)
 
+# Make sure we can import out CMake functions
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+# Import our CMake modules
+include(AddCXXCompilerFlag)
+
 #compiler option with accordance to compiler
 IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     SET (CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
@@ -86,8 +91,8 @@ if (${CMAKE_BUILD_TYPE} MATCHES "Coverage")
   set(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE STRING
     "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel Coverage."
     FORCE)
-  add_cxx_compiler_flag(--coverage COVERAGE)
 
+  add_cxx_compiler_flag(--coverage COVERAGE)
   find_program(GCOV gcov)
   find_program(LCOV lcov)
   find_program(GENHTML genhtml)
