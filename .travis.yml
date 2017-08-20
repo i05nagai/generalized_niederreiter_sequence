@@ -8,19 +8,40 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - gcc-4.8
       - g++-4.8
       - libc6-i386
       - libc6-dbg
 language: cpp
-compiler:
-  - clang++
-  - gcc
-os:
-  - linux
-  - osx
-env:
-  - 
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      # addons:
+      env:
+        - BUILD_TYPE=Debug
+          GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
+          GNS_BUILD_TEST_MEMORYCHECK="-DGNS_BUILD_TEST_MEMORYCHECK=ON"
+    - os: linux
+      compiler: clang++
+      # addons:
+      env:
+        - BUILD_TYPE=Debug
+          GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
+          GNS_BUILD_TEST_MEMORYCHECK="-DGNS_BUILD_TEST_MEMORYCHECK=ON"
+    - os: osx
+      osx_image: xcode8.3
+      compiler: gcc
+      # addons:
+      env:
+        - BUILD_TYPE=Debug
+          GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
+    - os: osx
+      osx_image: xcode8.3
+      compiler: clang++
+      # addons:
+      env:
+        - BUILD_TYPE=Debug
+          GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
 before_install:
   - echo $LANG
   - echo $LC_ALL
@@ -30,18 +51,28 @@ before_install:
   - export GNS_BUILD_BENCHMARKS="-DGNS_BUILD_BENCHMARKS=ON"
   - export GNS_BUILD_EXAMPLES="-DGNS_BUILD_EXAMPLES=OFF"
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install gcc48; fi
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install valgrind; fi
-  # valgrind does not work in osx
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export GNS_BUILD_TEST_MEMORYCHECK="-DGNS_BUILD_TEST_MEMORYCHECK=ON"; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export PATH="${BASEPATH}/usr/bin:$PATH"; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export LD_LIBRARY_PATH="${BASEPATH}/usr/lib:$LD_LIBRARY_PATH"; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then wget http://valgrind.org/downloads/valgrind-3.12.0.tar.bz2 && tar xjf valgrind-3.12.0.tar.bz2 && cd valgrind-3.12.0 && ./configure --prefix=${BASEPATH}/usr > /dev/null && make -j3 > /dev/null && make install > /dev/null && cd ..; fi
-  - valgrind --version
+  # valgrind does not work in osx so we only test with valgrind in linux
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      export PATH="${BASEPATH}/usr/bin:$PATH";
+      export LD_LIBRARY_PATH="${BASEPATH}/usr/lib:$LD_LIBRARY_PATH";
+      wget http://valgrind.org/downloads/valgrind-3.12.0.tar.bz2 ;
+      tar xjf valgrind-3.12.0.tar.bz2 ;
+      cd valgrind-3.12.0 ;
+      ./configure --prefix=${BASEPATH}/usr > /dev/null ;
+      make -j3 > /dev/null ;
+      make install > /dev/null ;
+      cd .. ;
+      valgrind --version
+    fi
 install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then ci/travis_cmake_setup.sh; fi
   # /usr/bin/gcc is 4.6 always, but gcc-X.Y is available.
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+  - if [ "$CXX" == "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+  - if [ "${BUILD_TYPE}" == "Coverage" -a "${TRAVIS_OS_NAME}" == "linux" ]; then
+      PATH=~/.local/bin:${PATH};
+      pip install --user --upgrade pip;
+      pip install --user cpp-coveralls;
+    fi
   # /usr/bin/clang is 3.4, lets override with modern one.
   #- if [ "$CXX" = "clang++" ] && [ "$TRAVIS_OS_NAME" = "linux" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi
   - echo ${PATH}
@@ -51,3 +82,7 @@ install:
   - cmake --version
 script:
   - ci/build_cmake.sh
+after_success:
+  - if [ "${BUILD_TYPE}" == "Coverage" -a "${TRAVIS_OS_NAME}" == "linux" ]; then
+      coveralls --include gns --gcov-options '\-lp' --root .. --build-root .;
+    fi
