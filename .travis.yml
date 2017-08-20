@@ -63,8 +63,8 @@ before_install:
     fi
 install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then ci/travis_cmake_setup.sh; fi
-  # /usr/bin/gcc is 4.6 always, but gcc-X.Y is available.
-  - if [ "$TRAVIS_OS_NAME" == "osx" -a "$CXX" == "g++" ]; then
+  # /usr/bin/gcc is 4.6 always, but gcc-X.Y is available. This is for both OSes.
+  - if [ "$CXX" == "g++" ]; then
       export CXX="g++-4.8" CC="gcc-4.8";
     fi
   - if [ "${BUILD_TYPE}" == "Coverage" -a "${TRAVIS_OS_NAME}" == "linux" ]; then
