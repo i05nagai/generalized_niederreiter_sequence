@@ -1,11 +1,11 @@
 #pragma once
-#include "gns/polynomial.h"
 #include <cassert>
 #include <memory>
+#include "gns/polynomial.h"
 
 namespace gns {
 /**
- * @brief 
+ * @brief
  *  Solve the first part of equations up to array_size.
  *
  * @tparam Base
@@ -18,12 +18,10 @@ namespace gns {
  *  Negative value/zero means no space left.
  */
 template <int Base>
-int
-LaurentSeriesDivisionFirstEquations(
-    const GaloisFieldPolynomial<Base>& a, const GaloisFieldPolynomial<Base>& b,
-    std::unique_ptr<GaloisField<Base>[]>& c,
-    const size_t array_size)
-{
+int LaurentSeriesDivisionFirstEquations(const GaloisFieldPolynomial<Base>& a,
+                                        const GaloisFieldPolynomial<Base>& b,
+                                        std::unique_ptr<GaloisField<Base>[]>& c,
+                                        const size_t array_size) {
   const size_t n = a.degree();
   const size_t m = b.degree();
   const size_t num_equations = -(-m + n + 1);
@@ -38,7 +36,7 @@ LaurentSeriesDivisionFirstEquations(
   return array_room;
 }
 /**
- * @brief 
+ * @brief
  *  Solve the second part of equations up to array_size.
  *
  * @tparam Base
@@ -53,9 +51,7 @@ LaurentSeriesDivisionFirstEquations(
 template <int Base>
 int LaurentSeriesDivisionSecondEquations(
     const GaloisFieldPolynomial<Base>& a, const GaloisFieldPolynomial<Base>& b,
-    std::unique_ptr<GaloisField<Base>[]>& c,
-    const size_t array_room)
-{
+    std::unique_ptr<GaloisField<Base>[]>& c, const size_t array_room) {
   assert(array_room > 0);
   const size_t n = a.degree();
   const size_t m = b.degree();
@@ -85,11 +81,10 @@ int LaurentSeriesDivisionSecondEquations(
  *
  */
 template <int Base>
-void LaurentSeriesDivisionLastEquations(
-    const GaloisFieldPolynomial<Base>& a, const GaloisFieldPolynomial<Base>& b,
-    std::unique_ptr<GaloisField<Base>[]>& c,
-    const size_t array_size)
-{
+void LaurentSeriesDivisionLastEquations(const GaloisFieldPolynomial<Base>& a,
+                                        const GaloisFieldPolynomial<Base>& b,
+                                        std::unique_ptr<GaloisField<Base>[]>& c,
+                                        const size_t array_size) {
   const size_t m = b.degree();
   const size_t array_room_left = array_size - m;
   // third part equations
@@ -136,4 +131,4 @@ std::unique_ptr<GaloisField<Base>[]> SolveLaurentSeriesDivision(
   LaurentSeriesDivisionLastEquations(a, b, c, array_size);
   return c;
 }
-} // namespace gns
+}  // namespace gns

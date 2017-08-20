@@ -2,8 +2,7 @@
 #include <gtest/gtest.h>
 
 namespace gns {
-TEST(matrix_func_test, IsIdentity)
-{
+TEST(matrix_func_test, IsIdentity) {
   // not identity
   {
     Matrix<2> m(2, 2);
@@ -25,4 +24,4 @@ TEST(matrix_func_test, IsIdentity)
     EXPECT_TRUE(IsIdentity(m));
   }
 }
-} // namespace gns
+}  // namespace gns

@@ -2,8 +2,7 @@
 #include <gtest/gtest.h>
 
 namespace gns {
-TEST(matrix_operator, OperatorMultiplyMatrixVectorTest)
-{
+TEST(matrix_operator, OperatorMultiplyMatrixVectorTest) {
   // 2x2 * 2
   {
     Vector<2> v({1, 1});
@@ -57,4 +56,4 @@ TEST(matrix_operator, OperatorMultiplyMatrixVectorTest)
     EXPECT_EQ(expect, actual);
   }
 }
-} // namespace gns
+}  // namespace gns

@@ -2,8 +2,7 @@
 
 namespace gns {
 template <int Base>
-bool IsIdentity(const Matrix<Base>& matrix)
-{
+bool IsIdentity(const Matrix<Base>& matrix) {
   for (size_t row = 0; row < matrix.RowSize(); ++row) {
     for (size_t col = 0; col < matrix.ColSize(); ++col) {
       // anti diagonal
@@ -20,14 +19,13 @@ bool IsIdentity(const Matrix<Base>& matrix)
   }
   return true;
 }
-} // namespace gns
+}  // namespace gns
 
 namespace gns {
 #define TEMPLATE_INSTANTIATION(Base) \
-  template\
-  bool IsIdentity(const Matrix<Base>& matrix);
+  template bool IsIdentity(const Matrix<Base>& matrix);
 
 TEMPLATE_INSTANTIATION(2);
 TEMPLATE_INSTANTIATION(4);
 TEMPLATE_INSTANTIATION(16);
-} // namespace gns
+}  // namespace gns

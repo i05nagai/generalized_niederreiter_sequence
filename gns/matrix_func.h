@@ -4,4 +4,4 @@
 namespace gns {
 template <int Base>
 bool IsIdentity(const Matrix<Base>& matrix);
-} // namespace gns
+}  // namespace gns

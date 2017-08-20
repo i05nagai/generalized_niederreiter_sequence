@@ -1328,8 +1328,7 @@ void CheckOperatorAddMultiply(const std::vector<unsigned int>& test_case_data) {
   }
 }
 
-TEST(galois_field_operator, OperatorAddMultiplyTest)
-{
+TEST(galois_field_operator, OperatorAddMultiplyTest) {
   {
     const std::vector<unsigned int> test_case_data = {
         // clang-format off

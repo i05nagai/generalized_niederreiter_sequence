@@ -1,18 +1,18 @@
 #pragma once
+#include <cassert>
 #include "gns/matrix.h"
 #include "gns/vector.h"
-#include <cassert>
 
 namespace gns {
-  /**
-   * @brief 
-   *
-   * @tparam Base
-   * @param m
-   * @param v
-   *
-   * @return 
-   */
+/**
+ * @brief
+ *
+ * @tparam Base
+ * @param m
+ * @param v
+ *
+ * @return
+ */
 template <int Base>
 Vector<Base> operator*(const Matrix<Base>& m, const Vector<Base>& v) {
   assert(0 < m.ColSize());

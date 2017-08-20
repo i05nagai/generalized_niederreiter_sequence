@@ -1,22 +1,19 @@
-#include <gtest/gtest.h>
 #include "gns/laurent_series.h"
+#include <gtest/gtest.h>
 #include "gns/test_util/gtest_assertion.h"
 #include "gns/test_util/gtest_helper_macro.h"
 #include "gns/test_util/test_data.h"
 
 namespace gns {
-TEST(laurent_series_test, LaurentSeriesDivisionFirstEquations)
-{
+TEST(laurent_series_test, LaurentSeriesDivisionFirstEquations) {
   // TODO
 }
 
-TEST(laurent_series_test, LaurentSeriesDivisionSecondEquations)
-{
+TEST(laurent_series_test, LaurentSeriesDivisionSecondEquations) {
   // TODO
 }
 
-TEST(laurent_series_test, LaurentSeriesDivisionLastEquations)
-{
+TEST(laurent_series_test, LaurentSeriesDivisionLastEquations) {
   // TODO
 }
 
@@ -128,4 +125,4 @@ TEST(laurent_series_test, SolveLaurentSeriesDivision) {
     }
   }
 }
-} // namespace gns
+}  // namespace gns

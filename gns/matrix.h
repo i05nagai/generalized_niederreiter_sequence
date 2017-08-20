@@ -1,8 +1,8 @@
 #pragma once
-#include "gns/galois_field.h"
-#include "gns/galois_field_operator.h"
 #include <algorithm>
 #include <memory>
+#include "gns/galois_field.h"
+#include "gns/galois_field_operator.h"
 
 namespace gns {
 template <int Base>
@@ -15,14 +15,11 @@ class Matrix {
   // public function
  public:
   /**
-   * @brief 
+   * @brief
    */
-  explicit Matrix()
-      : row_size_(0),
-        col_size_(0),
-        data_(nullptr) {}
+  explicit Matrix() : row_size_(0), col_size_(0), data_(nullptr) {}
   /**
-   * @brief 
+   * @brief
    *
    * @param row_size
    * @param col_size
@@ -32,41 +29,36 @@ class Matrix {
         col_size_(col_size),
         data_(new value_type[row_size * col_size]) {}
   /**
-   * @brief 
+   * @brief
    *
    * @param row_size
    * @param col_size
    * @param data
    */
-  Matrix(const size_t row_size,
-         const size_t col_size,
+  Matrix(const size_t row_size, const size_t col_size,
          std::unique_ptr<value_type[]> data)
-      : row_size_(row_size),
-        col_size_(col_size),
-        data_(std::move(data)) {}
+      : row_size_(row_size), col_size_(col_size), data_(std::move(data)) {}
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    */
   Matrix(const Matrix<Base>& other)
-  : row_size_(other.row_size_),
-    col_size_(other.col_size_),
-    data_(new value_type[row_size_ * col_size_])
-  {
+      : row_size_(other.row_size_),
+        col_size_(other.col_size_),
+        data_(new value_type[row_size_ * col_size_]) {
     const size_t size = row_size_ * col_size_;
     std::copy(other.data_.get(), other.data_.get() + size, data_.get());
   }
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    */
   Matrix(Matrix<Base>&& other)
-  : row_size_(other.row_size_),
-    col_size_(other.col_size_),
-    data_(std::move(other.data_))
-  {
+      : row_size_(other.row_size_),
+        col_size_(other.col_size_),
+        data_(std::move(other.data_)) {
     other.data_ = nullptr;
   }
   /**
@@ -78,9 +70,9 @@ class Matrix {
    *
    * @param other
    *
-   * @return 
+   * @return
    */
-  inline Matrix<Base>& operator =(const Matrix<Base>& other) {
+  inline Matrix<Base>& operator=(const Matrix<Base>& other) {
     row_size_ = other.row_size_;
     col_size_ = other.col_size_;
     const size_t size = row_size_ * col_size_;
@@ -89,13 +81,13 @@ class Matrix {
     return *this;
   }
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    *
-   * @return 
+   * @return
    */
-  inline Matrix<Base>& operator =(Matrix<Base>&& other) {
+  inline Matrix<Base>& operator=(Matrix<Base>&& other) {
     row_size_ = other.row_size_;
     col_size_ = other.col_size_;
     data_ = std::move(other.data_);
@@ -105,9 +97,8 @@ class Matrix {
 
   inline bool operator==(const Matrix<Base>& other) const {
     const size_t size = row_size_ * col_size_;
-    return row_size_ == other.row_size_
-      && col_size_ == other.col_size_
-      && std::equal(data_.get(), data_.get() + size, other.data_.get());
+    return row_size_ == other.row_size_ && col_size_ == other.col_size_ &&
+           std::equal(data_.get(), data_.get() + size, other.data_.get());
   }
 
   inline bool operator!=(const Matrix<Base>& other) const {
@@ -140,14 +131,13 @@ class Matrix {
   std::unique_ptr<GaloisField<Base>[]> data_;
 };
 
-template<int Base>
-std::ostream& operator<<(std::ostream& os, const Matrix<Base>& matrix)
-{
+template <int Base>
+std::ostream& operator<<(std::ostream& os, const Matrix<Base>& matrix) {
   for (size_t row = 0; row < matrix.RowSize(); ++row) {
     for (size_t col = 0; col < matrix.ColSize(); ++col) {
       os << matrix(row, col) << " ";
     }
-      os << std::endl;
+    os << std::endl;
   }
   return os;
 }

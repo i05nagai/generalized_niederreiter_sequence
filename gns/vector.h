@@ -15,63 +15,57 @@ class Vector {
   // public function
  public:
   /**
-   * @brief 
+   * @brief
    */
   Vector() : size_(0), data_(nullptr) {}
   /**
-   * @brief 
+   * @brief
    *
    * @param size
    */
   Vector(const size_t size) : size_(size), data_(new value_type[size]) {}
   /**
-   * @brief 
+   * @brief
    *
    * @param size
    * @param data
    */
   Vector(const size_t size, std::unique_ptr<value_type[]>&& data)
-      : size_(size), data_(std::move(data))
-  {
-  }
+      : size_(size), data_(std::move(data)) {}
   /**
-   * @brief 
+   * @brief
    *
    * @param data
    */
-  Vector(std::initializer_list<unsigned char> data)
-    : Vector(data.size()) {
-      std::copy(data.begin(), data.end(), data_.get());
-    }
+  Vector(std::initializer_list<unsigned char> data) : Vector(data.size()) {
+    std::copy(data.begin(), data.end(), data_.get());
+  }
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    */
   Vector(Vector<Base>&& other)
-      : size_(other.size_), data_(std::move(other.data_))
-      {
-      }
+      : size_(other.size_), data_(std::move(other.data_)) {}
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    */
   Vector(const Vector<Base>& other)
-      : size_(other.size_), data_(new value_type[size_])
-      {
-        std::copy(data_.get(), data_.get() + size_, other.data_.get());
-      }
+      : size_(other.size_), data_(new value_type[size_]) {
+    std::copy(data_.get(), data_.get() + size_, other.data_.get());
+  }
 
   ~Vector() {}
 
-  inline Vector<Base>& operator =(Vector<Base>&& other) {
+  inline Vector<Base>& operator=(Vector<Base>&& other) {
     size_ = other.size;
     data_ = std::move(other.data_);
     return *this;
   }
 
-  inline Vector<Base>& operator =(const Vector<Base>& other) {
+  inline Vector<Base>& operator=(const Vector<Base>& other) {
     size_ = other.size;
     data_ = std::unique_ptr<value_type[]>(new value_type[size_]);
     std::copy(data_.get(), data_.get() + size_, other.data_.get());
@@ -79,8 +73,8 @@ class Vector {
   }
 
   inline bool operator==(const Vector<Base>& other) const {
-    return size_ == other.size_
-      && std::equal(data_.get(), data_.get() + size_, other.data_.get());
+    return size_ == other.size_ &&
+           std::equal(data_.get(), data_.get() + size_, other.data_.get());
   }
 
   inline bool operator!=(const Vector<Base>& other) const {
@@ -117,9 +111,8 @@ class Vector {
   std::unique_ptr<value_type[]> data_;
 };
 
-template<int Base>
-std::ostream& operator<<(std::ostream& os, const Vector<Base>& vector)
-{
+template <int Base>
+std::ostream& operator<<(std::ostream& os, const Vector<Base>& vector) {
   for (size_t row = 0; row < vector.Size(); ++row) {
     os << vector(row) << " ";
   }
