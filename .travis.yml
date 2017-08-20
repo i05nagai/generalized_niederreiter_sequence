@@ -1,4 +1,5 @@
 sudo: required
+dist: trusty
 language: cpp
 matrix:
   include:
@@ -19,6 +20,7 @@ matrix:
             - g++-4.8
             - libc6-i386
             - libc6-dbg
+            - gcov
             - lcov
     - os: linux
       compiler: gcc
@@ -111,5 +113,5 @@ script:
   - ci/build_cmake.sh
 after_success:
   - if [ "${BUILD_TYPE}" == "Coverage" -a "${TRAVIS_OS_NAME}" == "linux" ]; then
-      coveralls --include gns --gcov-options '\-lp' --root .. --build-root build;
+      coveralls --verbose --include gns --gcov-options '\-lp' --root .. --build-root build;
     fi
