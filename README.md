@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/i05nagai/generalized_niederreiter_sequence.svg?branch=master)](https://travis-ci.org/i05nagai/generalized_niederreiter_sequence)
+[![Coverage Status](https://coveralls.io/repos/github/i05nagai/generalized_niederreiter_sequence/badge.svg?branch=introduce-coverage-report)](https://coveralls.io/github/i05nagai/generalized_niederreiter_sequence?branch=introduce-coverage-report)
 
 ## Overviews
 
