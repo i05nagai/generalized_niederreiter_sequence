@@ -7,16 +7,28 @@ addons:
     #   https://github.com/travis-ci/apt-source-whitelist/blob/master/ubuntu.json
     sources:
       - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
-      - libc6-i386
-      - libc6-dbg
 language: cpp
 matrix:
   include:
     - os: linux
       compiler: gcc
-      # addons:
+      addons:
+        apt:
+          packages:
+            - g++-4.8
+            - libc6-i386
+            - libc6-dbg
+      env:
+        - BUILD_TYPE=Coverage
+          GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          packages:
+            - g++-4.8
+            - libc6-i386
+            - libc6-dbg
       env:
         - BUILD_TYPE=Debug
           GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
