@@ -62,7 +62,7 @@ before_install:
       make -j3 > /dev/null ;
       make install > /dev/null ;
       cd .. ;
-      valgrind --version
+      valgrind --version;
     fi
 install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then ci/travis_cmake_setup.sh; fi
