@@ -1,5 +1,6 @@
 #include <benchmark/benchmark.h>
-#include "benchmarks/galois_field_operator.h"
+#include "gns/galois_field.h"
+#include "gns/galois_field_operator.h"
 
 
 #define BenchmarkGaloisFieldOperator(op, op_name)                        \

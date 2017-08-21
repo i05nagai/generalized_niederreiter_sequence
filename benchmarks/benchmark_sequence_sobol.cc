@@ -1,4 +1,4 @@
-#include "benchmarks/sequence_sobol.h"
+#include "gns/sequence_sobol.h"
 #include <benchmark/benchmark.h>
 #include <cmath>
 #include <iomanip>
