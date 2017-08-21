@@ -140,7 +140,7 @@ IF(GNS_BUILD_BENCHMARKS)
     ADD_SUBDIRECTORY(benchmarks)
 ENDIF()
 
-# benchmarks
+# examples
 IF(GNS_BUILD_EXAMPLES)
     ADD_SUBDIRECTORY(examples)
 ENDIF()
