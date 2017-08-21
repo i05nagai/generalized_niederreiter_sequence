@@ -1,6 +1,6 @@
 LIST (APPEND benchmarks_PROGRAMS
-    galois_field_operator.cc
-    sequence_sobol.cc
+    benchmark_galois_field_operator.cc
+    benchmark_sequence_sobol.cc
 )
 INCLUDE_DIRECTORIES(
     ${PROJECT_SOURCE_DIR}
