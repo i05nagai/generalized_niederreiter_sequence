@@ -3,6 +3,7 @@ dist: trusty
 language: cpp
 matrix:
   include:
+    # for test coverage
     - os: linux
       compiler: gcc
       env:
@@ -18,6 +19,8 @@ matrix:
         - BUILD_TYPE=Debug
           GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
           GNS_BUILD_TEST_MEMORYCHECK="-DGNS_BUILD_TEST_MEMORYCHECK=ON"
+          GNS_BUILD_BENCHMARKS="-DGNS_BUILD_BENCHMARKS=ON"
+          GNS_BUILD_EXAMPLES="-DGNS_BUILD_EXAMPLES=ON"
       addons:
         apt:
           sources:
@@ -35,6 +38,8 @@ matrix:
         - BUILD_TYPE=Debug
           GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
           GNS_BUILD_TEST_MEMORYCHECK="-DGNS_BUILD_TEST_MEMORYCHECK=ON"
+          GNS_BUILD_BENCHMARKS="-DGNS_BUILD_BENCHMARKS=ON"
+          GNS_BUILD_EXAMPLES="-DGNS_BUILD_EXAMPLES=ON"
       addons:
         apt:
           sources:
@@ -51,18 +56,20 @@ matrix:
       env:
         - BUILD_TYPE=Debug
           GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
+          GNS_BUILD_BENCHMARKS="-DGNS_BUILD_BENCHMARKS=ON"
+          GNS_BUILD_EXAMPLES="-DGNS_BUILD_EXAMPLES=ON"
     - os: osx
       compiler: clang++
       # addons:
       env:
         - BUILD_TYPE=Debug
           GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
+          GNS_BUILD_BENCHMARKS="-DGNS_BUILD_BENCHMARKS=ON"
+          GNS_BUILD_EXAMPLES="-DGNS_BUILD_EXAMPLES=ON"
 before_install:
   - echo $LANG
   - echo $LC_ALL
   - ls -la
-  - export GNS_BUILD_BENCHMARKS="-DGNS_BUILD_BENCHMARKS=ON"
-  - export GNS_BUILD_EXAMPLES="-DGNS_BUILD_EXAMPLES=OFF"
   - if [ "$TRAVIS_OS_NAME" == "osx" -a "$CXX" == "g++" ]; then brew install gcc48; fi
   # valgrind does not work in osx so we only test with valgrind on linux
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
