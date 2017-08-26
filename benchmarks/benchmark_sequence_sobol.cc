@@ -29,6 +29,31 @@ BENCHMARK(BenchmarkSobol)
   ->Arg(1000)
   ->Arg(10000);
 
+static double EstimatePiSobolGrayMap(const size_t num_point)
+{
+  gns::SobolGrayMap<2> sobol(2);
+  size_t num_inner_point = 0;
+  for (size_t i = 0; i < num_point; ++i) {
+      const std::unique_ptr<double[]>& point = sobol.Next();
+      const double r = point[0] * point[0] + point[1] * point[1];
+      if (r <= 1.0) {
+        ++num_inner_point;
+      }
+  }
+  return 4.0 * (num_inner_point / static_cast<double>(num_point));
+}
+
+static void BenchmarkSobolGrayMap(benchmark::State& state)
+{
+  while(state.KeepRunning()) {
+    benchmark::DoNotOptimize(EstimatePiSobolGrayMap(state.range(0)));
+  }
+}
+BENCHMARK(BenchmarkSobolGrayMap)
+  ->Arg(100)
+  ->Arg(1000)
+  ->Arg(10000);
+
 static double EstimatePiMC(const size_t num_point)
 {
   std::mt19937 engine(0); 
