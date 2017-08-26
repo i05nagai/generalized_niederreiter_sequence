@@ -67,6 +67,28 @@ Matrix<Base> MakeSobolGeneratorMatrix(
   return Matrix<Base>(max_bit, max_bit, std::move(data));
 }
 /**
+ * @brief 
+ *
+ * @tparam Base
+ *
+ * @return 
+ */
+template<int Base>
+std::vector<Matrix<Base>>
+MakeSobolGeneratorMatrices(const size_t dimension, const size_t max_bit)
+{
+  std::vector<Matrix<Base>> generator_matrix(0);
+  IrreduciblePolynomialGenerator<Base> generator;
+  std::vector<GaloisFieldPolynomial<Base>> irreducibles =
+      generator(dimension);
+  for (size_t dim = 0; dim < dimension; ++dim) {
+    Matrix<Base>&& matrix =
+        MakeSobolGeneratorMatrix<Base>(dim + 1, irreducibles, max_bit);
+    generator_matrix.push_back(std::move(matrix));
+  }
+  return generator_matrix;
+}
+/**
  * @brief
  *
  * @tparam Base
@@ -86,14 +108,7 @@ class Sobol {
         max_bit_(max_bit),
         generator_matrix_(0) {
     assert(dimension_ > 0);
-    IrreduciblePolynomialGenerator<Base> generator;
-    std::vector<GaloisFieldPolynomial<Base>> irreducibles =
-        generator(dimension_);
-    for (size_t dim = 0; dim < dimension_; ++dim) {
-      Matrix<Base>&& matrix =
-          MakeSobolGeneratorMatrix<Base>(dim + 1, irreducibles, max_bit_);
-      generator_matrix_.push_back(std::move(matrix));
-    }
+    generator_matrix_ = MakeSobolGeneratorMatrices<Base>(dimension_, max_bit_);
   }
 
   std::unique_ptr<double[]> Next() {
@@ -130,4 +145,92 @@ class Sobol {
   std::vector<Matrix<Base>> generator_matrix_;
 };
 
+/**
+ * @brief
+ *
+ * @tparam Base
+ */
+template <int Base>
+class SobolGrayMap {
+  // private typedef
+ private:
+  // public typedef
+ public:
+  // public function
+ public:
+  SobolGrayMap(const size_t dimension, const size_t seed = 0,
+        const size_t max_bit = 32)
+      : dimension_(dimension),
+        seed_(seed),
+        max_bit_(max_bit),
+        cache_(new double[dimension]),
+        points_(0),
+        generator_matrix_(0) {
+    assert(dimension_ > 0);
+    // for storing
+    for (size_t dim = 0; dim < dimension_; ++dim) {
+      points_.push_back(Vector<Base>(max_bit_));
+      std::fill(points_[dim].begin(), points_[dim].end(), 0);
+    }
+    generator_matrix_ = MakeSobolGeneratorMatrices<Base>(dimension_, max_bit_);
+  }
+
+  const std::unique_ptr<double[]>& Next() {
+    // if seed_ is zero, point is zero.
+    if (seed_ == 0) {
+      ++seed_;
+      std::fill(cache_.get(), cache_.get() + dimension_, 0);
+      return cache_;
+    }
+
+    // get generator matrix
+    for (size_t dim = 0; dim < dimension_; ++dim) {
+      size_t l = 0;
+      const GaloisField<Base> coeff = FindCoefficient(seed_, l);
+      for (size_t row = 0; row < max_bit_; ++row) {
+        points_[dim][row] = (points_[dim][row]
+                             + coeff * generator_matrix_[dim](row, l));
+      }
+      cache_[dim] = BaseAdicToDouble(points_[dim]);
+    }
+
+    // update seed
+    ++seed_;
+    return cache_;
+  }
+  // private function
+ private:
+  GaloisField<Base>
+  FindCoefficient(size_t n, size_t& l) const
+  {
+    // l(n)
+    size_t a0 = 0;
+    size_t a1 = 0;
+    for (l = 0; l < max_bit_ / Base; ++l) {
+      a0 = n & (Base - 1);
+      if (Base - 1 == a0) {
+        a1 = (n / Base) & (Base - 1);
+        break;
+      }
+      n /= Base;
+    }
+    // a = a_{l(n)} - a_{l(n)+1}
+    const size_t a = a0 ^ a1;
+    // find MSB of a
+    for (int i = 0; i < Base - 1; i++) {
+      if (0 == ((a << i) & 0x1)) {
+        return i + 1;
+      }
+    }
+    return Base - 1;
+  }
+  // private members
+ private:
+  size_t dimension_;
+  size_t seed_;
+  size_t max_bit_;
+  std::unique_ptr<double[]> cache_;
+  std::vector<Vector<Base>> points_;
+  std::vector<Matrix<Base>> generator_matrix_;
+};
 }  // namespace gns

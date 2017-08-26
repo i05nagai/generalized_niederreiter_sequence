@@ -12,6 +12,8 @@ class Vector {
   // public typedef
  public:
   typedef GaloisField<Base> value_type;
+  typedef GaloisField<Base>* iterator;
+  typedef const GaloisField<Base>* const_iterator;
   // public function
  public:
   /**
@@ -102,6 +104,22 @@ class Vector {
   }
 
   inline size_t Size() const { return size_; }
+
+  inline iterator begin() {
+    return data_.get();
+  }
+
+  inline const_iterator begin() const {
+    return data_.get();
+  }
+
+  inline iterator end() {
+    return data_.get() + size_;
+  }
+
+  inline const_iterator end() const {
+    return data_.get() + size_;
+  }
 
   // private function
  private:
