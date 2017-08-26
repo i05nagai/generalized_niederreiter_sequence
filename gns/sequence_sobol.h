@@ -50,7 +50,7 @@ Matrix<Base> MakeSobolGeneratorMatrix(
   std::unique_ptr<GaloisField<Base>[]> data(
       new GaloisField<Base>[max_bit * max_bit]);
   const size_t degree = irreducibles[dim - 1].degree();
-  GaloisFieldPolynomial<2> denominator = irreducibles[dim - 1];
+  GaloisFieldPolynomial<Base> denominator = irreducibles[dim - 1];
   // for each row
   for (size_t row = 0; row < max_bit; ++row) {
     const size_t q = row / degree;
