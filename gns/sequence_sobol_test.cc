@@ -4,7 +4,7 @@
 #include "gns/matrix_func.h"
 
 namespace gns {
-TEST(sequence_sobol, MakeSobolGeneratorMatrixTest1) {
+TEST(sequence_sobol_test, MakeSobolGeneratorMatrix1) {
   // dim = 1
   const size_t dim = 1;
   const size_t max_bit = 32;
@@ -17,7 +17,7 @@ TEST(sequence_sobol, MakeSobolGeneratorMatrixTest1) {
   EXPECT_TRUE(IsIdentity(matrix));
 }
 
-TEST(sequence_sobol, MakeSobolGeneratorMatrixTest2) {
+TEST(sequence_sobol_test, MakeSobolGeneratorMatrix2) {
   // dim = 2
   const size_t max_bit = 24;
   const size_t dim = 2;
@@ -61,7 +61,7 @@ TEST(sequence_sobol, MakeSobolGeneratorMatrixTest2) {
   }
 }
 
-TEST(sequence_sobol, NextTest) {
+TEST(sequence_sobol_test, Next) {
   // dim=1
   {
     std::vector<double> expect({0.0, 0.5, 0.25, 0.75});
@@ -95,7 +95,6 @@ TEST(sequence_sobol, NextTest) {
     }
   }
 }
-
 
 TEST(sequence_sobol_test, SobolGrayMapNext) {
   // dim=1
