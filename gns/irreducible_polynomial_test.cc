@@ -60,6 +60,13 @@ TEST(IrreduciblePolynomial, OperatorParenthesisTest) {
     {1, 0, 0, 1, 1},
     {1, 1, 1, 1, 1},
     {1, 0, 1, 0, 0, 1},
+    {1, 0, 0, 1, 0, 1},
+    {1, 1, 1, 1, 0, 1},
+    {1, 1, 1, 0, 1, 1},
+    {1, 1, 0, 1, 1, 1},
+    {1, 0, 1, 1, 1, 1},
+    {1, 1, 0, 0, 0, 0, 1},
+    {1, 0, 0, 1, 0, 0, 1},
       // clang-format on
   };
   const size_t num = expects.size();
