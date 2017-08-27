@@ -4,7 +4,7 @@
 #include "gns/matrix_func.h"
 
 namespace gns {
-TEST(sequence_sobol, MakeSobolGeneratorMatrixTest1) {
+TEST(sequence_sobol_test, MakeSobolGeneratorMatrix1) {
   // dim = 1
   const size_t dim = 1;
   const size_t max_bit = 32;
@@ -17,7 +17,7 @@ TEST(sequence_sobol, MakeSobolGeneratorMatrixTest1) {
   EXPECT_TRUE(IsIdentity(matrix));
 }
 
-TEST(sequence_sobol, MakeSobolGeneratorMatrixTest2) {
+TEST(sequence_sobol_test, MakeSobolGeneratorMatrix2) {
   // dim = 2
   const size_t max_bit = 24;
   const size_t dim = 2;
@@ -61,7 +61,7 @@ TEST(sequence_sobol, MakeSobolGeneratorMatrixTest2) {
   }
 }
 
-TEST(sequence_sobol, NextTest) {
+TEST(sequence_sobol_test, Next) {
   // dim=1
   {
     std::vector<double> expect({0.0, 0.5, 0.25, 0.75});
@@ -95,7 +95,6 @@ TEST(sequence_sobol, NextTest) {
     }
   }
 }
-
 
 TEST(sequence_sobol_test, SobolGrayMapNext) {
   // dim=1
@@ -132,6 +131,87 @@ TEST(sequence_sobol_test, SobolGrayMapNext) {
     SobolGrayMap<2> sobol(2);
     for (size_t i = 0; i < expect.size(); ++i) {
       const std::unique_ptr<double[]>& point = sobol.Next();
+      EXPECT_DOUBLE_EQ(expect[i][0], point[0]);
+      EXPECT_DOUBLE_EQ(expect[i][1], point[1]);
+    }
+  }
+}
+
+/*--------------------------------------------------------------------------
+ * Base 4
+ *------------------------------------------------------------------------*/
+
+TEST(sequence_sobol_test, Next4) {
+  // dim=1
+  {
+    std::vector<double> expect({
+                               // clang-format off
+                               0.0    , 0.25   , 0.5    , 0.75   , 0.0625 ,
+                               0.3125 , 0.5625 , 0.8125 , 0.125  , 0.375  ,
+                               0.625  , 0.875  , 0.1875 , 0.4375 , 0.6875 ,
+                               0.9375 ,
+                               // clang-format on
+                               });
+    Sobol<4> sobol(1);
+    for (size_t i = 0; i < expect.size(); ++i) {
+      std::unique_ptr<double[]> point = sobol.Next();
+      EXPECT_DOUBLE_EQ(expect[i], point[0]);
+    }
+  }
+  // dim =2
+  {
+    std::vector<std::vector<double>> expect({
+    // clang-format off
+      { 0.0, 0.0 },
+      { 0.25, 0.25 },
+      { 0.5, 0.5 },
+      { 0.75, 0.75 },
+      { 0.0625, 0.3125 },
+      { 0.3125, 0.0625 },
+      { 0.5625, 0.8125 },
+      { 0.8125, 0.5625 },
+      { 0.125, 0.625 },
+      { 0.375, 0.875 },
+      { 0.625, 0.125 },
+      { 0.875, 0.375 },
+      { 0.1875, 0.9375 },
+      { 0.4375, 0.6875 },
+      { 0.6875, 0.4375 },
+      { 0.9375, 0.1875 },
+    // clang-format on
+    });
+    Sobol<4> sobol(2);
+    for (size_t i = 0; i < expect.size(); ++i) {
+      std::unique_ptr<double[]> point = sobol.Next();
+      EXPECT_DOUBLE_EQ(expect[i][0], point[0]);
+      EXPECT_DOUBLE_EQ(expect[i][1], point[1]);
+    }
+  }
+  // dim = 3
+  {
+    std::vector<std::vector<double>> expect({
+    // clang-format off
+      { 0.0, 0.0 },
+      { 0.25, 0.25 },
+      { 0.5, 0.5 },
+      { 0.75, 0.75 },
+      { 0.0625, 0.3125 },
+      { 0.3125, 0.0625 },
+      { 0.5625, 0.8125 },
+      { 0.8125, 0.5625 },
+      { 0.125, 0.625 },
+      { 0.375, 0.875 },
+      { 0.625, 0.125 },
+      { 0.875, 0.375 },
+      { 0.1875, 0.9375 },
+      { 0.4375, 0.6875 },
+      { 0.6875, 0.4375 },
+      { 0.9375, 0.1875 },
+    // clang-format on
+    });
+    Sobol<4> sobol(2);
+    for (size_t i = 0; i < expect.size(); ++i) {
+      std::unique_ptr<double[]> point = sobol.Next();
       EXPECT_DOUBLE_EQ(expect[i][0], point[0]);
       EXPECT_DOUBLE_EQ(expect[i][1], point[1]);
     }

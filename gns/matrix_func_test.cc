@@ -2,10 +2,15 @@
 #include <gtest/gtest.h>
 
 namespace gns {
-TEST(matrix_func_test, IsIdentity) {
+template<typename T>
+class TypedTest : public testing::Test {};
+typedef ::testing::Types<Matrix<2>, Matrix<4>> IsIdentityTestType;
+TYPED_TEST_CASE(TypedTest, IsIdentityTestType);
+TYPED_TEST(TypedTest, IsIdentity)
+{
   // not identity
   {
-    Matrix<2> m(2, 2);
+    TypeParam m(2, 2);
     m(0, 0) = 1;
     m(0, 1) = 1;
     m(1, 0) = 0;
@@ -15,7 +20,7 @@ TEST(matrix_func_test, IsIdentity) {
   }
   // identity
   {
-    Matrix<2> m(2, 2);
+    TypeParam m(2, 2);
     m(0, 0) = 1;
     m(0, 1) = 0;
     m(1, 0) = 0;

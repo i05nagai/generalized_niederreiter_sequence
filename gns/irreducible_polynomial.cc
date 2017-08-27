@@ -98,7 +98,7 @@ IrreduciblePolynomialGenerator<Base>::FindIrreduciblePolynomial(
     }
   }
   // not found
-  return GaloisFieldPolynomial<2>(0);
+  return GaloisFieldPolynomial<Base>(0);
 }
 
 /*--------------------------------------------------------------------------
@@ -124,7 +124,7 @@ namespace gns {
       Base>::IrreduciblePolynomialGenerator(std::istream& inputStream); \
   template const std::vector<GaloisFieldPolynomial<Base>>&              \
   IrreduciblePolynomialGenerator<Base>::operator()(const size_t num);   \
-  template GaloisFieldPolynomial<2>                                     \
+  template GaloisFieldPolynomial<Base>                                  \
   IrreduciblePolynomialGenerator<Base>::GetNext();                      \
   template void IrreduciblePolynomialGenerator<Base>::Save(             \
       std::ostream& output) const;                                      \
@@ -133,4 +133,5 @@ namespace gns {
       size_t& seed) const;
 
 TEMPLATE_INSTANTIATION(2);
+TEMPLATE_INSTANTIATION(4);
 }  // namespace gns
