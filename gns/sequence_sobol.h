@@ -50,19 +50,28 @@ Matrix<Base> MakeSobolGeneratorMatrix(
   std::unique_ptr<GaloisField<Base>[]> data(
       new GaloisField<Base>[max_bit * max_bit]);
   const size_t degree = irreducibles[dim - 1].degree();
-  GaloisFieldPolynomial<Base> denominator = irreducibles[dim - 1];
+
+  // calcualte denominators in advance
+  std::vector<GaloisFieldPolynomial<Base>> denominator;
+  GaloisFieldPolynomial<Base> irreducible = irreducibles[dim - 1];
+  const size_t max_quotient = static_cast<size_t>(max_bit / degree);
+  for (size_t q = 0; q <= max_quotient; ++q) {
+    denominator.push_back(irreducible);
+    irreducible *= irreducibles[dim - 1];
+  }
+
   // for each row
   for (size_t row = 0; row < max_bit; ++row) {
     const size_t q = row / degree;
     const size_t k = row % degree;
+
     GaloisFieldPolynomial<Base> numerator =
         GetSobolGeneratorPolynomial<Base>(dim, q, k);
     std::unique_ptr<GaloisField<Base>[]> laurent_series =
-        SolveLaurentSeriesDivision(numerator, denominator, max_bit + 1);
+        SolveLaurentSeriesDivision(numerator, denominator[q], max_bit + 1);
     for (size_t col = 0; col < max_bit; ++col) {
       data[row * max_bit + col] = laurent_series[col + 1];
     }
-    denominator *= irreducibles[dim - 1];
   }
   return Matrix<Base>(max_bit, max_bit, std::move(data));
 }
