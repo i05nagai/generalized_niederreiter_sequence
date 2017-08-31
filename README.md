@@ -3,6 +3,8 @@
 
 ## Overviews
 
+* [API documents](https://i05nagai.github.io/generalized_niederreiter_sequence/build/)
+
 ## Build
 
 ```shell
