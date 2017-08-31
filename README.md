@@ -53,3 +53,9 @@ This repository contains `Dockerfile` to run valgrind locally based on ubutu:14.
 The `Dockerfile` is useful to debug error in Travis CI.
 See README.md in docker/docker_valgrind.
 
+### How to build documents
+Just executes following command
+
+```
+bash scripts/docker_run_generate_docs.sh
+```
