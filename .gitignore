@@ -11,3 +11,8 @@
 /build
 /build_docker
 /docker/docker_valgrind/travis_cmake_setup.sh
+/docs/xml
+/docs/build/.doctrees
+/docs/build/.buildinfo
+/docs/build/objects.inv
+/docs/*.db
