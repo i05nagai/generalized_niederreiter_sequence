@@ -42,4 +42,65 @@ inline double BaseAdicToDouble(const Vector<Base>& base_adic) {
   }
   return point;
 }
+
+/**
+   @brief 
+    Assuming $p=2$.  Let $n$ be num.
+    Base $p$ expansion of $n$ is given by
+    $$n = \sum_{i=0}^{N-1} a_{k}p^{k}$$, $$a_{k} \in \{0, \ldots, p-1\}$$.
+    This function returns $\alpha(n)$ which is defined by
+
+    $$
+     \alpha(n)
+     :=
+     \min
+     \{
+       k \ge 0
+       \mid
+       a_{k} \neq p - 1 = 1
+     \}
+    $$
+
+   @tparam Base
+   @param num is from 0 to Base - 1.
+
+   @return $$\sum_{k=0}^{\alpha(n)}x^{k}$
+ */
+template <int Base>
+inline
+size_t FindCarryBit(size_t num)
+{
+  const size_t num_digit = std::log2(Base);
+  // num = (a_{N-1} ... a_{0})_{2}
+  // alpha(num)
+  for (size_t i = 0; i < num_digit; ++i) {
+    const size_t a = (num >> i) & 1;
+    if (a != 0) {
+      return (2 << i) - 1;
+    }
+  }
+  return (2 << (num_digit - 1)) - 1;
+}
+
+template <int Base>
+inline size_t BitRightShift(const size_t num);
+
+template <>
+inline
+size_t BitRightShift<2>(const size_t num) {
+  return num >> 1;
+}
+
+template <>
+inline
+size_t BitRightShift<4>(const size_t num) {
+  return num >> 2;
+}
+
+template <>
+inline
+size_t BitRightShift<16>(const size_t num) {
+  return num >> 4;
+}
+
 }  // namespace gns

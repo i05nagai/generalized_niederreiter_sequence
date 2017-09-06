@@ -11,6 +11,9 @@
 #define GNS_EXPECT_EQ_WITH_INDEX(expect, actual, index) \
   EXPECT_TRUE(gns::IsExpectEqualWithIndex(expect, actual, index));
 
+#define GNS_EXPECT_DOUBLE_EQ_WITH_INDEX(expect, actual, index) \
+  EXPECT_TRUE(gns::IsExpectEqualWithIndex(expect, actual, index));
+
 namespace gns {
 template <typename T1, typename T2>
 inline ::testing::AssertionResult IsElementEqual(const std::vector<T1>& v1,
