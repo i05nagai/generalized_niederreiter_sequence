@@ -3,9 +3,14 @@
 #include <iomanip>
 #include <random>
 
+/**
+  Estimate PI with QMC using Generalized Niederreiter Sequence (Sobol)
+  with base 2, 4, 16.
+ */
+template <int Base>
 double EstimatePiQMC(const size_t num_point)
 {
-  gns::Sobol<2> sobol(2);
+  gns::Sobol<Base> sobol(2);
   size_t num_inner_point = 0;
   for (size_t i = 0; i < num_point; ++i) {
       std::unique_ptr<double[]> point = sobol.Next();
@@ -17,9 +22,12 @@ double EstimatePiQMC(const size_t num_point)
   return 4.0 * (num_inner_point / static_cast<double>(num_point));
 }
 
+/**
+  Estimate PI with MC.
+ */
 double EstimatePiMC(const size_t num_point)
 {
-  std::mt19937 engine(0); 
+  std::mt19937 engine(0);
   std::uniform_real_distribution<double> dist(0.0, 1.0);
   dist(engine);
   size_t num_inner_point = 0;
@@ -34,9 +42,14 @@ double EstimatePiMC(const size_t num_point)
   return 4.0 * (num_inner_point / static_cast<double>(num_point));
 }
 
+/**
+  Display convergence to true PI.
+ */
 void Display(
     const std::vector<size_t>& data,
-    const std::vector<double>& qmc,
+    const std::vector<double>& qmc_base2,
+    const std::vector<double>& qmc_base4,
+    const std::vector<double>& qmc_base16,
     const std::vector<double>& mc,
     const double true_value)
 {
@@ -44,11 +57,19 @@ void Display(
     << std::setw(15)
     << "data"
     << std::setw(15)
-    << "QMC"
+    << "QMC2"
+    << std::setw(15)
+    << "QMC4"
+    << std::setw(15)
+    << "QMC16"
     << std::setw(15)
     << "MC"
     << std::setw(15)
-    << "diff QMC"
+    << "diff QMC2"
+    << std::setw(15)
+    << "diff QMC4"
+    << std::setw(15)
+    << "diff QMC16"
     << std::setw(15)
     << "diff MC"
     << std::endl;
@@ -60,11 +81,19 @@ void Display(
       << std::setw(15)
       << data[i]
       << std::setw(15)
-      << qmc[i]
+      << qmc_base2[i]
+      << std::setw(15)
+      << qmc_base4[i]
+      << std::setw(15)
+      << qmc_base16[i]
       << std::setw(15)
       << mc[i]
       << std::setw(15)
-      << std::abs(qmc[i] - true_value)
+      << std::abs(qmc_base2[i] - true_value)
+      << std::setw(15)
+      << std::abs(qmc_base4[i] - true_value)
+      << std::setw(15)
+      << std::abs(qmc_base16[i] - true_value)
       << std::setw(15)
       << std::abs(mc[i] - true_value)
       << std::endl;
@@ -78,11 +107,15 @@ int main(int argc, char const* argv[])
   std::vector<size_t> data = {
     100, 1000, 10000, 100000
   };
-  std::vector<double> pi_qmc(data.size());
-  std::transform(data.begin(), data.end(), pi_qmc.begin(), EstimatePiQMC);
-  std::vector<double> pi_mc(data.size());
-  std::transform(data.begin(), data.end(), pi_mc.begin(), EstimatePiMC);
+  std::vector<double> qmc_base2(data.size());
+  std::transform(data.begin(), data.end(), qmc_base2.begin(), EstimatePiQMC<2>);
+  std::vector<double> qmc_base4(data.size());
+  std::transform(data.begin(), data.end(), qmc_base4.begin(), EstimatePiQMC<4>);
+  std::vector<double> qmc_base16(data.size());
+  std::transform(data.begin(), data.end(), qmc_base16.begin(), EstimatePiQMC<16>);
+  std::vector<double> mc(data.size());
+  std::transform(data.begin(), data.end(), mc.begin(), EstimatePiMC);
 
-  Display(data, pi_qmc, pi_mc, PI);
+  Display(data, qmc_base2, qmc_base4, qmc_base16, mc, PI);
   return 0;
 }
