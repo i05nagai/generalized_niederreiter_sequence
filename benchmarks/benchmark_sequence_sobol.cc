@@ -4,9 +4,10 @@
 #include <iomanip>
 #include <random>
 
+template <int Base>
 static double EstimatePiSobol(const size_t num_point)
 {
-  gns::Sobol<2> sobol(2);
+  gns::Sobol<Base> sobol(2);
   size_t num_inner_point = 0;
   for (size_t i = 0; i < num_point; ++i) {
       std::unique_ptr<double[]> point = sobol.Next();
@@ -18,20 +19,45 @@ static double EstimatePiSobol(const size_t num_point)
   return 4.0 * (num_inner_point / static_cast<double>(num_point));
 }
 
-static void BenchmarkSobol(benchmark::State& state)
+static void BenchmarkSobolBase2(benchmark::State& state)
 {
   while(state.KeepRunning()) {
-    benchmark::DoNotOptimize(EstimatePiSobol(state.range(0)));
+    benchmark::DoNotOptimize(EstimatePiSobol<2>(state.range(0)));
   }
 }
-BENCHMARK(BenchmarkSobol)
+BENCHMARK(BenchmarkSobolBase2)
   ->Arg(100)
   ->Arg(1000)
   ->Arg(10000);
 
+static void BenchmarkSobolBase4(benchmark::State& state)
+{
+  while(state.KeepRunning()) {
+    benchmark::DoNotOptimize(EstimatePiSobol<4>(state.range(0)));
+  }
+}
+
+BENCHMARK(BenchmarkSobolBase4)
+  ->Arg(100)
+  ->Arg(1000)
+  ->Arg(10000);
+
+static void BenchmarkSobolBase16(benchmark::State& state)
+{
+  while(state.KeepRunning()) {
+    benchmark::DoNotOptimize(EstimatePiSobol<16>(state.range(0)));
+  }
+}
+
+BENCHMARK(BenchmarkSobolBase16)
+  ->Arg(100)
+  ->Arg(1000)
+  ->Arg(10000);
+
+template <int Base>
 static double EstimatePiSobolGrayMap(const size_t num_point)
 {
-  gns::SobolGrayMap<2> sobol(2);
+  gns::SobolGrayMap<Base> sobol(2);
   size_t num_inner_point = 0;
   for (size_t i = 0; i < num_point; ++i) {
       const std::unique_ptr<double[]>& point = sobol.Next();
@@ -43,13 +69,35 @@ static double EstimatePiSobolGrayMap(const size_t num_point)
   return 4.0 * (num_inner_point / static_cast<double>(num_point));
 }
 
-static void BenchmarkSobolGrayMap(benchmark::State& state)
+static void BenchmarkSobolGrayMapBase2(benchmark::State& state)
 {
   while(state.KeepRunning()) {
-    benchmark::DoNotOptimize(EstimatePiSobolGrayMap(state.range(0)));
+    benchmark::DoNotOptimize(EstimatePiSobolGrayMap<2>(state.range(0)));
   }
 }
-BENCHMARK(BenchmarkSobolGrayMap)
+BENCHMARK(BenchmarkSobolGrayMapBase2)
+  ->Arg(100)
+  ->Arg(1000)
+  ->Arg(10000);
+
+static void BenchmarkSobolGrayMapBase4(benchmark::State& state)
+{
+  while(state.KeepRunning()) {
+    benchmark::DoNotOptimize(EstimatePiSobolGrayMap<4>(state.range(0)));
+  }
+}
+BENCHMARK(BenchmarkSobolGrayMapBase4)
+  ->Arg(100)
+  ->Arg(1000)
+  ->Arg(10000);
+
+static void BenchmarkSobolGrayMapBase16(benchmark::State& state)
+{
+  while(state.KeepRunning()) {
+    benchmark::DoNotOptimize(EstimatePiSobolGrayMap<16>(state.range(0)));
+  }
+}
+BENCHMARK(BenchmarkSobolGrayMapBase16)
   ->Arg(100)
   ->Arg(1000)
   ->Arg(10000);
