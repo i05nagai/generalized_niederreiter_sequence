@@ -257,8 +257,6 @@ class SobolGrayMap {
     return GaloisField<Base>(carry_bit);
   }
 
-  size_t GeneratePolynomial(const size_t num) const {
-  }
   // private function
  private:
   // private members
