@@ -301,7 +301,6 @@ TEST(sequence_sobol_test, SobolGrayMapFindCoefficientBase4) {
   }
 }
 
-
 TEST(sequence_sobol_test, SobolGrayMapNextBase4Dim1) {
   // dim=1
   std::vector<double> expect({
@@ -327,7 +326,6 @@ TEST(sequence_sobol_test, SobolGrayMapNextBase4Dim1) {
     const std::unique_ptr<double[]>& point = sobol.Next();
     GNS_EXPECT_DOUBLE_EQ_WITH_INDEX(expect[i], point[0], i);
   }
-
 }
 
 TEST(sequence_sobol_test, SobolGrayMapNextBase4Dim2) {
@@ -361,4 +359,197 @@ TEST(sequence_sobol_test, SobolGrayMapNextBase4Dim2) {
     }
   }
 }
+
+/*--------------------------------------------------------------------------
+ * Base 16
+ *------------------------------------------------------------------------*/
+TEST(sequence_sobol_test, NextBase16Dim1) {
+  std::vector<double> expect({
+                             // clang-format off
+                             0.0    ,
+                             0.0625 ,
+                             0.125  ,
+                             0.1875 ,
+                             0.25   ,
+                             0.3125 ,
+                             0.375  ,
+                             0.4375 ,
+                             0.5    ,
+                             0.5625 ,
+                             0.625  ,
+                             0.6875 ,
+                             0.75   ,
+                             0.8125 ,
+                             0.875  ,
+                             0.9375 ,
+                             // clang-format on
+                             });
+  Sobol<16> sobol(1);
+  for (size_t i = 0; i < expect.size(); ++i) {
+    std::unique_ptr<double[]> point = sobol.Next();
+    GNS_EXPECT_DOUBLE_EQ_WITH_INDEX(expect[i], point[0], i);
+  }
+}
+
+TEST(sequence_sobol_test, NextBase16Dim2) {
+  std::vector<std::vector<double>> expect({
+  // clang-format off
+    { 0.0, 0.0 },
+    { 0.0625, 0.0625 },
+    { 0.125, 0.125 },
+    { 0.1875, 0.1875 },
+    { 0.25, 0.25 },
+    { 0.3125, 0.3125 },
+    { 0.375, 0.375 },
+    { 0.4375, 0.4375 },
+    { 0.5, 0.5 },
+    { 0.5625, 0.5625 },
+    { 0.625, 0.625 },
+    { 0.6875, 0.6875 },
+    { 0.75, 0.75 },
+    { 0.8125, 0.8125 },
+    { 0.875, 0.875 },
+    { 0.9375, 0.9375 },
+    { 0.00390625, 0.06640625 },
+    { 0.06640625, 0.00390625 },
+    { 0.12890625, 0.19140625 },
+    { 0.19140625, 0.12890625 },
+    { 0.25390625, 0.31640625 },
+    { 0.31640625, 0.25390625 },
+    { 0.37890625, 0.44140625 },
+    { 0.44140625, 0.37890625 },
+    { 0.50390625, 0.56640625 },
+    { 0.56640625, 0.50390625 },
+    { 0.62890625, 0.69140625 },
+    { 0.69140625, 0.62890625 },
+    { 0.75390625, 0.81640625 },
+    { 0.81640625, 0.75390625 },
+    { 0.87890625, 0.94140625 },
+    { 0.94140625, 0.87890625 }
+  // clang-format on
+  });
+  Sobol<16> sobol(2);
+  for (size_t i = 0; i < expect.size(); ++i) {
+    std::unique_ptr<double[]> point = sobol.Next();
+    GNS_EXPECT_DOUBLE_EQ_WITH_INDEX(expect[i][0], point[0], i);
+    GNS_EXPECT_DOUBLE_EQ_WITH_INDEX(expect[i][1], point[1], i);
+  }
+}
+
+TEST(sequence_sobol_test, SobolGrayMapFindCoefficientBase16) {
+  SobolGrayMap<16> sobol(1);
+  std::vector<size_t> data(16);
+  std::iota(data.begin(), data.end(), 1);
+  std::vector<size_t> expect_ls = {
+      // clang-format off
+    0, // 1  = 1
+    0, // 2  = 2
+    0, // 3  = 3
+    0, // 4  = 4
+    0, // 5  = 5
+    0, // 6  = 6
+    0, // 7  = 7
+    0, // 8  = 8
+    0, // 9  = 9
+    0, // 10 = A
+    0, // 11 = B
+    0, // 12 = C
+    0, // 13 = D
+    0, // 14 = E
+    0, // 15 = F
+    1, // 16 = 10
+      // clang-format on
+  };
+  std::vector<size_t> expect_coeffs = {
+      // clang-format off
+    1, // 1, 1, l(n)=0, 1-0=1=0b0001 (mod Base),
+    3, // 2, 2, l(n)=0, 2-0=2=0b0010,
+    1, // 3, 3, l(n)=0, 3-0=3=0b0011,
+    7, // 4, 4, l(n)=0, 4-0=4=0b0100,
+    1, // 5, 5, l(n)=0, 5-0=5=0b0101,
+    3, // 6, 6, l(n)=0, 6-0=6=0b0110,
+    1, // 7, 7, l(n)=0, 7-0=7=0b0111,
+    15, // 8, 8, l(n)=0, 8-0=8=0b1000,
+    1, // 9, 9, l(n)=0, 9-0=9=0b1001,
+    3, // 10, A,l(n)=0, A-0=A=0b1010,
+    1, // 11, B,l(n)=0, B-0=B=0b1011,
+    7, // 12, C,l(n)=0, C-0=C=0b1100,
+    1, // 13, D,l(n)=0, D-0=D=0b1101,
+    3, // 14, E,l(n)=0, E-0=E=0b1110,
+    1, // 15, F,l(n)=0, F-0=F=0b1111,
+    1, // 16, 10,l(n)=1,1-0=1=0b0001,
+      // clang-format on
+  };
+
+  for (size_t i = 0; i < data.size(); ++i) {
+    const size_t num = data[i];
+    size_t l = 0;
+    const GaloisField<16> actual = sobol.FindCoefficient(num, l);
+    // expect
+    const size_t expect_l = expect_ls[i];
+    const size_t expect_coeff = expect_coeffs[i];
+    GNS_EXPECT_EQ_WITH_INDEX(expect_l, l, i)
+    GNS_EXPECT_EQ_WITH_INDEX(expect_coeff, actual.value(), i)
+  }
+}
+
+TEST(sequence_sobol_test, SobolGrayMapNextBase16Dim1) {
+  // dim=1
+  std::vector<double> expect({
+                             0.0    ,
+                             0.0625 ,
+                             0.125  ,
+                             0.1875 ,
+                             0.25   ,
+                             0.3125 ,
+                             0.375  ,
+                             0.4375 ,
+                             0.5    ,
+                             0.5625 ,
+                             0.625  ,
+                             0.6875 ,
+                             0.75   ,
+                             0.8125 ,
+                             0.875  ,
+                             0.9375 ,
+                             });
+  SobolGrayMap<16> sobol(1);
+  for (size_t i = 0; i < expect.size(); ++i) {
+    const std::unique_ptr<double[]>& point = sobol.Next();
+    GNS_EXPECT_DOUBLE_EQ_WITH_INDEX(expect[i], point[0], i);
+  }
+}
+
+TEST(sequence_sobol_test, SobolGrayMapNextBase16Dim2) {
+  // dim =2
+  {
+    std::vector<std::vector<double>> expect({
+    // clang-format off
+    { 0.0, 0.0 },
+    { 0.0625, 0.0625 },
+    { 0.125, 0.125 },
+    { 0.1875, 0.1875 },
+    { 0.25, 0.25 },
+    { 0.3125, 0.3125 },
+    { 0.375, 0.375 },
+    { 0.4375, 0.4375 },
+    { 0.5, 0.5 },
+    { 0.5625, 0.5625 },
+    { 0.625, 0.625 },
+    { 0.6875, 0.6875 },
+    { 0.75, 0.75 },
+    { 0.8125, 0.8125 },
+    { 0.875, 0.875 },
+    { 0.9375, 0.9375 },
+    // clang-format on
+    });
+    SobolGrayMap<16> sobol(2);
+    for (size_t i = 0; i < expect.size(); ++i) {
+      const std::unique_ptr<double[]>& point = sobol.Next();
+      GNS_EXPECT_DOUBLE_EQ_WITH_INDEX(expect[i][0], point[0], i);
+      GNS_EXPECT_DOUBLE_EQ_WITH_INDEX(expect[i][1], point[1], i);
+    }
+  }
+}
+
 }  // namespace gns
