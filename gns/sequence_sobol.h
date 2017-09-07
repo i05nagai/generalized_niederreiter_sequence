@@ -207,32 +207,58 @@ class SobolGrayMap {
     ++seed_;
     return cache_;
   }
-  // private function
- private:
+  /**
+    @brief 
+    $b$ is Base and $b = p^{n}$.
+    $$n = \sum_{i=0}^{k} a_{i}b^{i}, a_{i} \in \{0, \ldots, b-1\}$$,
+    $$l(n) := \min\{i \mid a_{i} \neq b - 1\}$$
+    $$ a = \sum_{i=0}^{k} d_{i}p^{i}$$, $$d_{i} \in \{0, \ldots, p-1}\}$$, $$k < n$$,
+    $$ \alpha(a) := \min\{i \mid d_{i} \neq p - 1\}$$,
+    then  coefficient $c$ is given by
+
+    $$
+      c
+      =
+      \sum_{i=0}^{\alpha(a_{l(n)} - a_{l(n)+1})}
+          x^{i}
+    $$
+
+    @param n
+    @param l $l(n)$
+
+    @return 
+   */
   GaloisField<Base>
-  FindCoefficient(size_t n, size_t& l) const
+  FindCoefficient(const size_t num, size_t& l) const
   {
+    assert(num > 0);
+    constexpr size_t mask = Base - 1;
+    size_t n = num;
     // l(n)
     size_t a0 = 0;
     size_t a1 = 0;
-    for (l = 0; l < max_bit_ / Base; ++l) {
-      a0 = n & (Base - 1);
-      if (Base - 1 == a0) {
-        a1 = (n / Base) & (Base - 1);
+    const size_t num_loop = (std::log2(num) / std::log2(Base)) + 1;
+    for (l = 0; l < num_loop; ++l) {
+      a0 = n & mask;
+      // a(l) == b - 1
+      if (a0 != 0) {
+        a1 =  BitRightShift<Base>(n) & mask;
         break;
       }
-      n /= Base;
+      n = BitRightShift<Base>(n);
     }
+
     // a = a_{l(n)} - a_{l(n)+1}
-    const size_t a = a0 ^ a1;
-    // find MSB of a
-    for (int i = 0; i < Base - 1; i++) {
-      if (0 == ((a << i) & 0x1)) {
-        return i + 1;
-      }
+    int a = a0 - a1;
+    if (a < 0) {
+      a += Base;
     }
-    return Base - 1;
+    const size_t carry_bit = FindCarryBit<Base>(a);
+    return GaloisField<Base>(carry_bit);
   }
+
+  // private function
+ private:
   // private members
  private:
   size_t dimension_;
