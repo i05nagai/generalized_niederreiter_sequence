@@ -5,6 +5,10 @@
 
 * [API documents](https://i05nagai.github.io/generalized_niederreiter_sequence/build/)
 
+The below picture illustrate sobol sequences and pseudo random sequence in two dimension.
+
+![image](https://user-images.githubusercontent.com/5404587/30174873-7a9de8ae-9437-11e7-9609-708fff966a6d.png)
+
 ## Build
 
 ```shell

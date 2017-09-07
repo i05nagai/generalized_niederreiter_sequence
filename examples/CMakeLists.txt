@@ -1,5 +1,6 @@
 LIST (APPEND examples_PROGRAMS
     example_sequence_sobol.cc
+    example_simple_two_dim.cc
 )
 INCLUDE_DIRECTORIES(
     ${PROJECT_SOURCE_DIR}
