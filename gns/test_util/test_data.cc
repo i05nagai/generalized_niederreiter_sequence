@@ -14,6 +14,18 @@ std::vector<double> TestData::GetRandomNumbers(const size_t size) {
 }
 
 template <int Base>
+std::vector<GaloisField<Base>> TestData::GetRandomGaloisFieldVector(
+    const size_t size) {
+  std::vector<double> data = TestData::GetRandomNumbers(size);
+
+  std::vector<GaloisField<Base>> result(size);
+  std::transform(data.begin(), data.end(), result.begin(), [&](double x) {
+    return TestData::DoubleToGaloisField<Base>(x);
+  });
+  return result;
+}
+
+template <int Base>
 std::unique_ptr<GaloisField<Base>[]> TestData::GetRandomGaloisFieldArray(
     const size_t size) {
   std::vector<double> data = TestData::GetRandomNumbers(size);
@@ -67,6 +79,8 @@ std::unique_ptr<GaloisField<Base>[]> MakeGaloisFieldArray(
 namespace gns {
 namespace test_util {
 #define TEMPLATE_INSTANTIATION(Base)                                           \
+  template std::vector<GaloisField<Base>>                                      \
+  TestData::GetRandomGaloisFieldVector(const size_t size);                     \
   template std::unique_ptr<GaloisField<Base>[]>                                \
   TestData::GetRandomGaloisFieldArray(const size_t size);                      \
   template std::unique_ptr<GaloisField<Base>[]>                                \

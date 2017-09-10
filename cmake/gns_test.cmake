@@ -1,5 +1,6 @@
 LIST (APPEND gns_test_SOURCES
     gns/galois_field_operator_test.cc
+    gns/galois_field_test.cc
     gns/irreducible_polynomial_test.cc
     gns/laurent_series_test.cc
     gns/main.cc

@@ -1,6 +1,8 @@
 #pragma once
 #include <cassert>
 #include <iostream>
+#include "gns/fwd.h"
+#include "gns/galois_field_operator.h"
 
 namespace gns {
 template <int Base>
@@ -75,6 +77,66 @@ class GaloisField {
    */
   bool operator!=(const GaloisField<Base>& other) const {
     return !(*this == other);
+  }
+  /**
+   * @brief 
+   *
+   * @param other
+   *
+   * @return 
+   */
+  GaloisField<Base>& operator+=(const GaloisField<Base>& other) {
+    value_ ^= other.value_;
+    return *this;
+  }
+  /**
+   * @brief 
+   *
+   * @param other
+   *
+   * @return 
+   */
+  GaloisField<Base>& operator-=(const GaloisField<Base>& other) {
+    value_ ^= other.value_;
+    return *this;
+  }
+  /**
+   * @brief 
+   *
+   * @param other
+   *
+   * @return 
+   */
+  GaloisField<Base>& operator*=(const GaloisField<Base>& other) {
+    value_ = mult<Base>(value_, other.value_);
+    return *this;
+  }
+  /**
+   * @brief 
+   *
+   * @param other
+   *
+   * @return 
+   */
+  GaloisField<Base>& operator/=(const GaloisField<Base>& other) {
+    value_ = div<Base>(value_, other.value_);
+    return *this;
+  }
+  /**
+   * @brief 
+   *
+   * @return 
+   */
+  GaloisField<Base>& operator+() {
+    return *this;
+  }
+  /**
+   * @brief 
+   *
+   * @return 
+   */
+  GaloisField<Base>& operator-() {
+    return *this;
   }
   /**
    * @brief

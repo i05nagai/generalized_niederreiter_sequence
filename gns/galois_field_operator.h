@@ -1,80 +1,9 @@
 #pragma once
 #include <memory>
+#include "gns/fwd.h"
 #include "gns/galois_field.h"
 
-/*--------------------------------------------------------------------------
- * operators
- *------------------------------------------------------------------------*/
 namespace gns {
-/**
- * @brief
- *
- * @param value
- * @param base
- *
- * @return
- */
-template <int Base>
-inline unsigned char getLowestSiginicantBit(const unsigned char value,
-                                            const int base) {
-  return value & (base - 1);
-}
-/**
- * @brief
- *
- * @tparam Base
- * @param left
- * @param right
- *
- * @return
- */
-template <int Base>
-inline unsigned char add(const unsigned char left, const unsigned char right);
-/**
- * @brief
- *
- * @tparam Base
- * @param left
- * @param right
- *
- * @return
- */
-template <int Base>
-inline unsigned char sub(const unsigned char left, const unsigned char right);
-/**
- * @brief
- *
- * @tparam Base
- * @param left
- * @param right
- *
- * @return
- */
-template <int Base>
-inline unsigned char mult(const unsigned char left, const unsigned char right);
-/**
- * @brief
- *
- * @tparam Base
- * @param left
- * @param right
- *
- * @return
- */
-template <int Base>
-inline unsigned char div(const unsigned char left, const unsigned char right);
-/**
- * @brief 
- *
- * @tparam Base
- * @param left
- * @param right
- *
- * @return 
- */
-template <int Base>
-inline unsigned char minus(const unsigned char value);
-
 /*--------------------------------------------------------------------------
  * Base=2
  *------------------------------------------------------------------------*/
