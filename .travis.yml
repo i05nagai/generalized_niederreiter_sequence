@@ -51,6 +51,25 @@ matrix:
           packages:
             - libc6-i386
             - libc6-dbg
+    - os: linux
+      compiler: clang++
+      env:
+        - BUILD_TYPE=Release
+          GNS_BUILD_TEST="-DGNS_BUILD_TEST=ON"
+          GNS_BUILD_TEST_MEMORYCHECK="-DGNS_BUILD_TEST_MEMORYCHECK=ON"
+          GNS_BUILD_BENCHMARKS="-DGNS_BUILD_BENCHMARKS=ON"
+          GNS_BUILD_EXAMPLES="-DGNS_BUILD_EXAMPLES=ON"
+      addons:
+        apt:
+          sources:
+            # List of whitelisted in travis packages for ubuntu-precise can be found here:
+            #   https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
+            # List of whitelisted in travis apt-sources:
+            #   https://github.com/travis-ci/apt-source-whitelist/blob/master/ubuntu.json
+            - ubuntu-toolchain-r-test
+          packages:
+            - libc6-i386
+            - libc6-dbg
     - os: osx
       compiler: gcc
       env:
