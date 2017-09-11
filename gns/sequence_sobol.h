@@ -267,4 +267,21 @@ class SobolGrayMap {
   std::vector<Vector<Base>> points_;
   std::vector<Matrix<Base>> generator_matrix_;
 };
+
+template <>
+GaloisField<2>
+SobolGrayMap<2>::FindCoefficient(const size_t num, size_t& l) const
+{
+  assert(num > 0);
+  size_t n = num;
+  // l(n)
+  for (l = 0; l < max_bit_; ++l) {
+    // a(l) != 0
+    if ((n & 1) != 0) {
+      return 1;
+    }
+    n >>= 1;
+  }
+  return 1;
+}
 }  // namespace gns
