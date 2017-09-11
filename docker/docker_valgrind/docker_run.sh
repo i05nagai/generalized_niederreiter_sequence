@@ -11,4 +11,4 @@ docker run -it \
   --env GNS_BUILD_EXAMPLES="-DGNS_BUILD_EXAMPLES=OFF" \
   --env GNS_BUILD_TEST_MEMORYCHECK="-DGNS_BUILD_TEST_MEMORYCHECK=ON" \
   gns/valgrind:latest \
-  ${PATH_TO_REPOSITORY_IN_DOCKER}/ci/build_cmake.sh build_docker
+  ${PATH_TO_REPOSITORY_IN_DOCKER}/ci/build_cmake.sh build_valgrind
