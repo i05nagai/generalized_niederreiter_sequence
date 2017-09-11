@@ -15,6 +15,11 @@ IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     SET (CMAKE_CXX_FLAGS_DEBUG, "-g ${CMAKE_CXX_FLAGS_DEBUG}")
     # for release
     SET (CMAKE_CXX_FLAGS_RELEASE "-O2 ${CMAKE_CXX_FLAGS_RELEASE}")
+    # If profiling with gprof is on
+    IF(GNS_BUILD_WITH_PROFILE)
+        SET (CMAKE_CXX_FLAGS "-pg ${CMAKE_CXX_FLAGS}")
+        SET (CMAKE_CXX_FLAGS "-g ${CMAKE_CXX_FLAGS}")
+    ENDIF()
 ELSEIF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     SET (CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
     SET (CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -Wno-unused-parameter ${CMAKE_CXX_FLAGS}")
