@@ -9,7 +9,10 @@
 
 #
 /build
-/build_docker
+/build_gprof
+/build_release
+/build_valgrind
+/docker/docker_profile/travis_cmake_setup.sh
 /docker/docker_valgrind/travis_cmake_setup.sh
 /docs/xml
 /docs/build/.doctrees
