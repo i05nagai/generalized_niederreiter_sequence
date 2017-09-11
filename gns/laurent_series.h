@@ -112,9 +112,7 @@ template <int Base>
 std::unique_ptr<GaloisField<Base>[]> SolveLaurentSeriesDivision(
     const GaloisFieldPolynomial<Base>& a, const GaloisFieldPolynomial<Base>& b,
     const size_t max_degree) {
-  const size_t n = a.degree();
-  const size_t m = b.degree();
-  assert(n < m);
+  assert(a.degree() < b.degree());
   const size_t array_size = max_degree + 1;
   std::unique_ptr<GaloisField<Base>[]> c(new GaloisField<Base>[array_size]);
   // calculate c = a / b

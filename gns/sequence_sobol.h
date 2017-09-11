@@ -197,8 +197,7 @@ class SobolGrayMap {
       size_t l = 0;
       const GaloisField<Base> coeff = FindCoefficient(seed_, l);
       for (size_t row = 0; row < max_bit_; ++row) {
-        points_[dim][row] = (points_[dim][row]
-                             + coeff * generator_matrix_[dim](row, l));
+        points_[dim][row] += coeff * generator_matrix_[dim](row, l);
       }
       cache_[dim] = BaseAdicToDouble(points_[dim]);
     }
@@ -248,7 +247,7 @@ class SobolGrayMap {
       n = BitRightShift<Base>(n);
     }
 
-    // a = a_{l(n)} - a_{l(n)+1}
+    // a = a_{l(n)} - a_{l(n)+1} (mod Base)
     int a = a0 - a1;
     if (a < 0) {
       a += Base;

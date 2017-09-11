@@ -28,6 +28,17 @@ class TestData {
    * @return
    */
   template <int Base>
+  static std::vector<GaloisField<Base>> GetRandomGaloisFieldVector(
+      const size_t size);
+  /**
+   * @brief
+   *
+   * @param size
+   * @param base
+   *
+   * @return
+   */
+  template <int Base>
   static std::unique_ptr<GaloisField<Base>[]> GetRandomGaloisFieldArray(
       const size_t size);
   /**
