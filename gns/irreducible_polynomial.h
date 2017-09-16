@@ -24,7 +24,7 @@ class IrreduciblePolynomialGenerator {
    *
    * @param inputStream
    */
-  IrreduciblePolynomialGenerator(std::istream& inputStream);
+  explicit IrreduciblePolynomialGenerator(std::istream& inputStream);
   /**
    * @brief Find num irreducible polyonmials from degree 1.
    *
@@ -40,12 +40,13 @@ class IrreduciblePolynomialGenerator {
    */
   GaloisFieldPolynomial<Base> GetNext();
   /**
-   * @brief Save irreducible polynomials to filepath.
+   * @brief Save irreducible polynomials to output stream.
+   * Each irreducible polynomial writes in each line.
    *
-   * @param filepath
+   * @param output
+   * @param delimiter default value is empty.
    */
-  void Save(std::ostream& output) const;
-
+  void Save(std::ostream& output, const std::string delimiter="") const;
  private:
   /**
    * @brief
@@ -56,17 +57,45 @@ class IrreduciblePolynomialGenerator {
    */
   GaloisFieldPolynomial<Base> ConvertToPolynomial(size_t num) const;
   /**
-   * @brief
+   * @brief This function assumes that seed_ is equal to integer
+   * which is converted from irreducibles_.back().
+   * seed_ is updated to integer which is converted from
+   * the returns value.
    *
-   * @return
+   * @return an irreducible polynomial after the seed_.
+   * The order is defined by the Base adic expansion mapping.
    */
-  GaloisFieldPolynomial<Base> FindIrreduciblePolynomial(size_t& seed) const;
+  GaloisFieldPolynomial<Base> FindIrreduciblePolynomial();
 
  private:
+  /**
+   * @brief seed_ must be equal to integer of irreducible_.back().
+   */
   size_t seed_;
+  /**
+   * @brief irreducibles_ must contains all irreducible polynomials of which
+   * integer is less than seed_.
+   */
   std::vector<GaloisFieldPolynomial<Base>> irreducibles_;
 };
-
+/**
+ * @brief 
+ *
+ * @tparam Base
+ * @param data
+ *
+ * @return 
+ */
+template <int Base>
+GaloisFieldPolynomial<Base> MakeGaloisFieldPolynomial(const size_t data);
+/**
+ * @brief 
+ *
+ * @tparam Base
+ * @param str_data
+ *
+ * @return 
+ */
 template <int Base>
 GaloisFieldPolynomial<Base> MakeGaloisFieldPolynomial(const char* str_data);
 }  // namespace gns

@@ -7,7 +7,7 @@ namespace gns {
 /*--------------------------------------------------------------------------
  * Base 2
  *------------------------------------------------------------------------*/
-TEST(IrreduciblePolynomial, GetNextTest01) {
+TEST(irreducible_polynomial_test, IrreduciblePolynomialGetNextBase2Test0) {
   IrreduciblePolynomialGenerator<2> generator;
   GaloisFieldPolynomial<2> actual = generator.GetNext();
 
@@ -15,7 +15,7 @@ TEST(IrreduciblePolynomial, GetNextTest01) {
   GSN_EXPECT_POLYNOMIAL_EQ(expect, actual);
 }
 
-TEST(IrreduciblePolynomial, GetNextTest02) {
+TEST(irreducible_polynomial_test, IrreduciblePolynomialGetNextBase2Test1) {
   std::vector<GaloisFieldPolynomial<2>> expects = {
       // clang-format off
     {0, 1},
@@ -37,7 +37,7 @@ TEST(IrreduciblePolynomial, GetNextTest02) {
   }
 }
 
-TEST(IrreduciblePolynomial, ConstructorTest) {
+TEST(irreducible_polynomial_test, IrreduciblePolynomialConstructorTest) {
   std::string expect("2\n4\n");
   std::istringstream input_stream(expect);
   IrreduciblePolynomialGenerator<2> generator(input_stream);
