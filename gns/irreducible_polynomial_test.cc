@@ -108,4 +108,49 @@ TEST(irreducible_polynomial_test, GetNext) {
     EXPECT_EQ(expects[i], actual);
   }
 }
+/*--------------------------------------------------------------------------
+ * Base 16
+ *------------------------------------------------------------------------*/
+TEST(irreducible_polynomial_test, IrreduciblePolynomialGetNextBase16Test1) {
+  std::vector<GaloisFieldPolynomial<16>> expects = {
+      // clang-format off
+    {0, 1},
+    {1, 1},
+    {2, 1},
+    {3, 1},
+    {4, 1},
+    {5, 1},
+    {6, 1},
+    {7, 1},
+    {8, 1},
+    {9, 1},
+    {10, 1},
+    {11, 1},
+    {12, 1},
+    {13, 1},
+    {14, 1},
+    {15, 1},
+    {2, 1, 1},
+    {3, 1, 1},
+      // clang-format on
+  };
+  const size_t num = expects.size();
+  IrreduciblePolynomialGenerator<16> generator;
+  for (size_t i = 0; i < num; ++i) {
+    const GaloisFieldPolynomial<16>& actual = generator.GetNext();
+    EXPECT_EQ(expects[i], actual);
+  }
+}
+
+TEST(irreducible_polynomial_test, IrreduciblePolynomialConstructorBase16Test) {
+  std::string expect("16\n17\n");
+  std::istringstream input_stream(expect);
+  IrreduciblePolynomialGenerator<16> generator(input_stream);
+
+  std::stringstream string_stream;
+  generator.Save(string_stream);
+
+  EXPECT_EQ(expect, string_stream.str());
+}
+
 }  // namespace gf

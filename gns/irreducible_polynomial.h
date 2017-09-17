@@ -26,17 +26,23 @@ class IrreduciblePolynomialGenerator {
    */
   explicit IrreduciblePolynomialGenerator(std::istream& inputStream);
   /**
+   * @brief 
+   *
+   * @param 
+   */
+  explicit IrreduciblePolynomialGenerator(const bool use_prepared_irreducibles);
+  /**
    * @brief Find num irreducible polyonmials from degree 1.
    *
-   * @param num number of irreducible polynomials generating.
+   * @param num number of irreducible polynomials generated.
    *
-   * @return
+   * @return 
    */
   const std::vector<GaloisFieldPolynomial<Base>>& operator()(const size_t num);
   /**
-   * @brief
+   * @brief 
    *
-   * @return
+   * @return 
    */
   GaloisFieldPolynomial<Base> GetNext();
   /**
@@ -66,7 +72,14 @@ class IrreduciblePolynomialGenerator {
    * The order is defined by the Base adic expansion mapping.
    */
   GaloisFieldPolynomial<Base> FindIrreduciblePolynomial();
-
+  /**
+   * @brief Get prepared irreducible polynomials.
+   * Currently up to 20,000 irreducible polynomials are supported.
+   *
+   * @return 
+   */
+  std::vector<GaloisFieldPolynomial<Base>>
+  GetPreparedIrreducibles(const bool use_prepared_irreducibles) const;
  private:
   /**
    * @brief seed_ must be equal to integer of irreducible_.back().
@@ -82,12 +95,11 @@ class IrreduciblePolynomialGenerator {
  * @brief 
  *
  * @tparam Base
- * @param data
  *
- * @return 
+ * @return Pre calcualted irreducible polynomials over Base as a list of int.
  */
 template <int Base>
-GaloisFieldPolynomial<Base> MakeGaloisFieldPolynomial(const size_t data);
+std::vector<int> GetPreparedIrreduciblesData();
 /**
  * @brief 
  *
