@@ -24,28 +24,29 @@ class IrreduciblePolynomialGenerator {
    *
    * @param inputStream
    */
-  IrreduciblePolynomialGenerator(std::istream& inputStream);
+  explicit IrreduciblePolynomialGenerator(std::istream& inputStream);
+  /**
+   * @brief 
+   *
+   * @param 
+   */
+  explicit IrreduciblePolynomialGenerator(const bool use_prepared_irreducibles);
   /**
    * @brief Find num irreducible polyonmials from degree 1.
    *
-   * @param num number of irreducible polynomials generating.
+   * @param num number of irreducible polynomials generated.
    *
-   * @return
+   * @return 
    */
   const std::vector<GaloisFieldPolynomial<Base>>& operator()(const size_t num);
   /**
-   * @brief
+   * @brief Save irreducible polynomials to output stream.
+   * Each irreducible polynomial writes in each line.
    *
-   * @return
+   * @param output
+   * @param delimiter default value is empty.
    */
-  GaloisFieldPolynomial<Base> GetNext();
-  /**
-   * @brief Save irreducible polynomials to filepath.
-   *
-   * @param filepath
-   */
-  void Save(std::ostream& output) const;
-
+  void Save(std::ostream& output, const std::string delimiter="") const;
  private:
   /**
    * @brief
@@ -56,17 +57,51 @@ class IrreduciblePolynomialGenerator {
    */
   GaloisFieldPolynomial<Base> ConvertToPolynomial(size_t num) const;
   /**
-   * @brief
+   * @brief This function assumes that seed_ is equal to integer
+   * which is converted from irreducibles_.back().
+   * seed_ is updated to integer which is converted from
+   * the returns value.
    *
-   * @return
+   * @return an irreducible polynomial after the seed_.
+   * The order is defined by the Base adic expansion mapping.
    */
-  GaloisFieldPolynomial<Base> FindIrreduciblePolynomial(size_t& seed) const;
-
+  GaloisFieldPolynomial<Base> FindIrreduciblePolynomial();
+  /**
+   * @brief Get prepared irreducible polynomials.
+   * Currently up to 20,000 irreducible polynomials are supported.
+   *
+   * @return 
+   */
+  std::vector<GaloisFieldPolynomial<Base>>
+  GetPreparedIrreducibles(const bool use_prepared_irreducibles) const;
  private:
+  /**
+   * @brief seed_ must be equal to integer of irreducible_.back().
+   */
   size_t seed_;
+  /**
+   * @brief irreducibles_ must contains all irreducible polynomials of which
+   * integer is less than seed_.
+   */
   std::vector<GaloisFieldPolynomial<Base>> irreducibles_;
 };
-
+/**
+ * @brief 
+ *
+ * @tparam Base
+ *
+ * @return Pre calcualted irreducible polynomials over Base as a list of int.
+ */
+template <int Base>
+std::vector<int> GetPreparedIrreduciblesData();
+/**
+ * @brief 
+ *
+ * @tparam Base
+ * @param str_data
+ *
+ * @return 
+ */
 template <int Base>
 GaloisFieldPolynomial<Base> MakeGaloisFieldPolynomial(const char* str_data);
 }  // namespace gns
