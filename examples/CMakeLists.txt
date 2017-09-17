@@ -1,4 +1,5 @@
 LIST (APPEND examples_PROGRAMS
+    example_irreducible_polynomials.cc
     example_sequence_sobol.cc
     example_simple_two_dim.cc
 )
