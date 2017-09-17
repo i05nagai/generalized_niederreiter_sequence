@@ -40,12 +40,6 @@ class IrreduciblePolynomialGenerator {
    */
   const std::vector<GaloisFieldPolynomial<Base>>& operator()(const size_t num);
   /**
-   * @brief 
-   *
-   * @return 
-   */
-  GaloisFieldPolynomial<Base> GetNext();
-  /**
    * @brief Save irreducible polynomials to output stream.
    * Each irreducible polynomial writes in each line.
    *

@@ -54,12 +54,6 @@ IrreduciblePolynomialGenerator<Base>::operator()(const size_t num) {
 }
 
 template <int Base>
-GaloisFieldPolynomial<Base> IrreduciblePolynomialGenerator<Base>::GetNext() {
-  irreducibles_.emplace_back(this->FindIrreduciblePolynomial());
-  return irreducibles_.back();
-}
-
-template <int Base>
 void IrreduciblePolynomialGenerator<Base>::Save(
     std::ostream& output, const std::string delimiter) const {
   for (size_t i = 0; i < irreducibles_.size(); ++i) {
@@ -183,8 +177,6 @@ namespace gns {
           const bool use_prepared_irreducibles);                           \
   template const std::vector<GaloisFieldPolynomial<Base>>&                 \
   IrreduciblePolynomialGenerator<Base>::operator()(const size_t num);      \
-  template GaloisFieldPolynomial<Base>                                     \
-  IrreduciblePolynomialGenerator<Base>::GetNext();                         \
   template void IrreduciblePolynomialGenerator<Base>::Save(                \
       std::ostream& output, const std::string delimiter) const;            \
   template std::vector<GaloisFieldPolynomial<Base>>                        \

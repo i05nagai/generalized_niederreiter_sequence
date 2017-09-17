@@ -7,15 +7,17 @@ namespace gns {
 /*--------------------------------------------------------------------------
  * Base 2
  *------------------------------------------------------------------------*/
-TEST(irreducible_polynomial_test, IrreduciblePolynomialGetNextBase2Test0) {
+TEST(irreducible_polynomial_test,
+     IrreduciblePolynomialOperatorParenthesisBase2Test0) {
   IrreduciblePolynomialGenerator<2> generator;
-  GaloisFieldPolynomial<2> actual = generator.GetNext();
+  GaloisFieldPolynomial<2> actual = generator(1)[0];
 
   GaloisFieldPolynomial<2> expect({0, 1});
   GSN_EXPECT_POLYNOMIAL_EQ(expect, actual);
 }
 
-TEST(irreducible_polynomial_test, IrreduciblePolynomialGetNextBase2Test1) {
+TEST(irreducible_polynomial_test,
+     IrreduciblePolynomialOperatorParenthesisBase2Test1) {
   std::vector<GaloisFieldPolynomial<2>> expects = {
       // clang-format off
     {0, 1},
@@ -31,9 +33,9 @@ TEST(irreducible_polynomial_test, IrreduciblePolynomialGetNextBase2Test1) {
   };
   const size_t num = expects.size();
   IrreduciblePolynomialGenerator<2> generator;
+  const std::vector<GaloisFieldPolynomial<2>>& actual = generator(num);
   for (size_t i = 0; i < num; ++i) {
-    const GaloisFieldPolynomial<2>& actual = generator.GetNext();
-    EXPECT_EQ(expects[i], actual);
+    EXPECT_EQ(expects[i], actual[i]);
   }
 }
 
@@ -79,7 +81,8 @@ TEST(IrreduciblePolynomial, OperatorParenthesisTest) {
 /*--------------------------------------------------------------------------
  * Base 4
  *------------------------------------------------------------------------*/
-TEST(irreducible_polynomial_test, GetNext) {
+TEST(irreducible_polynomial_test,
+     IrreduciblePolynomialOperatorParenthesisBase4Test) {
   std::vector<GaloisFieldPolynomial<4>> expects = {
       // clang-format off
     {0, 1},
@@ -103,15 +106,16 @@ TEST(irreducible_polynomial_test, GetNext) {
   };
   const size_t num = expects.size();
   IrreduciblePolynomialGenerator<4> generator;
+  const std::vector<GaloisFieldPolynomial<4>>& actual = generator(num);
   for (size_t i = 0; i < num; ++i) {
-    const GaloisFieldPolynomial<4>& actual = generator.GetNext();
-    EXPECT_EQ(expects[i], actual);
+    EXPECT_EQ(expects[i], actual[i]);
   }
 }
 /*--------------------------------------------------------------------------
  * Base 16
  *------------------------------------------------------------------------*/
-TEST(irreducible_polynomial_test, IrreduciblePolynomialGetNextBase16Test1) {
+TEST(irreducible_polynomial_test,
+     IrreduciblePolynomialOperatorParenthesisBase16Test1) {
   std::vector<GaloisFieldPolynomial<16>> expects = {
       // clang-format off
     {0, 1},
@@ -136,9 +140,9 @@ TEST(irreducible_polynomial_test, IrreduciblePolynomialGetNextBase16Test1) {
   };
   const size_t num = expects.size();
   IrreduciblePolynomialGenerator<16> generator;
+  const std::vector<GaloisFieldPolynomial<16>>& actual = generator(num);
   for (size_t i = 0; i < num; ++i) {
-    const GaloisFieldPolynomial<16>& actual = generator.GetNext();
-    EXPECT_EQ(expects[i], actual);
+    EXPECT_EQ(expects[i], actual[i]);
   }
 }
 
