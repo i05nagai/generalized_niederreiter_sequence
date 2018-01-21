@@ -89,7 +89,7 @@ before_install:
   - echo $LANG
   - echo $LC_ALL
   - ls -la
-  - if [ "$TRAVIS_OS_NAME" == "osx" -a "$CXX" == "g++" ]; then brew install gcc48; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" -a "$CXX" == "g++" ]; then brew install gcc@4.8; fi
   # valgrind does not work in osx so we only test with valgrind on linux
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       export BASEPATH=`pwd`;
