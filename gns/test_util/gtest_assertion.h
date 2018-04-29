@@ -1,6 +1,7 @@
 #pragma once
 #include <gtest/gtest.h>
 #include "gns/fwd.h"
+#include <functional>
 
 #define GNS_EXPECT_VECTOR_ELEMENT_EQ(expect, actual) \
   EXPECT_TRUE(gns::IsElementEqual(expect, actual));
