@@ -1,7 +1,7 @@
-#include "gns/test_util/gtest_assertion.h"
-#include "gns/test_util/gtest_helper_macro.h"
 #include "gns/util.h"
 #include <gtest/gtest.h>
+#include "gns/test_util/gtest_assertion.h"
+#include "gns/test_util/gtest_helper_macro.h"
 
 namespace gns {
 TEST(util_test, CalculateBaseAdic2) {
@@ -104,10 +104,10 @@ TEST(util_test, BaseAdicToDouble4) {
 
 TEST(util_test, FindCarryBitBase2) {
   std::vector<size_t> data = {
-    0, 1,
+      0, 1,
   };
   std::vector<size_t> expects = {
-    1, 1,
+      1, 1,
   };
   for (size_t i = 0; i < data.size(); ++i) {
     const size_t actual = FindCarryBit<2>(data[i]);
@@ -118,16 +118,13 @@ TEST(util_test, FindCarryBitBase2) {
 
 TEST(util_test, FindCarryBitBase4) {
   std::vector<size_t> data = {
-    0, // 00
-    1, // 01
-    2, // 10
-    3, // 11
+      0,  // 00
+      1,  // 01
+      2,  // 10
+      3,  // 11
   };
   std::vector<size_t> expects = {
-    3,
-    1,
-    3,
-    1,
+      3, 1, 3, 1,
   };
   for (size_t i = 0; i < data.size(); ++i) {
     const size_t actual = FindCarryBit<4>(data[i]);
@@ -138,40 +135,25 @@ TEST(util_test, FindCarryBitBase4) {
 
 TEST(util_test, FindCarryBitBase16) {
   std::vector<size_t> data = {
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
   };
   std::vector<size_t> expects = {
-    15, // 1  = 0000
-    1,  // 2  = 0001
-    3,  // 3  = 0010
-    1,  // 4  = 0011
-    7,  // 5  = 0100
-    1,  // 6  = 0101
-    3,  // 7  = 0110
-    1,  // 8  = 0111
-    15, // 9  = 1000
-    1,  // 10 = 1001
-    3,  // 11 = 1010
-    1,  // 12 = 1011
-    7,  // 13 = 1100
-    1,  // 14 = 1101
-    3,  // 15 = 1110
-    1, // 16 = 1111
+      15,  // 1  = 0000
+      1,   // 2  = 0001
+      3,   // 3  = 0010
+      1,   // 4  = 0011
+      7,   // 5  = 0100
+      1,   // 6  = 0101
+      3,   // 7  = 0110
+      1,   // 8  = 0111
+      15,  // 9  = 1000
+      1,   // 10 = 1001
+      3,   // 11 = 1010
+      1,   // 12 = 1011
+      7,   // 13 = 1100
+      1,   // 14 = 1101
+      3,   // 15 = 1110
+      1,   // 16 = 1111
   };
   for (size_t i = 0; i < data.size(); ++i) {
     const size_t actual = FindCarryBit<16>(data[i]);

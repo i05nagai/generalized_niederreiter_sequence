@@ -70,13 +70,10 @@ inline ::testing::AssertionResult IsExpectEqualWithIndex(const T1& expect,
 }
 
 template <typename RawType>
-::testing::AssertionResult
-CmpHelperFloatingPointEQ(const char* lhs_expression,
-                         const char* rhs_expression,
-                         const char* index_expression,
-                         RawType lhs_value,
-                         RawType rhs_value,
-                         const size_t index) {
+::testing::AssertionResult CmpHelperFloatingPointEQ(
+    const char* lhs_expression, const char* rhs_expression,
+    const char* index_expression, RawType lhs_value, RawType rhs_value,
+    const size_t index) {
   const ::testing::internal::FloatingPoint<RawType> lhs(lhs_value);
   const ::testing::internal::FloatingPoint<RawType> rhs(rhs_value);
 
@@ -92,13 +89,12 @@ CmpHelperFloatingPointEQ(const char* lhs_expression,
          << rhs_value;
 
   return ::testing::AssertionFailure()
-    << "Failure at index " << index
-    << std::endl
-    << "Expected: " << lhs_expression
-    << " Which is: " << ::testing::internal::StringStreamToString(&lhs_ss)
-    << std::endl
-    << "Actual: " << rhs_expression
-    << " Which is: " << ::testing::internal::StringStreamToString(&rhs_ss)
-    << std::endl;
+         << "Failure at index " << index << std::endl
+         << "Expected: " << lhs_expression
+         << " Which is: " << ::testing::internal::StringStreamToString(&lhs_ss)
+         << std::endl
+         << "Actual: " << rhs_expression
+         << " Which is: " << ::testing::internal::StringStreamToString(&rhs_ss)
+         << std::endl;
 }
 }  // namespace gns

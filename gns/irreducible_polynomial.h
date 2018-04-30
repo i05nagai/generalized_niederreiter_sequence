@@ -26,9 +26,9 @@ class IrreduciblePolynomialGenerator {
    */
   explicit IrreduciblePolynomialGenerator(std::istream& inputStream);
   /**
-   * @brief 
+   * @brief
    *
-   * @param 
+   * @param
    */
   explicit IrreduciblePolynomialGenerator(const bool use_prepared_irreducibles);
   /**
@@ -36,7 +36,7 @@ class IrreduciblePolynomialGenerator {
    *
    * @param num number of irreducible polynomials generated.
    *
-   * @return 
+   * @return
    */
   const std::vector<GaloisFieldPolynomial<Base>>& operator()(const size_t num);
   /**
@@ -46,7 +46,8 @@ class IrreduciblePolynomialGenerator {
    * @param output
    * @param delimiter default value is empty.
    */
-  void Save(std::ostream& output, const std::string delimiter="") const;
+  void Save(std::ostream& output, const std::string delimiter = "") const;
+
  private:
   /**
    * @brief
@@ -70,10 +71,11 @@ class IrreduciblePolynomialGenerator {
    * @brief Get prepared irreducible polynomials.
    * Currently up to 20,000 irreducible polynomials are supported.
    *
-   * @return 
+   * @return
    */
-  std::vector<GaloisFieldPolynomial<Base>>
-  GetPreparedIrreducibles(const bool use_prepared_irreducibles) const;
+  std::vector<GaloisFieldPolynomial<Base>> GetPreparedIrreducibles(
+      const bool use_prepared_irreducibles) const;
+
  private:
   /**
    * @brief seed_ must be equal to integer of irreducible_.back().
@@ -86,7 +88,7 @@ class IrreduciblePolynomialGenerator {
   std::vector<GaloisFieldPolynomial<Base>> irreducibles_;
 };
 /**
- * @brief 
+ * @brief
  *
  * @tparam Base
  *
@@ -95,12 +97,12 @@ class IrreduciblePolynomialGenerator {
 template <int Base>
 std::vector<int> GetPreparedIrreduciblesData();
 /**
- * @brief 
+ * @brief
  *
  * @tparam Base
  * @param str_data
  *
- * @return 
+ * @return
  */
 template <int Base>
 GaloisFieldPolynomial<Base> MakeGaloisFieldPolynomial(const char* str_data);

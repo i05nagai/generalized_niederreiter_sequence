@@ -109,14 +109,14 @@ TEST(sequence_sobol_test, NextBase2) {
   // dim=1
   {
     std::vector<double> expect({
-                              // clang-format off
+        // clang-format off
                                0.0, 0.5,
                                0.25, 0.75,
                                0.125, 0.625, 0.375, 0.875,
                                0.0625, 0.5625, 0.3125, 0.8125, 0.1875, 0.6875,
                                0.4375, 0.9375,
-                              // clang-format on
-                               });
+        // clang-format on
+    });
     Sobol<2> sobol(1);
     for (size_t i = 0; i < expect.size(); ++i) {
       std::unique_ptr<double[]> point = sobol.Next();
@@ -126,7 +126,7 @@ TEST(sequence_sobol_test, NextBase2) {
   // dim =2
   {
     std::vector<std::vector<double>> expect({
-    // clang-format off
+        // clang-format off
         {0.0, 0.0},
         {0.5, 0.5},
         {0.25, 0.75},
@@ -137,7 +137,7 @@ TEST(sequence_sobol_test, NextBase2) {
         {0.875, 0.875},
         {0.0625, 0.9375},
         {0.5625, 0.4375},
-    // clang-format on
+        // clang-format on
     });
     Sobol<2> sobol(2);
     for (size_t i = 0; i < expect.size(); ++i) {
@@ -150,14 +150,14 @@ TEST(sequence_sobol_test, NextBase2) {
 
 TEST(sequence_sobol_test, SobolGrayMapNextBase2Dim1) {
   std::vector<double> expect({
-                            // clang-format off
+      // clang-format off
                              0.0, 0.5,
                              0.75, 0.25,
                              0.375, 0.875, 0.625, 0.125,
                              0.1875, 0.6875, 0.9375, 0.4375, 0.3125, 0.8125,
                              0.5625, 0.0625,
-                            // clang-format on
-                            });
+      // clang-format on
+  });
   SobolGrayMap<2> sobol(1);
   for (size_t i = 0; i < expect.size(); ++i) {
     const std::unique_ptr<double[]>& point = sobol.Next();
@@ -167,7 +167,7 @@ TEST(sequence_sobol_test, SobolGrayMapNextBase2Dim1) {
 
 TEST(sequence_sobol_test, SobolGrayMapNextBase2Dim2) {
   std::vector<std::vector<double>> expect({
-  // clang-format off
+      // clang-format off
     { 0.0, 0.0 },
     { 0.5, 0.5 },
     { 0.75, 0.25 },
@@ -184,7 +184,7 @@ TEST(sequence_sobol_test, SobolGrayMapNextBase2Dim2) {
     { 0.8125, 0.6875 },
     { 0.5625, 0.4375 },
     { 0.0625, 0.9375 },
-  // clang-format on
+      // clang-format on
   });
   SobolGrayMap<2> sobol(2);
   for (size_t i = 0; i < expect.size(); ++i) {
@@ -199,13 +199,13 @@ TEST(sequence_sobol_test, SobolGrayMapNextBase2Dim2) {
  *------------------------------------------------------------------------*/
 TEST(sequence_sobol_test, NextBase4Dim1) {
   std::vector<double> expect({
-                             // clang-format off
+      // clang-format off
                              0.0    , 0.25   , 0.5    , 0.75   , 0.0625 ,
                              0.3125 , 0.5625 , 0.8125 , 0.125  , 0.375  ,
                              0.625  , 0.875  , 0.1875 , 0.4375 , 0.6875 ,
                              0.9375 ,
-                             // clang-format on
-                             });
+      // clang-format on
+  });
   Sobol<4> sobol(1);
   for (size_t i = 0; i < expect.size(); ++i) {
     std::unique_ptr<double[]> point = sobol.Next();
@@ -215,7 +215,7 @@ TEST(sequence_sobol_test, NextBase4Dim1) {
 
 TEST(sequence_sobol_test, NextBase4Dim2) {
   std::vector<std::vector<double>> expect({
-  // clang-format off
+      // clang-format off
     { 0.0, 0.0 },
     { 0.25, 0.25 },
     { 0.5, 0.5 },
@@ -232,7 +232,7 @@ TEST(sequence_sobol_test, NextBase4Dim2) {
     { 0.4375, 0.6875 },
     { 0.6875, 0.4375 },
     { 0.9375, 0.1875 },
-  // clang-format on
+      // clang-format on
   });
   Sobol<4> sobol(2);
   for (size_t i = 0; i < expect.size(); ++i) {
@@ -245,8 +245,7 @@ TEST(sequence_sobol_test, NextBase4Dim2) {
 TEST(sequence_sobol_test, SobolGrayMapFindCoefficientBase4) {
   SobolGrayMap<4> sobol(1);
   std::vector<size_t> data = {
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-    11, 12, 13, 14, 15, 16,
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
   };
   std::vector<size_t> expect_ls = {
       // clang-format off
@@ -304,23 +303,9 @@ TEST(sequence_sobol_test, SobolGrayMapFindCoefficientBase4) {
 TEST(sequence_sobol_test, SobolGrayMapNextBase4Dim1) {
   // dim=1
   std::vector<double> expect({
-                             0.0    ,
-                             0.25   ,
-                             0.5    ,
-                             0.75   ,
-                             0.8125 ,
-                             0.0625 ,
-                             0.3125 ,
-                             0.5625 ,
-                             0.625  ,
-                             0.875  ,
-                             0.125  ,
-                             0.375  ,
-                             0.4375 ,
-                             0.6875 ,
-                             0.9375 ,
-                             0.1875 ,
-                             });
+      0.0, 0.25, 0.5, 0.75, 0.8125, 0.0625, 0.3125, 0.5625, 0.625, 0.875, 0.125,
+      0.375, 0.4375, 0.6875, 0.9375, 0.1875,
+  });
   SobolGrayMap<4> sobol(1);
   for (size_t i = 0; i < expect.size(); ++i) {
     const std::unique_ptr<double[]>& point = sobol.Next();
@@ -332,7 +317,7 @@ TEST(sequence_sobol_test, SobolGrayMapNextBase4Dim2) {
   // dim =2
   {
     std::vector<std::vector<double>> expect({
-    // clang-format off
+        // clang-format off
       { 0.0, 0.0 },
       { 0.25, 0.25 },
       { 0.5, 0.5 },
@@ -349,7 +334,7 @@ TEST(sequence_sobol_test, SobolGrayMapNextBase4Dim2) {
       { 0.6875, 0.4375 },
       { 0.9375, 0.1875 },
       { 0.1875, 0.9375 },
-    // clang-format on
+        // clang-format on
     });
     SobolGrayMap<4> sobol(2);
     for (size_t i = 0; i < expect.size(); ++i) {
@@ -365,7 +350,7 @@ TEST(sequence_sobol_test, SobolGrayMapNextBase4Dim2) {
  *------------------------------------------------------------------------*/
 TEST(sequence_sobol_test, NextBase16Dim1) {
   std::vector<double> expect({
-                             // clang-format off
+      // clang-format off
                              0.0    ,
                              0.0625 ,
                              0.125  ,
@@ -382,8 +367,8 @@ TEST(sequence_sobol_test, NextBase16Dim1) {
                              0.8125 ,
                              0.875  ,
                              0.9375 ,
-                             // clang-format on
-                             });
+      // clang-format on
+  });
   Sobol<16> sobol(1);
   for (size_t i = 0; i < expect.size(); ++i) {
     std::unique_ptr<double[]> point = sobol.Next();
@@ -393,7 +378,7 @@ TEST(sequence_sobol_test, NextBase16Dim1) {
 
 TEST(sequence_sobol_test, NextBase16Dim2) {
   std::vector<std::vector<double>> expect({
-  // clang-format off
+      // clang-format off
     { 0.0, 0.0 },
     { 0.0625, 0.0625 },
     { 0.125, 0.125 },
@@ -426,7 +411,7 @@ TEST(sequence_sobol_test, NextBase16Dim2) {
     { 0.81640625, 0.75390625 },
     { 0.87890625, 0.94140625 },
     { 0.94140625, 0.87890625 }
-  // clang-format on
+      // clang-format on
   });
   Sobol<16> sobol(2);
   for (size_t i = 0; i < expect.size(); ++i) {
@@ -496,23 +481,9 @@ TEST(sequence_sobol_test, SobolGrayMapFindCoefficientBase16) {
 TEST(sequence_sobol_test, SobolGrayMapNextBase16Dim1) {
   // dim=1
   std::vector<double> expect({
-                             0.0    ,
-                             0.0625 ,
-                             0.125  ,
-                             0.1875 ,
-                             0.25   ,
-                             0.3125 ,
-                             0.375  ,
-                             0.4375 ,
-                             0.5    ,
-                             0.5625 ,
-                             0.625  ,
-                             0.6875 ,
-                             0.75   ,
-                             0.8125 ,
-                             0.875  ,
-                             0.9375 ,
-                             });
+      0.0, 0.0625, 0.125, 0.1875, 0.25, 0.3125, 0.375, 0.4375, 0.5, 0.5625,
+      0.625, 0.6875, 0.75, 0.8125, 0.875, 0.9375,
+  });
   SobolGrayMap<16> sobol(1);
   for (size_t i = 0; i < expect.size(); ++i) {
     const std::unique_ptr<double[]>& point = sobol.Next();
@@ -524,7 +495,7 @@ TEST(sequence_sobol_test, SobolGrayMapNextBase16Dim2) {
   // dim =2
   {
     std::vector<std::vector<double>> expect({
-    // clang-format off
+        // clang-format off
     { 0.0, 0.0 },
     { 0.0625, 0.0625 },
     { 0.125, 0.125 },
@@ -541,7 +512,7 @@ TEST(sequence_sobol_test, SobolGrayMapNextBase16Dim2) {
     { 0.8125, 0.8125 },
     { 0.875, 0.875 },
     { 0.9375, 0.9375 },
-    // clang-format on
+        // clang-format on
     });
     SobolGrayMap<16> sobol(2);
     for (size_t i = 0; i < expect.size(); ++i) {

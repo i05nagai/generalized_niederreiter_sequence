@@ -44,7 +44,7 @@ inline double BaseAdicToDouble(const Vector<Base>& base_adic) {
 }
 
 /**
-   @brief 
+   @brief
     Assuming $p=2$.  Let $n$ be num.
     Base $p$ expansion of $n$ is given by
     $$n = \sum_{i=0}^{N-1} a_{k}p^{k}$$, $$a_{k} \in \{0, \ldots, p-1\}$$.
@@ -67,9 +67,7 @@ inline double BaseAdicToDouble(const Vector<Base>& base_adic) {
    @return $$\sum_{k=0}^{\alpha(n)}x^{k}$
  */
 template <int Base>
-inline
-size_t FindCarryBit(size_t num)
-{
+inline size_t FindCarryBit(size_t num) {
   const size_t num_digit = std::log2(Base);
   // num = (a_{N-1} ... a_{0})_{2}
   // alpha(num)
@@ -86,20 +84,17 @@ template <int Base>
 inline size_t BitRightShift(const size_t num);
 
 template <>
-inline
-size_t BitRightShift<2>(const size_t num) {
+inline size_t BitRightShift<2>(const size_t num) {
   return num >> 1;
 }
 
 template <>
-inline
-size_t BitRightShift<4>(const size_t num) {
+inline size_t BitRightShift<4>(const size_t num) {
   return num >> 2;
 }
 
 template <>
-inline
-size_t BitRightShift<16>(const size_t num) {
+inline size_t BitRightShift<16>(const size_t num) {
   return num >> 4;
 }
 

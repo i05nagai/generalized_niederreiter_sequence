@@ -79,65 +79,61 @@ class GaloisField {
     return !(*this == other);
   }
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    *
-   * @return 
+   * @return
    */
   GaloisField<Base>& operator+=(const GaloisField<Base>& other) {
     value_ ^= other.value_;
     return *this;
   }
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    *
-   * @return 
+   * @return
    */
   GaloisField<Base>& operator-=(const GaloisField<Base>& other) {
     value_ ^= other.value_;
     return *this;
   }
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    *
-   * @return 
+   * @return
    */
   GaloisField<Base>& operator*=(const GaloisField<Base>& other) {
     value_ = mult<Base>(value_, other.value_);
     return *this;
   }
   /**
-   * @brief 
+   * @brief
    *
    * @param other
    *
-   * @return 
+   * @return
    */
   GaloisField<Base>& operator/=(const GaloisField<Base>& other) {
     value_ = div<Base>(value_, other.value_);
     return *this;
   }
   /**
-   * @brief 
+   * @brief
    *
-   * @return 
+   * @return
    */
-  GaloisField<Base>& operator+() {
-    return *this;
-  }
+  GaloisField<Base>& operator+() { return *this; }
   /**
-   * @brief 
+   * @brief
    *
-   * @return 
+   * @return
    */
-  GaloisField<Base>& operator-() {
-    return *this;
-  }
+  GaloisField<Base>& operator-() { return *this; }
   /**
    * @brief
    *

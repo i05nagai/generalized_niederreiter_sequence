@@ -2,12 +2,11 @@
 #include <gtest/gtest.h>
 
 namespace gns {
-template<typename T>
+template <typename T>
 class TypedTest : public testing::Test {};
 typedef ::testing::Types<Matrix<2>, Matrix<4>> IsIdentityTestType;
 TYPED_TEST_CASE(TypedTest, IsIdentityTestType);
-TYPED_TEST(TypedTest, IsIdentity)
-{
+TYPED_TEST(TypedTest, IsIdentity) {
   // not identity
   {
     TypeParam m(2, 2);
