@@ -55,13 +55,13 @@ inline unsigned char mult(const unsigned char left, const unsigned char right);
 template <int Base>
 inline unsigned char div(const unsigned char left, const unsigned char right);
 /**
- * @brief 
+ * @brief
  *
  * @tparam Base
  * @param left
  * @param right
  *
- * @return 
+ * @return
  */
 template <int Base>
 inline unsigned char minus(const unsigned char value);

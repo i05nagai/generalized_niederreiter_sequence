@@ -76,20 +76,18 @@ Matrix<Base> MakeSobolGeneratorMatrix(
   return Matrix<Base>(max_bit, max_bit, std::move(data));
 }
 /**
- * @brief 
+ * @brief
  *
  * @tparam Base
  *
- * @return 
+ * @return
  */
-template<int Base>
-std::vector<Matrix<Base>>
-MakeSobolGeneratorMatrices(const size_t dimension, const size_t max_bit)
-{
+template <int Base>
+std::vector<Matrix<Base>> MakeSobolGeneratorMatrices(const size_t dimension,
+                                                     const size_t max_bit) {
   std::vector<Matrix<Base>> generator_matrix(0);
   IrreduciblePolynomialGenerator<Base> generator;
-  std::vector<GaloisFieldPolynomial<Base>> irreducibles =
-      generator(dimension);
+  std::vector<GaloisFieldPolynomial<Base>> irreducibles = generator(dimension);
   for (size_t dim = 0; dim < dimension; ++dim) {
     Matrix<Base>&& matrix =
         MakeSobolGeneratorMatrix<Base>(dim + 1, irreducibles, max_bit);
@@ -168,7 +166,7 @@ class SobolGrayMap {
   // public function
  public:
   SobolGrayMap(const size_t dimension, const size_t seed = 0,
-        const size_t max_bit = 32)
+               const size_t max_bit = 32)
       : dimension_(dimension),
         seed_(seed),
         max_bit_(max_bit),
@@ -207,11 +205,12 @@ class SobolGrayMap {
     return cache_;
   }
   /**
-    @brief 
+    @brief
     $b$ is Base and $b = p^{n}$.
     $$n = \sum_{i=0}^{k} a_{i}b^{i}, a_{i} \in \{0, \ldots, b-1\}$$,
     $$l(n) := \min\{i \mid a_{i} \neq b - 1\}$$
-    $$ a = \sum_{i=0}^{k} d_{i}p^{i}$$, $$d_{i} \in \{0, \ldots, p-1}\}$$, $$k < n$$,
+    $$ a = \sum_{i=0}^{k} d_{i}p^{i}$$, $$d_{i} \in \{0, \ldots, p-1}\}$$, $$k <
+    n$$,
     $$ \alpha(a) := \min\{i \mid d_{i} \neq p - 1\}$$,
     then  coefficient $c$ is given by
 
@@ -225,11 +224,9 @@ class SobolGrayMap {
     @param n
     @param l $l(n)$
 
-    @return 
+    @return
    */
-  GaloisField<Base>
-  FindCoefficient(const size_t num, size_t& l) const
-  {
+  GaloisField<Base> FindCoefficient(const size_t num, size_t& l) const {
     assert(num > 0);
     constexpr size_t mask = Base - 1;
     size_t n = num;
@@ -241,7 +238,7 @@ class SobolGrayMap {
       a0 = n & mask;
       // a(l) == b - 1
       if (a0 != 0) {
-        a1 =  BitRightShift<Base>(n) & mask;
+        a1 = BitRightShift<Base>(n) & mask;
         break;
       }
       n = BitRightShift<Base>(n);
@@ -269,9 +266,8 @@ class SobolGrayMap {
 };
 
 template <>
-GaloisField<2>
-SobolGrayMap<2>::FindCoefficient(const size_t num, size_t& l) const
-{
+GaloisField<2> SobolGrayMap<2>::FindCoefficient(const size_t num,
+                                                size_t& l) const {
   assert(num > 0);
   size_t n = num;
   // l(n)

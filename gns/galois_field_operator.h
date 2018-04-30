@@ -33,8 +33,7 @@ inline unsigned char div<2>(const unsigned char left,
 }
 
 template <>
-inline unsigned char minus<2>(const unsigned char value)
-{
+inline unsigned char minus<2>(const unsigned char value) {
   return value;
 }
 
@@ -77,8 +76,7 @@ inline unsigned char div<4>(const unsigned char left,
 }
 
 template <>
-inline unsigned char minus<4>(const unsigned char value)
-{
+inline unsigned char minus<4>(const unsigned char value) {
   return value;
 }
 
@@ -137,8 +135,7 @@ inline unsigned char div<16>(const unsigned char left,
 }
 
 template <>
-inline unsigned char minus<16>(const unsigned char value)
-{
+inline unsigned char minus<16>(const unsigned char value) {
   return value;
 }
 }
@@ -153,48 +150,43 @@ std::ostream& operator<<(std::ostream& os, const GaloisField<Base>& x) {
 
 template <int Base>
 GaloisField<Base> operator+(const GaloisField<Base>& e1,
-                            const GaloisField<Base>& e2)
-{
+                            const GaloisField<Base>& e2) {
   return GaloisField<Base>(add<Base>(e1.value(), e2.value()));
 }
 
 template <int Base>
-GaloisField<Base> operator+(const GaloisField<Base>& e1, const unsigned int e2)
-{
+GaloisField<Base> operator+(const GaloisField<Base>& e1,
+                            const unsigned int e2) {
   return GaloisField<Base>(add<Base>(e1.value(), e2));
 }
 
 template <int Base>
-GaloisField<Base> operator+(const unsigned int e1, const GaloisField<Base>& e2)
-{
+GaloisField<Base> operator+(const unsigned int e1,
+                            const GaloisField<Base>& e2) {
   return GaloisField<Base>(add<Base>(e1, e2.value()));
 }
 
 template <int Base>
 GaloisField<Base> operator-(const GaloisField<Base>& e1,
-                            const GaloisField<Base>& e2)
-{
+                            const GaloisField<Base>& e2) {
   return GaloisField<Base>(sub<Base>(e1.value(), e2.value()));
 }
 
 template <int Base>
 GaloisField<Base> operator*(const GaloisField<Base>& e1,
-                            const GaloisField<Base>& e2)
-{
+                            const GaloisField<Base>& e2) {
   return GaloisField<Base>(mult<Base>(e1.value(), e2.value()));
 }
 
 template <int Base>
 GaloisField<Base> operator/(const GaloisField<Base>& e1,
-                            const GaloisField<Base>& e2)
-{
+                            const GaloisField<Base>& e2) {
   return GaloisField<Base>(div<Base>(e1.value(), e2.value()));
 }
 
 // unary operator
 template <int Base>
-GaloisField<Base> operator-(const GaloisField<Base>& e1)
-{
+GaloisField<Base> operator-(const GaloisField<Base>& e1) {
   return GaloisField<Base>(minus<Base>(e1.value()));
 }
 }  // namespace gns

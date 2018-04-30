@@ -105,21 +105,13 @@ class Vector {
 
   inline size_t Size() const { return size_; }
 
-  inline iterator begin() {
-    return data_.get();
-  }
+  inline iterator begin() { return data_.get(); }
 
-  inline const_iterator begin() const {
-    return data_.get();
-  }
+  inline const_iterator begin() const { return data_.get(); }
 
-  inline iterator end() {
-    return data_.get() + size_;
-  }
+  inline iterator end() { return data_.get() + size_; }
 
-  inline const_iterator end() const {
-    return data_.get() + size_;
-  }
+  inline const_iterator end() const { return data_.get() + size_; }
 
   // private function
  private:
