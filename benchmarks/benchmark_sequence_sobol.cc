@@ -1,9 +1,13 @@
 #include "gns/sequence_sobol.h"
+#include "gns/sequence_simple_sobol.h"
 #include <benchmark/benchmark.h>
 #include <cmath>
 #include <iomanip>
 #include <random>
 
+/*--------------------------------------------------------------------------
+ * Sobol
+ *------------------------------------------------------------------------*/
 template <int Base>
 static double EstimatePiSobol(const size_t num_point)
 {
@@ -54,6 +58,9 @@ BENCHMARK(BenchmarkSobolBase16)
   ->Arg(1000)
   ->Arg(10000);
 
+/*--------------------------------------------------------------------------
+ * Sobol Gray Map
+ *------------------------------------------------------------------------*/
 template <int Base>
 static double EstimatePiSobolGrayMap(const size_t num_point)
 {
@@ -102,6 +109,38 @@ BENCHMARK(BenchmarkSobolGrayMapBase16)
   ->Arg(1000)
   ->Arg(10000);
 
+/*--------------------------------------------------------------------------
+ * Simple Sobol Gray Map
+ *------------------------------------------------------------------------*/
+template <int Base>
+static double EstimatePiSimpleSobolGrayMap(const size_t num_point)
+{
+  gns::SimpleSobolGrayMap sobol(2);
+  size_t num_inner_point = 0;
+  for (size_t i = 0; i < num_point; ++i) {
+      const std::vector<double>& point = sobol.Next();
+      const double r = point[0] * point[0] + point[1] * point[1];
+      if (r <= 1.0) {
+        ++num_inner_point;
+      }
+  }
+  return 4.0 * (num_inner_point / static_cast<double>(num_point));
+}
+
+static void BenchmarkSimpleSobolGrayMapBase2(benchmark::State& state)
+{
+  while(state.KeepRunning()) {
+    benchmark::DoNotOptimize(EstimatePiSimpleSobolGrayMap<2>(state.range(0)));
+  }
+}
+BENCHMARK(BenchmarkSimpleSobolGrayMapBase2)
+  ->Arg(100)
+  ->Arg(1000)
+  ->Arg(10000);
+
+/*--------------------------------------------------------------------------
+ * Monte Calro
+ *------------------------------------------------------------------------*/
 static double EstimatePiMC(const size_t num_point)
 {
   std::mt19937 engine(0); 
@@ -130,4 +169,7 @@ BENCHMARK(BenchmarkMonteCarlo)
   ->Arg(1000)
   ->Arg(10000);
 
+/*--------------------------------------------------------------------------
+ * main
+ *------------------------------------------------------------------------*/
 BENCHMARK_MAIN();
