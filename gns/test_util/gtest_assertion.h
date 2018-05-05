@@ -2,8 +2,12 @@
 #include <gtest/gtest.h>
 #include "gns/fwd.h"
 #include <functional>
+#include <type_traits>
 
 #define GNS_EXPECT_VECTOR_ELEMENT_EQ(expect, actual) \
+  EXPECT_TRUE(gns::IsElementEqual(expect, actual));
+
+#define GNS_EXPECT_VECTOR_ELEMENT_EQ_WITH_INDEX(expect, actual, index) \
   EXPECT_TRUE(gns::IsElementEqual(expect, actual));
 
 #define GNS_EXPECT_GALOIS_FIELD_OP(test_case, op) \
@@ -16,22 +20,42 @@
   EXPECT_PRED_FORMAT3(CmpHelperFloatingPointEQ<double>, expect, actual, index);
 
 namespace gns {
-template <typename T1, typename T2>
-inline ::testing::AssertionResult IsElementEqual(const std::vector<T1>& v1,
-                                                 const std::vector<T2>& v2) {
+template <typename T>
+inline ::testing::AssertionResult IsElementEqual(const std::vector<T>& v1,
+                                                 const std::vector<T>& v2) {
   if (v1.size() != v2.size()) {
     return ::testing::AssertionFailure() << "size of vector is not same";
   }
   for (size_t i = 0; i < v1.size(); ++i) {
     if (v1[i] != v2[i]) {
       return ::testing::AssertionFailure()
-             << i - 1 << " th element is different. "
+             << i << " th element is different. "
              << " expect: " << static_cast<int>(v1[i]) << ", "
              << " actual: " << static_cast<int>(v2[i]);
     }
   }
   return ::testing::AssertionSuccess();
 }
+
+template <>
+inline ::testing::AssertionResult IsElementEqual(const std::vector<double>& v1,
+                                                 const std::vector<double>& v2) {
+  if (v1.size() != v2.size()) {
+    return ::testing::AssertionFailure() << "size of vector is not same";
+  }
+  for (size_t i = 0; i < v1.size(); ++i) {
+    const ::testing::internal::FloatingPoint<double> value1(v1[i]);
+    const ::testing::internal::FloatingPoint<double> value2(v2[i]);
+    if (! value1.AlmostEquals(value2)) {
+      return ::testing::AssertionFailure()
+             << i << " th element is different. "
+             << " expect: " << v1[i] << ", "
+             << " actual: " << v2[i];
+    }
+  }
+  return ::testing::AssertionSuccess();
+}
+
 
 template <int Base>
 inline ::testing::AssertionResult IsGaloisFieldOperatorCorrect(
