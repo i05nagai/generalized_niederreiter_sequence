@@ -58,6 +58,7 @@ std::vector<double> SimpleSobolGrayMap::Next() {
   while (((counter_ >> l) & 1) == 1) {
     l++;
   }
+
   for (size_t dim = 0; dim < dimension_; ++dim) {
     number_[dim] ^= direction_numbers_[dim][l];
     points_[dim] = number_[dim] * NORMALIZE_FACTOR;
