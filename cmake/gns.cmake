@@ -1,6 +1,7 @@
 LIST (APPEND gns_SOURCES
     gns/irreducible_polynomial.cc
     gns/matrix_func.cc
+    gns/sequence_simple_sobol.cc
 )
 LIST (APPEND gns_HEADERS
     gns/galois_field.h
@@ -11,6 +12,7 @@ LIST (APPEND gns_HEADERS
     gns/matrix_func.h
     gns/matrix_operator.h
     gns/polynomial.h
-    gns/sequence_sobol.cc
+    gns/sequence_sobol.h
+    gns/sequence_simple_sobol.h
     gns/vector.h
 )

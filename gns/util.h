@@ -17,13 +17,39 @@ template <typename T>
 inline std::reverse_iterator<T*> rend(T* v) {
   return std::reverse_iterator<T*>(v);
 }
+/**
+ * @brief Calcualte digit expressed in base2
+ *
+ * @tparam Base
+ * @param num
+ *
+ * @return digit
+ */
+template <int Base>
+inline size_t CalculateDigit(size_t num) {
+  assert(num > 0);
+  return std::log(num) / std::log(Base) + 1;
+}
+/**
+ * @brief Calcualte degree as polynomial in Base
+ *
+ * @tparam Base
+ * @param num
+ *
+ * @return degree
+ */
+template <int Base>
+inline size_t CalculateDegree(size_t num) {
+  assert(num > 0);
+  return CalculateDigit<Base>(num) - 1;
+}
 
 template <int Base>
 inline std::pair<size_t, std::unique_ptr<GaloisField<Base>[]>>
 CalculateBaseAdic(size_t num) {
   assert(num > 0);
 
-  const size_t digit = std::log(num) / std::log(Base) + 1;
+  const size_t digit = CalculateDigit<Base>(num);
   std::unique_ptr<GaloisField<Base>[]> data(new GaloisField<Base>[digit]);
   for (size_t i = 0; i < digit; ++i) {
     data[i] = num % Base;
